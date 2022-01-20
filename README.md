@@ -181,6 +181,12 @@ cp -pr ~/Downloads/glew-2.1.0/lib/Release/x64/glew32*.lib /c/CS4212Libs/lib
 cp -pr ~/Downloads/glew-2.1.0/bin/Release/x64/glew32.dll /c/CS4212Libs/bin
 ~~~~
 
+### Vulkan SDK
+
+We may learn about Vulkan (a fairly recent graphics hardware API).  To use it, you will need a graphics card that is compatible and the Vulkan SDK.  The Vulkan SDK can be downloaded for Windows, Linux, Mac and Android:
+
+* [https://www.lunarg.com/vulkan-sdk/](https://www.lunarg.com/vulkan-sdk/)
+
 ## Build the Code
 
 You're now ready to build your code on Windows. Navigate to the location where you cloned the repo and following these instructions to generate the Visual Studio solutions file:
