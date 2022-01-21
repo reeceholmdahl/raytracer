@@ -108,7 +108,7 @@ message(STATUS "GLEW: incs= ${GLEW_INCLUDE_DIR}, libs= ${GLEW_LIBRARIES}")
 include_directories(${GLEW_INCLUDE_DIR})
 
 # We'll enable this later if possible
-# find_package(Vulkan REQUIRED)
+find_package(Vulkan REQUIRED)
 
 # To be able to include the GLFW header from your code, you need to tell the compiler where to find it.
 add_subdirectory(${CMAKE_SOURCE_DIR}/glfw-master)
@@ -172,7 +172,7 @@ add_subdirectory(examples)
 add_subdirectory(OpenGL)
 
 # We'll enable this later if possible
-# add_subdirectory(Vulkan)
+add_subdirectory(Vulkan)
 
 #
 # Unit Tests - by enabling testing with cmake, we can create a target that lets unit tests be run. After re-building
