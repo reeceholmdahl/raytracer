@@ -1,3 +1,6 @@
+# CS 4212 Renderer Project
+Topics cover ray tracing/path tracing, image-order and object-order rendering, rasterization, and real-time rendering techologies (OpenGL, Vulkan).
+
 Code used for examples in the FCG4 Edition of Using Graphics Hardware chapter.
 
 ### Prerequisite Libraries
