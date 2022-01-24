@@ -3,3 +3,9 @@ build/
 
 # ignore docs
 doc/
+
+# ignore externalLibs
+externalLibs/
+
+# ignore clang files
+.clang*
