@@ -1,14 +1,6 @@
 #include <iostream>
-#include <fstream>
-#include <sstream>
-#include <limits>
-#include <cmath>
-#include <algorithm>
 
 #include <boost/progress.hpp>
-#include <boost/date_time.hpp>
-
-#include "png++/png.hpp"
 
 #include "handleGraphicsArgs.h"
 #include "Vector3D.h"
@@ -32,12 +24,12 @@ int main(int argc, char *argv[])
     }
   }
 
-  auto centerX = fb2.width() / 2;
-  auto centerY = fb2.height() / 2;
+  double centerX = fb2.width() / 2.;
+  double centerY = fb2.height() / 2.;
   for (auto i = 0; i < fb2.width(); ++i) {
     for (auto j = 0; j < fb2.height(); ++j) {
-      auto dx = abs(centerX - i);
-      auto dy = abs(centerY - j);
+      double dx = abs(centerX - i);
+      double dy = abs(centerY - j);
       double maxDistance = std::min(centerX, centerY);
       double distance = sqrt(dx * dx + dy * dy);
       double light = std::min(1.0, distance / maxDistance);
