@@ -3,6 +3,7 @@
 #include <sstream>
 #include <limits>
 #include <cmath>
+#include <algorithm>
 
 #include <boost/progress.hpp>
 #include <boost/date_time.hpp>
@@ -27,7 +28,7 @@ int main(int argc, char *argv[])
   // Set all the framebuffer pixels to purple for fb1
   for (auto i = 0; i < fb1.width(); ++i) {
     for (auto j = 0; j < fb1.height(); ++j) {
-      fb1.setPixelColor(i, j, sivelab::Vector3D(1.0, 0.0, 1.0));
+      fb1.setPixelColor(i, j, sivelab::Vector3D(0.0, 0.0, 1.0));
     }
   }
 
@@ -37,10 +38,10 @@ int main(int argc, char *argv[])
     for (auto j = 0; j < fb2.height(); ++j) {
       auto dx = abs(centerX - i);
       auto dy = abs(centerY - j);
-      double maxDistance = sqrt(centerX * centerX + centerY * centerY);
+      double maxDistance = std::min(centerX, centerY);
       double distance = sqrt(dx * dx + dy * dy);
-      double light = distance / maxDistance;
-      fb2.setPixelColor(i, j, sivelab::Vector3D(1.0 - light, 1.0 - light, 1.0 - light));
+      double light = std::min(1.0, distance / maxDistance);
+      fb2.setPixelColor(i, j, sivelab::Vector3D(0.4 * (1.0 - light), 0.4 * (1.0 - light) * sin(0.06 * j + 1.2) + 0.5 * (1.0 - light), 1.0 - light));
     }
   }
 
@@ -48,10 +49,10 @@ int main(int argc, char *argv[])
     for (auto j = 0; j < fb3.height(); ++j) {
       double dx = abs(centerX - i);
       double dy = abs(centerY - j);
-      double maxDistance = sqrt(centerX * centerX + centerY * centerY);
+      double maxDistance = std::min(centerX, centerY);
       double distance = sqrt(dx * dx + dy * dy);
-      double light = distance / maxDistance;
-      fb3.setPixelColor(i, j, sivelab::Vector3D(dx / centerX, 1.0 - light, dy / centerY));
+      double light = std::min(1.0, distance / maxDistance);
+      fb3.setPixelColor(i, j, sivelab::Vector3D(1.0 - dx / centerX, 0.5 * (1.0 - light), 1.0 - dy / centerY));
     }
   }
 
