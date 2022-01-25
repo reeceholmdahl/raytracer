@@ -5,6 +5,7 @@
 # src files.
 #
 include_directories(${CMAKE_SOURCE_DIR}/src)
+include_directories(${CMAKE_SOURCE_DIR}/src/renderer)
 
 # 
 # This is a simple way to set the names of the executables used for
@@ -26,6 +27,7 @@ set(UTESTS
 foreach(uexec ${UTESTS})
   add_executable(${uexec} ${BUNDLEOPTS} ${uexec}.cpp)
   target_link_libraries(${uexec} sive-util)
+  target_link_libraries(${uexec} renderer)
   target_link_libraries(${uexec} ${Boost_PROGRAM_OPTIONS_LIBRARIES})
   target_link_libraries(${uexec} ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
 endforeach(uexec)

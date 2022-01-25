@@ -23,12 +23,12 @@ int main(int argc, char *argv[])
   int startTime = ptimer.elapsed();
 
   // Create Framebuffers to hold the 2D data for our scenes
-  Framebuffer fb1(args.width, args.height), fb2(args.width, args.height), fb3(args.width, args.height);
+  Framebuffer fb1(args.width, args.height), fb2(args.width, args.height), fb3(args.width, args.height), fb4(args.width, args.height);
 
   // Set all the framebuffer pixels to purple for fb1
   for (auto i = 0; i < fb1.width(); ++i) {
     for (auto j = 0; j < fb1.height(); ++j) {
-      fb1.setPixelColor(i, j, sivelab::Vector3D(0.0, 0.0, 1.0));
+      fb1.setPixelColor(i, j, sivelab::Vector3D(1.0, 0.0, 1.0));
     }
   }
 
@@ -56,12 +56,34 @@ int main(int argc, char *argv[])
     }
   }
 
+  for (auto i = 0; i < fb4.width(); ++i) {
+    for (auto j = 0; j < fb4.height(); ++j) {
+
+      double ci = i - static_cast<double>(fb4.width()) / 2;
+      double cj = j - static_cast<double>(fb4.height()) / 2;
+
+      auto size = std::min(fb4.width(), fb4.height());
+
+      double x = static_cast<double>(ci) / size;
+      double y = static_cast<double>(cj) / size;
+
+      double cx = x;
+      double cy = y;
+
+      double dCenter = sqrt(cx * cx + cy * cy);
+
+      // fb4.setPixelColor(i, j, sivelab::Vector3D(dCenter < 0.25 ? 1 : 0, dCenter < 0.25 ? 1 : 0, dCenter < 0.25 ? 1 : 0));
+      fb4.setPixelColor(i, j, sivelab::Vector3D(dCenter < 0.25 ? dCenter : 1.0 - dCenter, dCenter < 0.25 ? dCenter : 1.0 - dCenter, dCenter < 0.25 ? 0.9 - 3.5 * dCenter * dCenter : 1.0 - dCenter));
+    }
+  }
+
   // When complete, output the file
   std::string oFilename;
   if (args.isSet("outputfile", oFilename)) {
     fb1.exportAsPNG("1" + oFilename);
     fb2.exportAsPNG("2" + oFilename);
     fb3.exportAsPNG("3" + oFilename);
+    fb4.exportAsPNG("4" + oFilename);
   }
 
   int endTime = ptimer.elapsed();
