@@ -9,5 +9,6 @@ add_library (sive-util
   Timer.cpp Timer.h
   Vector3D.cpp Vector3D.h
   XMLSceneParser.h XMLSceneParser.cpp
+  Framebuffer.cpp Framebuffer.h
 )
 

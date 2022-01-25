@@ -6,6 +6,10 @@
 	],
 	"settings": {
 		"terminal.integrated.defaultProfile.windows": "Git Bash",
-		"cmake.configureOnOpen": false
-	}
+		"cmake.configureOnOpen": false,
+		"files.associations": {
+			"vector": "cpp",
+			"cmath": "cpp"
+		}
+	},
 }

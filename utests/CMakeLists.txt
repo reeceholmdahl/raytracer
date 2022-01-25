@@ -16,7 +16,8 @@ include_directories(${CMAKE_SOURCE_DIR}/src)
 set(UTESTS 
   utest_Success
   utest_Failure
-  utest_Vector3D)
+  utest_Vector3D
+  utest_Framebuffer)
 
 # 
 # For each of the executables named in ${UTESTS}, compile them into a
@@ -28,6 +29,10 @@ foreach(uexec ${UTESTS})
   target_link_libraries(${uexec} ${Boost_PROGRAM_OPTIONS_LIBRARIES})
   target_link_libraries(${uexec} ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
 endforeach(uexec)
+
+target_link_libraries(utest_Framebuffer ${Boost_LIBRARIES})
+target_link_libraries(utest_Framebuffer ${PNG_LIBRARY})
+target_link_libraries(utest_Framebuffer ${ZLIB_LIBRARY})
 
 #
 # Add these exectuables to the CMake Testing system. Executables added
