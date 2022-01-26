@@ -55,8 +55,14 @@ public:
   // Negate
   Vector3<real_type> operator-() const;
 
+  // Component-wise multiplication
+  Vector3<real_type> operator*(const Vector3 &v) const;
+
   // Multiply by a constant
   Vector3<real_type> operator*(const double s) const;
+
+  // Component-wise multiply equal
+  Vector3<real_type> &operator*=(const Vector3 &v);
 
   // Multiply equal operator
   Vector3<real_type> &operator*=(const double s);

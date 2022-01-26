@@ -110,11 +110,17 @@ BOOST_AUTO_TEST_CASE(Methods_and_Operations_Valid)
   BOOST_CHECK_CLOSE_FRACTION(0.82185441, dcrossone[1], 0.00001);
   BOOST_CHECK_CLOSE_FRACTION(-1.58578644, dcrossone[2], 0.00001);
 
-  // Check multiplication
+  // Check scalar multiplication
   auto ftimes2 = f * 2.;
   BOOST_CHECK_CLOSE_FRACTION(10.0, ftimes2[0], 0.00001);
   BOOST_CHECK_CLOSE_FRACTION(-5.0, ftimes2[1], 0.00001);
   BOOST_CHECK_CLOSE_FRACTION(6.666, ftimes2[2], 0.00001);
+
+  // Check component-wise multiplication
+  auto ftimesd = f * d;
+  BOOST_CHECK_CLOSE_FRACTION(7.07106781, ftimesd[0], 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(-7.5, ftimesd[1], 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(7.45281456, ftimesd[2], 0.00001);
 
   // Check division
   auto fdiv2 = f / 2.;
@@ -136,11 +142,17 @@ BOOST_AUTO_TEST_CASE(Methods_and_Operations_Valid)
 
   //! Do these last because they destroy consist value of vectors
 
-  // Check times equals
+  // Check scalar times equals
   f *= 3.;
-  BOOST_CHECK_CLOSE_FRACTION(15.0, f[0], 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(15, f[0], 0.00001);
   BOOST_CHECK_CLOSE_FRACTION(-7.5, f[1], 0.00001);
   BOOST_CHECK_CLOSE_FRACTION(9.999, f[2], 0.00001);
+
+  // Check component-wise times equals
+  x *= f;
+  BOOST_CHECK_CLOSE_FRACTION(15, x[0], 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(0, x[1], 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(0, x[2], 0.00001);
 
   // Check divide equals
   f /= -4.;

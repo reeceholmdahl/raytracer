@@ -125,6 +125,12 @@ Vector3<real_type> Vector3<real_type>::operator-() const
 }
 
 template<typename real_type>
+Vector3<real_type> Vector3<real_type>::operator*(const Vector3 &rhs) const
+{
+  return Vector3<real_type>(*this) *= rhs;
+}
+
+template<typename real_type>
 Vector3<real_type> Vector3<real_type>::operator*(const double s) const
 {
   return Vector3<real_type>(*this) *= s;
@@ -136,6 +142,15 @@ Vector3<real_type> &Vector3<real_type>::operator*=(const double s)
   data[0] *= s;
   data[1] *= s;
   data[2] *= s;
+  return *this;
+}
+
+template<typename real_type>
+Vector3<real_type> &Vector3<real_type>::operator*=(const Vector3 &rhs)
+{
+  data[0] *= rhs[0];
+  data[1] *= rhs[1];
+  data[2] *= rhs[2];
   return *this;
 }
 
