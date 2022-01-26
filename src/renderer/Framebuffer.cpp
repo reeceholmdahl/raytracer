@@ -14,7 +14,7 @@ Framebuffer::Framebuffer(size_t width, size_t height)
 }
 
 Framebuffer::Framebuffer(const Framebuffer &f)
-  : m_width(f.width()), m_height(f.height())
+  : m_width(f.width()), m_height(f.height()), m_pixelArray(m_width * m_height)
 {
   for (size_t i = 0; i < width(); ++i) {
     for (size_t j = 0; j < height(); ++j) {

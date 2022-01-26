@@ -76,6 +76,8 @@ int main(int argc, char *argv[])
     }
   }
 
+  Framebuffer fb9(fb7);
+
   // When complete, output the file
   std::string oFilename;
   if (args.isSet("outputfile", oFilename)) {
@@ -87,6 +89,7 @@ int main(int argc, char *argv[])
     fb6.exportAsPNG(oFilename + "6.test.png");
     fb7.exportAsPNG(oFilename + "7.test.png");
     fb8.exportAsPNG(oFilename + "8.test.png");
+    fb9.exportAsPNG(oFilename + "9.test.png");
   }
 
   int endTime = ptimer.elapsed();
