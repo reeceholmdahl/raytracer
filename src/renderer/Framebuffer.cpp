@@ -10,6 +10,7 @@ using sivelab::Vector3D;
 Framebuffer::Framebuffer(size_t width, size_t height)
   : m_width(width), m_height(height), m_pixelArray(m_width * m_height)
 {
+  clearColor(Vector3D(0.0, 0.0, 0.0));
 }
 
 size_t Framebuffer::width()
@@ -31,12 +32,6 @@ void Framebuffer::exportAsPNG(const std::string &outputFileName)
 {
   png::image<png::rgb_pixel> imageData(m_width, m_height);
 
-  // for (size_t c = 0; c < m_width * m_height; ++c) {
-  //   size_t i = c % m_width;
-  //   size_t j = c / m_width;
-  //   Vector3D pixel(m_pixelArray[c]);
-  //   imageData[j][i] = png::rgb_pixel(pixel[0] * 255, pixel[1] * 255, pixel[2] * 255);
-  // }
   for (size_t i = 0; i < width(); ++i) {
     for (size_t j = 0; j < height(); ++j) {
       Vector3D pixel(m_pixelArray[index(i, j)]);
