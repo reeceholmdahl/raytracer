@@ -13,7 +13,8 @@ public:
   Vector3(const real_type x = 0.0, const real_type y = 0.0, const real_type z = 0.0);
 
   // Copy constructor
-  Vector3(const Vector3 &v);
+  template<typename other>
+  Vector3(const Vector3<other> &v);
 
   void set(const real_type x, const real_type y, const real_type z);
 
@@ -45,6 +46,9 @@ public:
 
   // Subtract
   Vector3<real_type> operator-(const Vector3<real_type> &rhs) const;
+
+  // Minus equal operator
+  Vector3<real_type> &operator-=(const Vector3<real_type> &rhs);
 
   // Negate
   Vector3<real_type> operator-() const;
