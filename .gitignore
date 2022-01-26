@@ -9,3 +9,6 @@ externalLibs/
 
 # ignore clang files
 .clang*
+
+# ignore my test files
+*.test*

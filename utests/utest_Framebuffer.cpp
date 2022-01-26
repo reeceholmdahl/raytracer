@@ -18,11 +18,12 @@ int main(int argc, char *argv[])
   Framebuffer fb1(args.width, args.height), fb2(args.width, args.height), fb3(args.width, args.height), fb4(args.width, args.height);
 
   // Set all the framebuffer pixels to purple for fb1
-  for (auto i = 0; i < fb1.width(); ++i) {
-    for (auto j = 0; j < fb1.height(); ++j) {
-      fb1.setPixelColor(i, j, sivelab::Vector3D(1.0, 0.0, 1.0));
-    }
-  }
+  fb1.clearColor(sivelab::Vector3D(1.0, 0.0, 1.0));
+  // for (auto i = 0; i < fb1.width(); ++i) {
+  //   for (auto j = 0; j < fb1.height(); ++j) {
+  //     fb1.setPixelColor(i, j, sivelab::Vector3D(1.0, 0.0, 1.0));
+  //   }
+  // }
 
   double centerX = fb2.width() / 2.;
   double centerY = fb2.height() / 2.;
@@ -72,10 +73,10 @@ int main(int argc, char *argv[])
   // When complete, output the file
   std::string oFilename;
   if (args.isSet("outputfile", oFilename)) {
-    fb1.exportAsPNG("1" + oFilename);
-    fb2.exportAsPNG("2" + oFilename);
-    fb3.exportAsPNG("3" + oFilename);
-    fb4.exportAsPNG("4" + oFilename);
+    fb1.exportAsPNG(oFilename + "1.test.png");
+    fb2.exportAsPNG(oFilename + "2.test.png");
+    fb3.exportAsPNG(oFilename + "3.test.png");
+    fb4.exportAsPNG(oFilename + "4.test.png");
   }
 
   int endTime = ptimer.elapsed();
