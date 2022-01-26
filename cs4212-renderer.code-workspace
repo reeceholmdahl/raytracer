@@ -5,11 +5,8 @@
 		}
 	],
 	"settings": {
-		// "terminal.integrated.defaultProfile.windows": "Git Bash",
-		"terminal.integrated.defaultProfile.windows": "PowerShell",
-		"editor.fontSize": 18,
-		"editor.cursorStyle": "block-outline",
-		"editor.renderWhitespace": "none",
+		"terminal.integrated.defaultProfile.windows": "Git Bash",
+		"cmake.configureOnOpen": false,
 		"files.associations": {
 			"vector": "cpp",
 			"cmath": "cpp",
@@ -64,27 +61,4 @@
 			"xutility": "cpp"
 		}
 	},
-	"tasks": {
-		"version": "2.0.0",
-		"tasks": [
-			{
-				"label": "CMake: Build",
-				"type": "shell",
-				"command": "cmake --build ${workspaceFolder}\\build --config Release",
-				"problemMatcher": []
-			},
-			{
-				"label": "Setup CMake",
-				"type": "shell",
-				"command": "cd ${workspaceFolder}\\build; rm -r *; cmake -G \"Visual Studio 17 2022\" -DCMAKE_PREFIX_PATH=\"C:\\CS4212Libs\" -DCMAKE_INSTALL_PREFIX=\"C:\\CS4212Libs\" ..; cd ${workspaceFolder}",
-				"problemMatcher": []
-			},
-			{
-				"label": "CMake: Clean",
-				"type": "shell",
-				"command": "cmake --build ${workspaceFolder}\\build --target clean",
-				"problemMatcher": []
-			}
-		]
-	}
 }
