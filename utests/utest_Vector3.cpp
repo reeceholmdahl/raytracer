@@ -45,6 +45,87 @@ BOOST_AUTO_TEST_CASE(Create_and_Convert)
   BOOST_TEST(typeid(lddiv2).name() == "class Vector3<long double>");
 }
 
+BOOST_AUTO_TEST_CASE(Methods_and_Operations_Valid)
+{
+  Vec3f f(5.0, -2.5, 3.333);
+  Vec3d d(std::sqrt(2.0), 3, std::sqrt(5.0));
+  Vec3d one(1.0, 1.0, 1.0);
+
+  // Check them to see if they even read out right
+  BOOST_CHECK_CLOSE_FRACTION(5.0, f[0], 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(-2.5, f[1], 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(3.333, f[2], 0.00001);
+
+  BOOST_CHECK_CLOSE_FRACTION(1.41421356, d[0], 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(3.0, d[1], 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(2.23606797, d[2], 0.00001);
+
+  auto fplusd = f + d;
+  BOOST_CHECK_CLOSE_FRACTION(6.41421356, fplusd[0], 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(0.5, fplusd[1], 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(5.56906797, fplusd[2], 0.00001);
+
+  auto dminusf = d - f;
+  BOOST_CHECK_CLOSE_FRACTION(-3.58578643, dminusf[0], 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(5.5, dminusf[1], 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(-1.09693202, dminusf[2], 0.00001);
+
+  auto dmgnt = d.magnitude();
+  BOOST_CHECK_CLOSE_FRACTION(4.0, dmgnt, 0.00001);
+
+  auto fmgnt = f.magnitude();
+  BOOST_CHECK_CLOSE_FRACTION(6.50837068, fmgnt, 0.00001);
+
+  auto fdotd = f.dot(d);
+  BOOST_CHECK_CLOSE_FRACTION(7.02388238, fdotd, 0.00001);
+
+  auto dcrossone = d.cross(one);
+  BOOST_CHECK_CLOSE_FRACTION(0.76393202, dcrossone[0], 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(0.82185441, dcrossone[1], 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(-1.58578644, dcrossone[2], 0.00001);
+
+  auto ftimes2 = f * 2.;
+  BOOST_CHECK_CLOSE_FRACTION(10.0, ftimes2[0], 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(-5.0, ftimes2[1], 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(6.666, ftimes2[2], 0.00001);
+
+  auto fdiv2 = f / 2.;
+  BOOST_CHECK_CLOSE_FRACTION(2.5, fdiv2[0], 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(-1.25, fdiv2[1], 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(1.6665, fdiv2[2], 0.00001);
+
+  auto fminus1 = f - one;
+  BOOST_CHECK_CLOSE_FRACTION(4.0, fminus1[0], 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(-3.5, fminus1[1], 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(2.333, fminus1[2], 0.00001);
+
+  auto negf = -f;
+  BOOST_CHECK_CLOSE_FRACTION(-5.0, negf[0], 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(2.5, negf[1], 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(-3.333, negf[2], 0.00001);
+
+  // Do these last because they destroy consist value of vectors
+  f *= 3.;
+  BOOST_CHECK_CLOSE_FRACTION(15.0, f[0], 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(-7.5, f[1], 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(9.999, f[2], 0.00001);
+
+  f /= -4.;
+  BOOST_CHECK_CLOSE_FRACTION(-3.75, f[0], 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(1.875, f[1], 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(-2.49975, f[2], 0.00001);
+
+  d += Vec3f(2, 2, 2);
+  BOOST_CHECK_CLOSE_FRACTION(3.41421356, d[0], 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(5.0, d[1], 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(4.23606797, d[2], 0.00001);
+
+  d -= Vec3f(6, 6, 6);
+  BOOST_CHECK_CLOSE_FRACTION(-2.58578644, d[0], 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(-1.0, d[1], 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(-1.76393203, d[2], 0.00001);
+}
+
 BOOST_AUTO_TEST_SUITE_END()
 
 // int main()

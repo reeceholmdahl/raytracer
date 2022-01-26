@@ -53,7 +53,10 @@ const double Vector3<real_type>::dot(const Vector3<real_type> &rhs) const
 template<typename real_type>
 Vector3<real_type> Vector3<real_type>::cross(const Vector3<real_type> &rhs) const
 {
-  return Vector3<real_type>();
+  return Vector3<real_type>(
+    data[1] * rhs[2] - data[2] * rhs[2],
+    data[2] * rhs[0] - data[0] * rhs[2],
+    data[0] * rhs[1] - data[1] * rhs[0]);
 }
 
 template<typename real_type>
@@ -112,7 +115,7 @@ Vector3<real_type> &Vector3<real_type>::operator-=(const Vector3<real_type> &rhs
 template<typename real_type>
 Vector3<real_type> Vector3<real_type>::operator-() const
 {
-  return *this * -1
+  return *this * -1;
 }
 
 template<typename real_type>
