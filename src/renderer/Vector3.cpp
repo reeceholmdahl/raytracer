@@ -39,19 +39,25 @@ const double Vector3<real_type>::magnitude() const
 }
 
 template<typename real_type>
+const double Vector3<real_type>::angle(const Vector3 &v) const
+{
+  return std::acos(dot(v) / (magnitude() * v.magnitude()));
+}
+
+template<typename real_type>
 Vector3<real_type> Vector3<real_type>::unitize() const
 {
   return Vector3<real_type>(*this) /= magnitude();
 }
 
 template<typename real_type>
-const double Vector3<real_type>::dot(const Vector3<real_type> &rhs) const
+const double Vector3<real_type>::dot(const Vector3 &rhs) const
 {
   return data[0] * rhs[0] + data[1] * rhs[1] + data[2] * rhs[2];
 }
 
 template<typename real_type>
-Vector3<real_type> Vector3<real_type>::cross(const Vector3<real_type> &rhs) const
+Vector3<real_type> Vector3<real_type>::cross(const Vector3 &rhs) const
 {
   return Vector3<real_type>(
     data[1] * rhs[2] - data[2] * rhs[2],
@@ -74,7 +80,7 @@ real_type &Vector3<real_type>::operator[](const int index)
 }
 
 template<typename real_type>
-Vector3<real_type> &Vector3<real_type>::operator=(const Vector3<real_type> &rhs)
+Vector3<real_type> &Vector3<real_type>::operator=(const Vector3 &rhs)
 {
   data[0] = rhs[0];
   data[1] = rhs[1];
@@ -83,13 +89,13 @@ Vector3<real_type> &Vector3<real_type>::operator=(const Vector3<real_type> &rhs)
 }
 
 template<typename real_type>
-Vector3<real_type> Vector3<real_type>::operator+(const Vector3<real_type> &rhs) const
+Vector3<real_type> Vector3<real_type>::operator+(const Vector3 &rhs) const
 {
   return Vector3<real_type>(*this) += rhs;
 }
 
 template<typename real_type>
-Vector3<real_type> &Vector3<real_type>::operator+=(const Vector3<real_type> &rhs)
+Vector3<real_type> &Vector3<real_type>::operator+=(const Vector3 &rhs)
 {
   data[0] += rhs[0];
   data[1] += rhs[1];
@@ -98,13 +104,13 @@ Vector3<real_type> &Vector3<real_type>::operator+=(const Vector3<real_type> &rhs
 }
 
 template<typename real_type>
-Vector3<real_type> Vector3<real_type>::operator-(const Vector3<real_type> &rhs) const
+Vector3<real_type> Vector3<real_type>::operator-(const Vector3 &rhs) const
 {
   return Vector3<real_type>(*this) -= rhs;
 }
 
 template<typename real_type>
-Vector3<real_type> &Vector3<real_type>::operator-=(const Vector3<real_type> &rhs)
+Vector3<real_type> &Vector3<real_type>::operator-=(const Vector3 &rhs)
 {
   data[0] -= rhs[0];
   data[1] -= rhs[1];

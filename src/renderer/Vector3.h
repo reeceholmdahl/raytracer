@@ -20,6 +20,8 @@ public:
 
   const double magnitude() const;
 
+  const double angle(const Vector3 &v) const;
+
   // Unit vector of same direction
   Vector3<real_type> unitize() const;
 
@@ -36,19 +38,19 @@ public:
   real_type &operator[](const int index);
 
   // Assignment operator
-  Vector3<real_type> &operator=(const Vector3<real_type> &rhs);
+  Vector3<real_type> &operator=(const Vector3 &rhs);
 
   // Add
-  Vector3<real_type> operator+(const Vector3<real_type> &rhs) const;
+  Vector3<real_type> operator+(const Vector3 &rhs) const;
 
   // Plus equal operator
-  Vector3<real_type> &operator+=(const Vector3<real_type> &rhs);
+  Vector3<real_type> &operator+=(const Vector3 &rhs);
 
   // Subtract
-  Vector3<real_type> operator-(const Vector3<real_type> &rhs) const;
+  Vector3<real_type> operator-(const Vector3 &rhs) const;
 
   // Minus equal operator
-  Vector3<real_type> &operator-=(const Vector3<real_type> &rhs);
+  Vector3<real_type> &operator-=(const Vector3 &rhs);
 
   // Negate
   Vector3<real_type> operator-() const;
