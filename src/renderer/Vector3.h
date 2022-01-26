@@ -75,8 +75,6 @@ public:
 
 private:
   std::vector<real_type> data;
-  friend std::ostream &operator<<(std::ostream &os, Vector3<real_type> &v);
-  friend std::istream &operator>>(std::istream &is, Vector3<real_type> &v);
 };
 
 using Vec3d = Vector3<double>;

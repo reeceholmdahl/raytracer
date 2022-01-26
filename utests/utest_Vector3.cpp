@@ -7,7 +7,7 @@
 // First test is if this will compile with including Vector3
 #include "Vector3.h"
 
-BOOST_AUTO_TEST_SUITE(Vector3Template)
+BOOST_AUTO_TEST_SUITE(Vector3Template);
 
 BOOST_AUTO_TEST_CASE(Create_and_Convert)
 {
@@ -49,7 +49,7 @@ BOOST_AUTO_TEST_CASE(Create_and_Convert)
   BOOST_TEST(typeid(lddiv2).name() == "class Vector3<long double>");
 }
 
-BOOST_AUTO_TEST_CASE(Methods_and_Operations_Valid)
+BOOST_AUTO_TEST_CASE(Numerical_Methods_and_Operations_Valid)
 {
   Vec3f f(5.0, -2.5, 3.333);
   Vec3d d(std::sqrt(2.0), 3, std::sqrt(5.0));
@@ -173,22 +173,27 @@ BOOST_AUTO_TEST_CASE(Methods_and_Operations_Valid)
   BOOST_CHECK_CLOSE_FRACTION(-1.76393203, d[2], 0.00001);
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+BOOST_AUTO_TEST_CASE(IO_Stream_Valid)
+{
+  Vec3f f(5.0, -2.5, 3.333);
+  Vector3<long double> d(std::sqrt(2.0), 3, std::sqrt(5.0));
+  Vec3d one(1.0, 1.0, 1.0);
+  Vec3d x(1.0, 0.0, 0.0);
+  Vec3d z(0.0, 0.0, 1.0);
+  Vec3d four5(0.0, std::sqrt(2) / 2, std::sqrt(2) / 2);
 
-// int main()
-// {
-//   Vec3f v3f(3.3, 2.2, -1.1);
-//   Vec3d v3d(-5.778, 9.929393, 1.00000001);
-//   Vector3<long double> v3ld(1.0, 1.5, 2.0);
+  std::cout << "Input three numbers to create the vector: ";
 
-//   auto test = v3f.dot(v3d);
+  Vec3f input;
+  std::cin >> input;
 
-//   std::cout
-//     << "Hello, vectors!" << std::endl
-//     << "Vec3f: " << v3f[0] << " " << v3f[1] << " " << v3f[2] << std::endl
-//     << "Vec3d: " << v3d[0] << " " << v3d[1] << " " << v3d[2] << std::endl
-//     << "Long double Vector3: " << v3ld[0] << " " << v3ld[1] << " " << v3ld[2] << std::endl
-//     << "Test: " << typeid(v3f).name() << std::endl;
+  std::cout << "1 (" << typeid(input).name() << "): " << input << std::endl
+            << "2 (" << typeid(f).name() << "): " << f << std::endl
+            << "3 (" << typeid(d).name() << "): " << d << std::endl
+            << "4 (" << typeid(one).name() << "): " << one << std::endl
+            << "5 (" << typeid(x).name() << "): " << x << std::endl
+            << "6 (" << typeid(z).name() << "): " << z << std::endl
+            << "7 (" << typeid(four5).name() << "): " << four5 << std::endl;
+}
 
-//   return EXIT_SUCCESS;
-// }
+BOOST_AUTO_TEST_SUITE_END();

@@ -167,17 +167,17 @@ Vector3<real_type> &Vector3<real_type>::operator/=(const double s)
 }
 
 template<typename real_type>
-std::ostream &operator<<(std::ostream &os, Vector3<real_type> &v)
+std::ostream &operator<<(std::ostream &os, const Vector3<real_type> &v)
 {
   os << "< " << v[0] << " " << v[1] << " " << v[2] << " >";
   return os;
 }
 
-// template<typename real_type>
-// std::istream &operator>>(std::istream &is, Vector3<real_type> &v)
-// {
-//   real_type x = 0.0, y = 0.0, z = 0.0;
-//   is >> x >> y >> z;
-//   set(x, y, z);
-//   return is;
-// }
+template<typename real_type>
+std::istream &operator>>(std::istream &is, Vector3<real_type> &v)
+{
+  real_type x = 0.0, y = 0.0, z = 0.0;
+  is >> x >> y >> z;
+  v.set(x, y, z);
+  return is;
+}
