@@ -7,7 +7,11 @@
 class PointLight : public Light
 {
 public:
-  PointLight();
+  PointLight() = default;
+  PointLight(const Vec3d &position, const Vec3f &intensity);
+  virtual ~PointLight() {}
+
+  virtual Vec3f intensity() const;
 
 private:
   Vec3d m_position;

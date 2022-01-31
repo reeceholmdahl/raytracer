@@ -6,7 +6,7 @@
 class OrthographicCamera : public Camera
 {
 public:
-  OrthographicCamera();
+  OrthographicCamera() = default;
 };
 
 #endif

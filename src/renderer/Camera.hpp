@@ -4,16 +4,17 @@
 #include <string>
 
 #include "Vector3.hpp"
+#include "CoordinateSys.hpp"
 
 class Camera
 {
 public:
-  Camera();
+  Camera() = default;
   virtual ~Camera() {}
 
-private:
-  Vec3d position, basis;
-  std::string name;
+  virtual Vec3d position() const = 0;
+  virtual CoordinateSys basis() const = 0;
+  virtual std::string name() const = 0;
 };
 
 #endif

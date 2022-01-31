@@ -6,12 +6,10 @@
 class Light
 {
 public:
-  Light();
+  Light() = default;
   virtual ~Light() {}
 
-private:
-  unsigned int intensity;
-  Vec3d position;
+  virtual Vec3f intensity() const = 0;
 };
 
 #endif

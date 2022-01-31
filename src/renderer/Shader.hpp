@@ -6,11 +6,10 @@
 class Shader
 {
 public:
-  Shader();
+  Shader() = default;
   virtual ~Shader() {}
 
-private:
-  std::string name;
+  virtual std::string name() const = 0;
 };
 
 #endif
