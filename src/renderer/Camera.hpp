@@ -9,6 +9,7 @@ class Camera
 {
 public:
   Camera();
+  virtual ~Camera() {}
 
 private:
   Vec3d position, basis;

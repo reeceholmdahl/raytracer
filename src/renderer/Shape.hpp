@@ -7,6 +7,8 @@ class Shape
 {
 public:
   Shape();
+  virtual ~Shape() {}
+
   virtual bool closestHit(const Ray &r) = 0;
 };
 

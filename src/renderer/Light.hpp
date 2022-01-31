@@ -7,6 +7,7 @@ class Light
 {
 public:
   Light();
+  virtual ~Light() {}
 
 private:
   unsigned int intensity;

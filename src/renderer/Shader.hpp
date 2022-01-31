@@ -7,6 +7,7 @@ class Shader
 {
 public:
   Shader();
+  virtual ~Shader() {}
 
 private:
   std::string name;
