@@ -7,7 +7,8 @@ add_library(renderer
     Triangle.cpp Triangle.hpp
     CoordinateSys.cpp CoordinateSys.hpp
     OrthographicCamera.cpp OrthographicCamera.hpp
-    PointLight.cpp PointLight.hpp)
+    PointLight.cpp PointLight.hpp
+    SceneContainer.cpp SceneContainer.hpp)
 
 include_directories(${CMAKE_SOURCE_DIR}/src)
 
