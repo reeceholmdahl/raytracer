@@ -1,9 +1,6 @@
-#include "Vector3.hpp"
-
-#include <istream>
-#include <ostream>
 #include <cmath>
-#include <cassert>
+
+#include "Vector3.hpp"
 
 template<typename real_type>
 Vector3<real_type>::Vector3(const real_type x, const real_type y, const real_type z)
@@ -14,15 +11,15 @@ Vector3<real_type>::Vector3(const real_type x, const real_type y, const real_typ
   data[2] = z;
 }
 
-template<typename real_type>
-template<typename other>
-Vector3<real_type>::Vector3(const Vector3<other> &v)
-  : data(3)
-{
-  data[0] = v[0];
-  data[1] = v[1];
-  data[2] = v[2];
-}
+// template<typename real_type>
+// template<typename other>
+// Vector3<real_type>::Vector3(const Vector3<other> &v)
+//   : data(3)
+// {
+//   data[0] = v[0];
+//   data[1] = v[1];
+//   data[2] = v[2];
+// }
 
 template<typename real_type>
 void Vector3<real_type>::set(const real_type x, const real_type y, const real_type z)
@@ -50,43 +47,43 @@ Vector3<real_type> Vector3<real_type>::unitize() const
   return Vector3<real_type>(*this) /= magnitude();
 }
 
-template<typename real_type>
-const double Vector3<real_type>::dot(const Vector3 &rhs) const
-{
-  return data[0] * rhs[0] + data[1] * rhs[1] + data[2] * rhs[2];
-}
+// template<typename real_type>
+// const double Vector3<real_type>::dot(const Vector3 &rhs) const
+// {
+//   return data[0] * rhs[0] + data[1] * rhs[1] + data[2] * rhs[2];
+// }
 
 template<typename real_type>
 Vector3<real_type> Vector3<real_type>::cross(const Vector3 &rhs) const
 {
   return Vector3<real_type>(
-    data[1] * rhs[2] - data[2] * rhs[2],
+    data[1] * rhs[2] - data[2] * rhs[1],
     data[2] * rhs[0] - data[0] * rhs[2],
     data[0] * rhs[1] - data[1] * rhs[0]);
 }
 
-template<typename real_type>
-const real_type Vector3<real_type>::operator[](const int index) const
-{
-  assert(index >= 0 && index < 3);
-  return data[index];
-}
+// template<typename real_type>
+// const real_type Vector3<real_type>::operator[](const int index) const
+// {
+//   assert(index >= 0 && index < 3);
+//   return data[index];
+// }
 
-template<typename real_type>
-real_type &Vector3<real_type>::operator[](const int index)
-{
-  assert(index >= 0 && index < 3);
-  return data[index];
-}
+// template<typename real_type>
+// real_type &Vector3<real_type>::operator[](const int index)
+// {
+//   assert(index >= 0 && index < 3);
+//   return data[index];
+// }
 
-template<typename real_type>
-Vector3<real_type> &Vector3<real_type>::operator=(const Vector3 &rhs)
-{
-  data[0] = rhs[0];
-  data[1] = rhs[1];
-  data[2] = rhs[2];
-  return *this;
-}
+// template<typename real_type>
+// Vector3<real_type> &Vector3<real_type>::operator=(const Vector3 &rhs)
+// {
+//   data[0] = rhs[0];
+//   data[1] = rhs[1];
+//   data[2] = rhs[2];
+//   return *this;
+// }
 
 template<typename real_type>
 Vector3<real_type> Vector3<real_type>::operator+(const Vector3 &rhs) const

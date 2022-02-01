@@ -59,7 +59,7 @@ void Framebuffer::clearColor(const Vec3f &color)
   }
 }
 
-size_t Framebuffer::index(size_t i, size_t j) const
-{
-  return i + j * m_width;
-}
+// size_t Framebuffer::index(size_t i, size_t j) const
+// {
+//   return i + j * m_width;
+// }

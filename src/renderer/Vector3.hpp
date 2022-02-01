@@ -4,6 +4,7 @@
 #include <vector>
 #include <istream>
 #include <ostream>
+#include <cassert>
 
 template<typename real_type>
 class Vector3
@@ -14,7 +15,13 @@ public:
 
   // Copy constructor
   template<typename other>
-  Vector3(const Vector3<other> &v);
+  Vector3(const Vector3<other> &v)
+    : data(3)
+  {
+    data[0] = v[0];
+    data[1] = v[1];
+    data[2] = v[2];
+  }
 
   void set(const real_type x, const real_type y, const real_type z);
 
@@ -26,19 +33,36 @@ public:
   Vector3<real_type> unitize() const;
 
   // Dot product with another vector
-  const double dot(const Vector3 &rhs) const;
+  const double dot(const Vector3 &rhs) const
+  {
+    return data[0] * rhs[0] + data[1] * rhs[1] + data[2] * rhs[2];
+  }
 
   // Cross product with another vector as the RHS
   Vector3<real_type> cross(const Vector3 &rhs) const;
 
   // Square braces access operator
-  const real_type operator[](const int index) const;
+  const real_type operator[](const int index) const
+  {
+    assert(index >= 0 && index < 3);
+    return data[index];
+  }
 
   // Square braces assign operator
-  real_type &operator[](const int index);
+  real_type &operator[](const int index)
+  {
+    assert(index >= 0 && index < 3);
+    return data[index];
+  }
 
   // Assignment operator
-  Vector3<real_type> &operator=(const Vector3 &rhs);
+  Vector3<real_type> &operator=(const Vector3 &rhs)
+  {
+    data[0] = rhs[0];
+    data[1] = rhs[1];
+    data[2] = rhs[2];
+    return *this;
+  }
 
   // Add
   Vector3<real_type> operator+(const Vector3 &rhs) const;

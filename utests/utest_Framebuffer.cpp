@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
   args.process(argc, argv);
 
   boost::progress_timer ptimer;
-  int startTime = ptimer.elapsed();
+  double startTime = ptimer.elapsed();
 
   // Create Framebuffers to hold the 2D data for our scenes
   Framebuffer fb1(12, 12), fb2(24, 36), fb3(43, 19), fb4(args.width, args.height), fb5(args.width, args.height), fb6(args.width, args.height), fb7(args.width, args.height);
@@ -92,6 +92,6 @@ int main(int argc, char *argv[])
     fb9.exportAsPNG(oFilename + "9.test.png");
   }
 
-  int endTime = ptimer.elapsed();
+  double endTime = ptimer.elapsed();
   std::cout << "Rendering time: " << endTime - startTime << std::endl;
 }

@@ -28,7 +28,10 @@ private:
   size_t m_width, m_height;
   std::vector<Vec3f> m_pixelArray;
 
-  size_t index(const size_t i, const size_t j) const;
+  size_t index(const size_t i, const size_t j) const
+  {
+    return i + j * m_width;
+  }
 };
 
 #endif

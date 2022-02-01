@@ -1,15 +1,16 @@
+include_directories(${CMAKE_SOURCE_DIR}/src)
+
 add_library(renderer
+    Vector3.hpp
     Framebuffer.cpp Framebuffer.hpp
     Light.cpp Light.hpp
-    Camera.cpp Camera.hpp
     Shape.cpp Shape.hpp
     Shader.cpp Shader.hpp
     Triangle.cpp Triangle.hpp
     CoordinateSys.cpp CoordinateSys.hpp
-    OrthographicCamera.cpp OrthographicCamera.hpp
     PointLight.cpp PointLight.hpp
-    SceneContainer.cpp SceneContainer.hpp)
-
-include_directories(${CMAKE_SOURCE_DIR}/src)
+    SceneContainer.cpp SceneContainer.hpp
+    Camera.cpp Camera.hpp
+    OrthographicCamera.cpp OrthographicCamera.hpp)
 
 target_link_libraries(renderer sive-util)

@@ -19,7 +19,9 @@ set(UTESTS
   utest_Failure
   utest_Vector3D
   utest_Framebuffer
-  utest_Vector3)
+  utest_Vector3
+  utest_Cameras
+  utest_Miscellaneous)
 
 # 
 # For each of the executables named in ${UTESTS}, compile them into a
