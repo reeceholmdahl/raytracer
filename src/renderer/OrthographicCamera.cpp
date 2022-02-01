@@ -18,5 +18,7 @@ Ray OrthographicCamera::generateRay(const size_t i, const size_t j) const
 
   Vec3d origin(u, v, 0);
 
-  Ray r(basis().toGlobal(origin), basis().toGlobal(Vec3d(0, 0, -1)));
+  Ray ray(basis().toGlobal(origin), basis().toGlobal(Vec3d(0, 0, -1)));
+
+  return ray;
 }

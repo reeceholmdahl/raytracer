@@ -7,6 +7,7 @@ add_library(renderer
     Shape.cpp Shape.hpp
     Shader.cpp Shader.hpp
     Triangle.cpp Triangle.hpp
+    Ray.cpp Ray.hpp
     CoordinateSys.cpp CoordinateSys.hpp
     PointLight.cpp PointLight.hpp
     SceneContainer.cpp SceneContainer.hpp

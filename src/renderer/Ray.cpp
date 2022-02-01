@@ -1,8 +1,16 @@
 #include "Ray.hpp"
 
-#include "Vector3.hpp"
-
 Ray::Ray(const Vec3d &origin, const Vec3d &direction)
   : m_origin(origin), m_direction(direction)
 {
+}
+
+Vec3d Ray::origin() const
+{
+  return m_origin;
+}
+
+Vec3d Ray::direction() const
+{
+  return m_direction;
 }

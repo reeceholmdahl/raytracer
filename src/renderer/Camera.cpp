@@ -1,7 +1,7 @@
 #include "Camera.hpp"
 
-Camera::Camera(const std::string &name, const Vec3d &position, const CoordinateSys &basis)
-  : m_name(name), m_position(position), m_basis(basis)
+Camera::Camera(const std::string &name, const CoordinateSys &basis)
+  : m_name(name), m_basis(basis)
 {
 }
 

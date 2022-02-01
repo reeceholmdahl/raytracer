@@ -8,7 +8,7 @@
 		// "terminal.integrated.defaultProfile.windows": "Git Bash",
 		"terminal.integrated.defaultProfile.windows": "PowerShell",
 		"editor.fontSize": 18,
-		"editor.cursorStyle": "block-outline",
+		"editor.cursorStyle": "block",
 		"editor.renderWhitespace": "none",
 		"files.associations": {
 			"vector": "cpp",
@@ -90,7 +90,9 @@
 			"xlocmon": "cpp",
 			"xloctime": "cpp",
 			"*.ipp": "cpp"
-		}
+		},
+		"editor.cursorBlinking": "phase",
+		"editor.cursorSmoothCaretAnimation": true
 	},
 	"tasks": {
 		"version": "2.0.0",

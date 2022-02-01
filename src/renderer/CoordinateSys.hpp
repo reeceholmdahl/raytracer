@@ -6,6 +6,8 @@
 class CoordinateSys
 {
 public:
+  static const CoordinateSys global;
+
   CoordinateSys(const Vec3d &position, const Vec3d &u, const Vec3d &v, const Vec3d &w);
 
   Vec3d toLocal(const Vec3d &global) const;
@@ -18,7 +20,5 @@ public:
 private:
   Vec3d m_position, m_u, m_v, m_w;
 };
-
-static const CoordinateSys global(Vec3d(), Vec3d(1, 0, 0), Vec3d(0, 1, 0), Vec3d(0, 0, -1));
 
 #endif
