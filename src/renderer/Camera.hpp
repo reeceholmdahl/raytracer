@@ -11,11 +11,13 @@
 class Camera
 {
 public:
+  // Temporary/unsure
+  size_t m_pixels_x, m_pixels_y, m_image_w, m_image_h;
+
   Camera() = default;
-  Camera(const std::string &name, const Vec3d &position, const CoordinateSys &basis);
+  Camera(const std::string &name, const CoordinateSys &basis);
   virtual ~Camera() {}
 
-  virtual Vec3d position() const;
   virtual CoordinateSys basis() const;
   virtual std::string name() const;
 
@@ -23,7 +25,6 @@ public:
 
 private:
   std::string m_name;
-  Vec3d m_position;
   CoordinateSys m_basis;
 };
 

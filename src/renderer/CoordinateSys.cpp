@@ -15,3 +15,23 @@ Vec3d CoordinateSys::toGlobal(const Vec3d &local) const
 {
   return Vec3d(local.dot(m_u), local.dot(m_v), local.dot(m_w)) + m_position;
 }
+
+Vec3d CoordinateSys::position() const
+{
+  return m_position;
+}
+
+Vec3d CoordinateSys::u() const
+{
+  return m_u;
+}
+
+Vec3d CoordinateSys::v() const
+{
+  return m_v;
+}
+
+Vec3d CoordinateSys::w() const
+{
+  return m_w;
+}
