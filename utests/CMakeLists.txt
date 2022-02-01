@@ -21,7 +21,8 @@ set(UTESTS
   utest_Framebuffer
   utest_Vector3
   utest_Cameras
-  utest_Miscellaneous)
+  utest_Miscellaneous
+  utest_RayDirectionColor)
 
 # 
 # For each of the executables named in ${UTESTS}, compile them into a

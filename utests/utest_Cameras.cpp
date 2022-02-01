@@ -30,18 +30,13 @@ int main()
   Camera *camera;
   camera = new PerspectiveCamera("camera", ori, 1.0);
   // camera = new OrthographicCamera("camera", ori);
-  camera->m_pixels_x = 200;
-  camera->m_pixels_y = 200;
-  camera->m_image_w = 1;
-  camera->m_image_h = 1;
 
-  Framebuffer f(camera->m_pixels_x, camera->m_pixels_y);
+  Framebuffer f(camera->pixels_x(), camera->pixels_y());
   Triangle t(Vec3d(0.25, 0.25, 3), Vec3d(-0.25, 0.5, 2.75), Vec3d(0, -0.1, 3.25));
   Sphere s(Vec3d(0.06, 0, 7), 0.5);
-  // std::vector<Shape *> shapes({ &t, &s });
 
-  for (size_t i = 0; i < camera->m_pixels_x; ++i) {
-    for (size_t j = 0; j < camera->m_pixels_y; ++j) {
+  for (size_t i = 0; i < camera->pixels_x(); ++i) {
+    for (size_t j = 0; j < camera->pixels_y(); ++j) {
       auto r = camera->generateRay(i, j);
 
       double triT, sphT;

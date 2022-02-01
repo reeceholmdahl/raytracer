@@ -11,22 +11,33 @@
 class Camera
 {
 public:
-  // Temporary/unsure
-  size_t m_pixels_x, m_pixels_y;
-  double m_image_w, m_image_h;
+  const static size_t DEFAULT_PIXELS_XY;
+  const static double DEFAULT_IMAGE_WH;
 
   Camera() = default;
   Camera(const std::string &name, const CoordinateSys &basis);
+  Camera(const std::string &name, const CoordinateSys &basis, const size_t pixels_x, const size_t pixels_y, const double image_w, const double image_h);
   virtual ~Camera() {}
 
-  virtual CoordinateSys basis() const;
-  virtual std::string name() const;
+  CoordinateSys basis() const;
+  std::string name() const;
+  size_t pixels_x() const;
+  size_t pixels_y() const;
+  double image_w() const;
+  double image_h() const;
+
+  void set_pixels_x(const size_t pixels_x);
+  void set_pixels_y(const size_t pixels_y);
+  void set_image_w(const double width);
+  void set_image_h(const double height);
 
   virtual Ray generateRay(const size_t i, const size_t j) const = 0;
 
 private:
   std::string m_name;
   CoordinateSys m_basis;
+  size_t m_pixels_x, m_pixels_y;
+  double m_image_w, m_image_h;
 };
 
 #endif
