@@ -8,6 +8,8 @@ class Triangle : public Shape
 {
 public:
   Triangle(const Vec3d &a, const Vec3d &b, const Vec3d &c);
+
+  virtual bool closestHit(const Ray &r, const double tmin, const double tmax, double &t) const;
   virtual bool closestHit(const Ray &r) const;
 
 private:

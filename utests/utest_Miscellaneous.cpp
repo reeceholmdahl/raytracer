@@ -2,6 +2,7 @@
 
 #include "Vector3.hpp"
 #include "CoordinateSys.hpp"
+#include "Sphere.hpp"
 
 int main()
 {

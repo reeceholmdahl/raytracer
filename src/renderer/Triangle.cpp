@@ -9,11 +9,11 @@ Triangle::Triangle(const Vec3d &a, const Vec3d &b, const Vec3d &c)
 {
 }
 
-bool Triangle::closestHit(const Ray &r) const
+bool Triangle::closestHit(const Ray &r, const double tmin, const double tmax, double &t) const
 {
   // e = r.origin, d = r.direction
   // triangle with vertices a, b, c
-  // e + td = a + B(b-a) + Y(b-c) for some t > 0, B > 0, Y > 0, and B+Y < 1
+  // e + td = a + B(b-a) + Y(b-c) for some intersectT > 0, B > 0, Y > 0, and B+Y < 1
   // Following code is based directly off cramer's rule in the book
   // This is made to get a quick and dirty attempt at ray tracing a triangle
   // Code can be heavily optimized
@@ -58,9 +58,9 @@ bool Triangle::closestHit(const Ray &r) const
                 + matrixT[3] * (matrixT[2] * matrixT[7] - matrixT[1] * matrixT[8])
                 + matrixT[6] * (matrixT[1] * matrixT[5] - matrixT[4] * matrixT[2]);
 
-  double t = detT / detA;
+  double intersectT = detT / detA;
 
-  if (t < 0) return false;
+  if (intersectT < tmin || intersectT > tmax) return false;
 
   matrixGamma = {
     // 1st row
@@ -108,5 +108,13 @@ bool Triangle::closestHit(const Ray &r) const
 
   if (beta < 0 || beta > 1 - gamma) return false;
 
+  t = intersectT;
+
   return true;
+}
+
+bool Triangle::closestHit(const Ray &r) const
+{
+  double t;
+  return closestHit(r, 0, INFINITY, t);
 }
