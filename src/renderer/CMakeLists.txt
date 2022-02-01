@@ -12,6 +12,7 @@ add_library(renderer
     PointLight.cpp PointLight.hpp
     SceneContainer.cpp SceneContainer.hpp
     Camera.cpp Camera.hpp
-    OrthographicCamera.cpp OrthographicCamera.hpp)
+    OrthographicCamera.cpp OrthographicCamera.hpp
+    PerspectiveCamera.cpp PerspectiveCamera.hpp)
 
 target_link_libraries(renderer sive-util)

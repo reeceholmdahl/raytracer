@@ -6,10 +6,10 @@
 class Shape
 {
 public:
-  Shape();
+  Shape() = default;
   virtual ~Shape() {}
 
-  virtual bool closestHit(const Ray &r) = 0;
+  virtual bool closestHit(const Ray &r) const = 0;
 };
 
 #endif

@@ -16,8 +16,6 @@ public:
   // virtual std::string name() const;
 
   virtual Ray generateRay(const size_t i, const size_t j) const;
-
-private:
 };
 
 #endif
