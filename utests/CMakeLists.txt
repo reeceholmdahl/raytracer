@@ -7,6 +7,10 @@
 include_directories(${CMAKE_SOURCE_DIR}/src)
 include_directories(${CMAKE_SOURCE_DIR}/src/renderer)
 
+foreach(renderer_subdir ${RENDERER_SUBDIRS})
+  include_directories(${CMAKE_SOURCE_DIR}/src/renderer/${renderer_subdir})
+endforeach(renderer_subdir)
+
 # 
 # This is a simple way to set the names of the executables used for
 # the unit tests. Note that we are setting a variable, called
@@ -47,4 +51,3 @@ endforeach(uexec)
 foreach(uexec ${UTESTS})
   ADD_TEST(${uexec} ${CMAKE_BINARY_DIR}/utests/${uexec})
 endforeach(uexec)
-
