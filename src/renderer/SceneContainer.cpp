@@ -1,8 +1,4 @@
 #include "SceneContainer.hpp"
-#include "Camera.hpp"
-#include "Light.hpp"
-#include "Shape.hpp"
-#include "Shader.hpp"
 
 SceneContainer::SceneContainer(const SceneContainer &sc)
   : cameras(sc.cameras.size()), lights(sc.lights.size()), shapes(sc.shapes.size())

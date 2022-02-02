@@ -6,7 +6,7 @@
 class CoordinateSys
 {
 public:
-  static const CoordinateSys global;
+  static const CoordinateSys GLOBAL, CAMERA_DEFAULT;
 
   CoordinateSys(const Vec3d &position, const Vec3d &u, const Vec3d &v, const Vec3d &w);
 

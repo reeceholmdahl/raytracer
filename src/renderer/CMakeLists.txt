@@ -1,13 +1,12 @@
 include_directories(${CMAKE_SOURCE_DIR}/src)
 
-list(APPEND RENDERER_SUBDIRS
+set(RENDERER_SUBDIRS
     math
     geometry
     light
     shader
-    camera)
-
-set(RENDERER_SUBDIRS "${RENDERER_SUBDIRS}" CACHE INTERNAL "")
+    camera
+        CACHE INTERNAL "")
 
 add_library(renderer)
 

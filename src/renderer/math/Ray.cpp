@@ -14,3 +14,8 @@ Vec3d Ray::direction() const
 {
   return m_direction;
 }
+
+Vec3d Ray::point(const double t) const
+{
+  return m_origin + (m_direction * t);
+}

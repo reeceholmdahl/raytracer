@@ -7,6 +7,9 @@
 Triangle::Triangle(const Vec3d &a, const Vec3d &b, const Vec3d &c)
   : m_a(a), m_b(b), m_c(c)
 {
+  auto AB(m_b - m_a);
+  auto BC(m_c - m_b);
+  m_normal = AB.cross(BC).unitize();
 }
 
 bool Triangle::closestHit(const Ray &r, const double tmin, const double tmax, double &t) const
@@ -117,4 +120,9 @@ bool Triangle::closestHit(const Ray &r) const
 {
   double t;
   return closestHit(r, 0, INFINITY, t);
+}
+
+Vec3d Triangle::normal(const Vec3d &position) const
+{
+  return m_normal;
 }

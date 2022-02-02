@@ -8,7 +8,7 @@
 Framebuffer::Framebuffer(size_t width, size_t height)
   : m_width(width), m_height(height), m_pixelArray(m_width * m_height)
 {
-  clearColor(Vec3f(0.0, 0.0, 0.0));
+  // clearColor(Vec3f(0.0, 0.0, 0.0));
 }
 
 Framebuffer::Framebuffer(const Framebuffer &f)

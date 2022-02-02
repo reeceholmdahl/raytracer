@@ -101,7 +101,11 @@
 				"label": "CMake: Build",
 				"type": "shell",
 				"command": "cmake --build ${workspaceFolder}\\build --config Release",
-				"problemMatcher": []
+				"problemMatcher": [],
+				"group": {
+					"kind": "build",
+					"isDefault": true
+				}
 			},
 			{
 				"label": "Setup CMake",

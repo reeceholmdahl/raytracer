@@ -7,7 +7,12 @@ PointLight::PointLight(const Vec3d &position, const Vec3f &intensity)
 {
 }
 
+Vec3d PointLight::position() const
+{
+  return m_position;
+}
+
 Vec3f PointLight::intensity() const
 {
-  return Vec3f(m_intensity);
+  return m_intensity;
 }

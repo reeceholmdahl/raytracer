@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
   Framebuffer fb(nx, ny);
 
   Camera *cam;
-  cam = new PerspectiveCamera("persp", CoordinateSys::global, 2.0);
+  cam = new PerspectiveCamera("persp", CoordinateSys::CAMERA_DEFAULT, 2.0);
   cam->set_pixels_x(nx);
   cam->set_pixels_y(ny);
   cam->set_image_w(1.0);

@@ -11,6 +11,7 @@ public:
   PointLight(const Vec3d &position, const Vec3f &intensity);
   virtual ~PointLight() {}
 
+  Vec3d position() const;
   virtual Vec3f intensity() const;
 
 private:
