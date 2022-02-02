@@ -182,13 +182,13 @@ BOOST_AUTO_TEST_CASE(IO_Stream_Valid)
   Vec3d z(0.0, 0.0, 1.0);
   Vec3d four5(0.0, std::sqrt(2) / 2, std::sqrt(2) / 2);
 
-  std::cout << "Input three numbers to create the vector: ";
+  // std::cout << "Input three numbers to create the vector: ";
 
-  Vec3f input;
-  std::cin >> input;
+  // Vec3f input;
+  // std::cin >> input;
 
-  std::cout << "1 (" << typeid(input).name() << "): " << input << std::endl
-            << "2 (" << typeid(f).name() << "): " << f << std::endl
+  // std::cout << "1 (" << typeid(input).name() << "): " << input << std::endl
+  std::cout << "2 (" << typeid(f).name() << "): " << f << std::endl
             << "3 (" << typeid(d).name() << "): " << d << std::endl
             << "4 (" << typeid(one).name() << "): " << one << std::endl
             << "5 (" << typeid(x).name() << "): " << x << std::endl

@@ -19,8 +19,6 @@ endforeach(renderer_subdir)
 # compile into an executable.
 # 
 set(UTESTS 
-  utest_Success
-  utest_Failure
   utest_Vector3D
   utest_Framebuffer
   utest_Vector3

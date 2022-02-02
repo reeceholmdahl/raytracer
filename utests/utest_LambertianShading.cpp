@@ -1,3 +1,7 @@
+#include <iostream>
+
+#include "boost/filesystem.hpp"
+
 #include "Camera.hpp"
 #include "PerspectiveCamera.hpp"
 #include "Vector3.hpp"
@@ -9,12 +13,21 @@
 
 #include "handleGraphicsArgs.h"
 
+namespace fs = boost::filesystem;
+
 int main(int argc, char *argv[])
 {
   sivelab::GraphicsArgs args;
   args.process(argc, argv);
 
+  // Used cmdline arguments
   const size_t nx(args.width), ny(args.height);
+  const fs::path outdir(args.outputDirectory);
+
+  if (!fs::exists(outdir)) {
+    std::cout << "Creating directory " << outdir.string() << std::endl;
+    fs::create_directories(outdir);
+  }
 
   Framebuffer fb(nx, ny);
 
@@ -83,7 +96,7 @@ int main(int argc, char *argv[])
     }
   }
 
-  fb.exportAsPNG("utest_LambertianShading.test.png");
+  fb.exportAsPNG((outdir / "utest_LambertianShading.test.png").string());
 
   return 0;
 }

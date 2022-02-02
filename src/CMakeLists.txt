@@ -11,3 +11,9 @@ add_library (sive-util
 )
 
 add_subdirectory(renderer)
+
+target_link_libraries(sive-util renderer)
+
+foreach(subdir ${RENDERER_SUBDIRS})
+  include_directories(renderer/${subdir})
+endforeach(subdir)

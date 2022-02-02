@@ -31,39 +31,40 @@
 
 namespace sivelab {
 
-  // Derived from the Argument parsing class so that each can add to
-  // this argument list.
-  class GraphicsArgs : public ArgumentParsing
-  {
-  public:
-    GraphicsArgs();
-    ~GraphicsArgs() {}
+// Derived from the Argument parsing class so that each can add to
+// this argument list.
+class GraphicsArgs : public ArgumentParsing
+{
+public:
+  GraphicsArgs();
+  ~GraphicsArgs() {}
 
-    void process(int argc, char *argv[]);
+  void process(int argc, char *argv[]);
 
-    bool verbose;
-    int windowWidth, windowHeight;
-    int width;
-    int height;
-    float aspectRatio;
-    bool useShadow;
-    Vector3D bgColor;
-    
-    bool useDepthOfField;
-    float depthOfFieldDistance;
+  bool verbose;
+  int windowWidth, windowHeight;
+  int width;
+  int height;
+  float aspectRatio;
+  bool useShadow;
+  Vector3D bgColor;
 
-    int numCpus;
+  bool useDepthOfField;
+  float depthOfFieldDistance;
 
-    int rpp;
+  int numCpus;
 
-    int recursionDepth;
-    
-    std::string splitMethod;
-    
-    std::string inputFileName;
-    std::string outputFileName;
-  };
+  int rpp;
 
-}
+  int recursionDepth;
 
-#endif // __HANDLE_ARGS_H__
+  std::string splitMethod;
+
+  std::string inputFileName;
+  std::string outputFileName;
+  std::string outputDirectory;
+};
+
+}// namespace sivelab
+
+#endif// __HANDLE_ARGS_H__
