@@ -18,10 +18,10 @@ int main(int argc, char *argv[])
 
   Framebuffer fb(nx, ny);
 
-  Triangle tri(Vec3d(0.25, 0, 2), Vec3d(0, 0.1, 2), Vec3d(-0.1, -0.1, 2));
+  Triangle tri(Vec3d(0.25, 0, 2), Vec3d(0, 0.1, 2.1), Vec3d(-0.1, -0.1, 2));
   Sphere sph(Vec3d(-0.15, -0.15, 2), 0.25);
 
-  PointLight light(Vec3d(0, 0, -0.5), Vec3f(1, 1, 1));
+  PointLight light(Vec3d(0, 0, 0), Vec3f(1, 1, 1));
 
   Camera *cam;
   cam = new PerspectiveCamera("persp", CoordinateSys::CAMERA_DEFAULT, 1.0);
@@ -41,17 +41,27 @@ int main(int argc, char *argv[])
       Vec3f color;
       if (hitSph) {
         // hit sphere or sphere is in front of triangle
-        color.set(0.05, 0.15, 1);
+        color.set(0.05, 0.05, 0.85);
         t = t_hitSph;
 
         auto hitPoint(r.point(t));
-        auto hitToLight((hitPoint - light.position()).unitize());
+        auto hitToLight((light.position() - hitPoint).unitize());
         auto normal(sph.normal(hitPoint));
 
-        // color *= (light.intensity() * std::max(0.0, normal.dot(hitToLight)));
+        // lambertian shading
+        color *= (light.intensity() * std::max(0.0, normal.dot(hitToLight)));
+
         // color.set(hitToLight[0] + 1, hitToLight[1] + 1, hitToLight[2] + 1);
+        // color.set(hitToLight.dot(normal) + 1, hitToLight.dot(normal) + 1, hitToLight.dot(normal) + 1);
+        // color = hitToLight;
+        // color += Vec3f(1.0, 1.0, 1.0);
+
+        // normal shading
+        // color = normal;
+        // color += Vec3f(1.0, 1.0, 1.0);
         // color /= 2;
-        color.set(hitToLight.dot(normal) + 1, hitToLight.dot(normal) + 1, hitToLight.dot(normal) + 1);
+
+        // std::cout << i << "x " << j << "y | l: " << hitToLight << " n: " << normal << std::endl;
 
       } else if (hitTri) {
         // hit triangle

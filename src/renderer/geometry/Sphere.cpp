@@ -44,17 +44,19 @@ Vec3d Sphere::normal(const Vec3d &position) const
   // x = < rcos(theta)sin(phi), rsin(theta)sin(phi), rcos(phi) >
   // n = < r^2cos(theta)sin^2(phi), r^2sin(theta)sin^2(phi), -r^2sin(phi)cos(phi) >
 
-  Vec3d localPos(position - m_position);
+  Vec3d localPos((position - m_position));
 
-  double phi(acos(localPos[2] / m_radius));
-  double theta(acos(localPos[0] / (m_radius * sin(phi))));
+  double phi(-acos(localPos[2] / m_radius));
+  double theta(-acos(localPos[0] / (m_radius * sin(phi))));
 
   double r2(m_radius * m_radius);
 
   Vec3d n(
-    r2 * cos(theta) * pow(sin(phi), 2),
-    r2 * sin(theta) * pow(sin(phi), 2),
-    -r2 * sin(phi) * cos(phi));
+    r2 * cos(theta) * pow(sin(phi), 2),// should be positive
+    r2 * sin(theta) * pow(sin(phi), 2),// should be positive
+    r2 * sin(phi) * cos(phi));// should be negative
 
-  return n.unitize();
+  // |n|=r^2sin(phi), can just divide
+  // return n.unitize();
+  return n /= (r2 * sin(phi));
 }
