@@ -1,24 +1,37 @@
 #include <iostream>
 
 #include <boost/progress.hpp>
+#include <boost/filesystem.hpp>
 
 #include "handleGraphicsArgs.h"
 #include "Vector3.hpp"
 #include "Framebuffer.hpp"
+
+namespace fs = boost::filesystem;
 
 int main(int argc, char *argv[])
 {
   sivelab::GraphicsArgs args;
   args.process(argc, argv);
 
+  // Used cmdline arguments
+  const size_t nx(args.width), ny(args.height);
+  const fs::path outdir(args.outputDirectory);
+
+  if (!fs::exists(outdir))
+  {
+    std::cout << "Creating directory " << outdir.string() << std::endl;
+    fs::create_directories(outdir);
+  }
+
   boost::progress_timer ptimer;
   double startTime = ptimer.elapsed();
 
   // Create Framebuffers to hold the 2D data for our scenes
-  Framebuffer fb1(12, 12), fb2(24, 36), fb3(43, 19), fb4(args.width, args.height), fb5(args.width, args.height), fb6(args.width, args.height), fb7(args.width, args.height);
+  Framebuffer fb1(12, 12), fb2(24, 36), fb3(43, 19), fb4(nx, ny), fb5(nx, ny), fb6(nx, ny), fb7(nx, ny);
 
   // Create a Framebuffer that we won't touch at all
-  Framebuffer fb8(args.width, args.height);
+  Framebuffer fb8(nx, ny);
 
   // Clear colors as red, green, then blue for the first 3 required tests
   fb1.clearColor(Vec3f(1.0, 0.0, 0.0));
@@ -31,8 +44,10 @@ int main(int argc, char *argv[])
   // One of my random Framebuffer test
   double centerX = fb5.width() / 2.;
   double centerY = fb5.height() / 2.;
-  for (auto i = 0; i < fb5.width(); ++i) {
-    for (auto j = 0; j < fb5.height(); ++j) {
+  for (auto i = 0; i < fb5.width(); ++i)
+  {
+    for (auto j = 0; j < fb5.height(); ++j)
+    {
       double dx = abs(centerX - i);
       double dy = abs(centerY - j);
       double maxDistance = std::min(centerX, centerY);
@@ -43,8 +58,10 @@ int main(int argc, char *argv[])
   }
 
   // One of my random Framebuffer test
-  for (auto i = 0; i < fb6.width(); ++i) {
-    for (auto j = 0; j < fb6.height(); ++j) {
+  for (auto i = 0; i < fb6.width(); ++i)
+  {
+    for (auto j = 0; j < fb6.height(); ++j)
+    {
       double dx = abs(centerX - i);
       double dy = abs(centerY - j);
       double maxDistance = std::min(centerX, centerY);
@@ -55,8 +72,10 @@ int main(int argc, char *argv[])
   }
 
   // One of my random Framebuffer test
-  for (auto i = 0; i < fb7.width(); ++i) {
-    for (auto j = 0; j < fb7.height(); ++j) {
+  for (auto i = 0; i < fb7.width(); ++i)
+  {
+    for (auto j = 0; j < fb7.height(); ++j)
+    {
 
       double ci = i - static_cast<double>(fb7.width()) / 2;
       double cj = j - static_cast<double>(fb7.height()) / 2;
@@ -78,19 +97,16 @@ int main(int argc, char *argv[])
 
   Framebuffer fb9(fb7);
 
-  // When complete, output the file
-  std::string oFilename;
-  if (args.isSet("outputfile", oFilename)) {
-    fb1.exportAsPNG(oFilename + "1.test.png");
-    fb2.exportAsPNG(oFilename + "2.test.png");
-    fb3.exportAsPNG(oFilename + "3.test.png");
-    fb4.exportAsPNG(oFilename + "4.test.png");
-    fb5.exportAsPNG(oFilename + "5.test.png");
-    fb6.exportAsPNG(oFilename + "6.test.png");
-    fb7.exportAsPNG(oFilename + "7.test.png");
-    fb8.exportAsPNG(oFilename + "8.test.png");
-    fb9.exportAsPNG(oFilename + "9.test.png");
-  }
+  // When complete, output the files
+  fb1.exportAsPNG((outdir / "test_Framebuffer1.test.png").string());
+  fb2.exportAsPNG((outdir / "test_Framebuffer2.test.png").string());
+  fb3.exportAsPNG((outdir / "test_Framebuffer3.test.png").string());
+  fb4.exportAsPNG((outdir / "test_Framebuffer4.test.png").string());
+  fb5.exportAsPNG((outdir / "test_Framebuffer5.test.png").string());
+  fb6.exportAsPNG((outdir / "test_Framebuffer6.test.png").string());
+  fb7.exportAsPNG((outdir / "test_Framebuffer7.test.png").string());
+  fb8.exportAsPNG((outdir / "test_Framebuffer8.test.png").string());
+  fb9.exportAsPNG((outdir / "test_Framebuffer9.test.png").string());
 
   double endTime = ptimer.elapsed();
   std::cout << "Rendering time: " << endTime - startTime << std::endl;
