@@ -24,7 +24,8 @@ int main(int argc, char *argv[])
   const size_t nx(args.width), ny(args.height);
   const fs::path outdir(args.outputDirectory);
 
-  if (!fs::exists(outdir)) {
+  if (!fs::exists(outdir))
+  {
     std::cout << "Creating directory " << outdir.string() << std::endl;
     fs::create_directories(outdir);
   }
@@ -34,7 +35,7 @@ int main(int argc, char *argv[])
   Triangle tri(Vec3d(0.25, 0, 2), Vec3d(0, 0.1, 2.1), Vec3d(-0.1, -0.1, 2));
   Sphere sph(Vec3d(-0.15, -0.15, 2), 0.25);
 
-  PointLight light(Vec3d(0, 0, 0), Vec3f(1, 1, 1));
+  PointLight light(Vec3d(1, 1, -3), Vec3f(1, 1, 1));
 
   Camera *cam;
   cam = new PerspectiveCamera("persp", CoordinateSys::CAMERA_DEFAULT, 1.0);
@@ -43,8 +44,10 @@ int main(int argc, char *argv[])
   cam->set_image_w(1.0);
   cam->set_image_h(1.0 * ny / nx);
 
-  for (size_t i = 0; i < nx; ++i) {
-    for (size_t j = 0; j < ny; ++j) {
+  for (size_t i = 0; i < nx; ++i)
+  {
+    for (size_t j = 0; j < ny; ++j)
+    {
       auto r(cam->generateRay(i, j));
 
       double t(0), t_hitTri(INFINITY), t_hitSph(INFINITY);
@@ -52,7 +55,8 @@ int main(int argc, char *argv[])
       auto hitSph(sph.closestHit(r, 0, t_hitTri, t_hitSph));
 
       Vec3f color;
-      if (hitSph) {
+      if (hitSph)
+      {
         // hit sphere or sphere is in front of triangle
         color.set(0.05, 0.05, 0.85);
         t = t_hitSph;
@@ -75,8 +79,9 @@ int main(int argc, char *argv[])
         // color /= 2;
 
         // std::cout << i << "x " << j << "y | l: " << hitToLight << " n: " << normal << std::endl;
-
-      } else if (hitTri) {
+      }
+      else if (hitTri)
+      {
         // hit triangle
         color.set(1, 1, 0);
         t = t_hitTri;
@@ -86,7 +91,9 @@ int main(int argc, char *argv[])
         auto normal(tri.normal(hitPoint));
 
         color *= std::max(0.0, normal.dot(hitToLight));
-      } else {
+      }
+      else
+      {
         // hit nothing
         color.set(0.1, 0.1, 0.1);
         t = -1;
