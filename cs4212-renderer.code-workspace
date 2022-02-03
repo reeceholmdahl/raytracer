@@ -126,15 +126,15 @@
 				"problemMatcher": []
 			},
 			{
-				"label": "CTest: Tests",
+				"label": "CTest: Misc Tests",
 				"type": "shell",
-				"command": "cd ${workspaceFolder}\\build; ctest -L a; cd ${workspaceFolder}",
+				"command": "cd ${workspaceFolder}\\build; ctest -L a -V; cd ${workspaceFolder}",
 				"problemMatcher": []
 			},
 			{
 				"label": "CTest: Unit Tests",
 				"type": "shell",
-				"command": "cd ${workspaceFolder}\\build; ctest -L b; cd ${workspaceFolder}",
+				"command": "cd ${workspaceFolder}\\build; ctest -L b --output-on-failure; cd ${workspaceFolder}",
 				"problemMatcher": []
 			},
 		]

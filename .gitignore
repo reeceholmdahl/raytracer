@@ -12,3 +12,9 @@ externalLibs/
 
 # ignore my test files
 *.test*
+
+# ignore cmake testing folder if it ever appears
+Testing/
+
+# ignore out folder for images/files created by tests and programs
+out/

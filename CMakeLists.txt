@@ -17,6 +17,10 @@ if(ENABLE_CLANG_TIDY)
   endif()
 endif()
 
+get_filename_component(PARENT_DIR ./ ABSOLUTE)
+set(CTEST_OUTPUT_DIR "${PARENT_DIR}/out")
+set(CTEST_WINDOW_WIDTH 500)
+set(CTEST_WINDOW_HEIGHT 500)
 
 # ######################################################################################################################
 # Apple from NVIDIA OptiX CMake/Macros.cmake

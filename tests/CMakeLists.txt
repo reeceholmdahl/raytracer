@@ -23,6 +23,6 @@ foreach(exec ${TESTS})
   target_link_libraries(${exec} ${ZLIB_LIBRARY})
 
   # add test
-  ADD_TEST(${exec} ${CMAKE_BINARY_DIR}/tests/${exec})
+  ADD_TEST(${exec} ${CMAKE_BINARY_DIR}/tests/${exec} -w ${CTEST_WINDOW_WIDTH} -h ${CTEST_WINDOW_HEIGHT} -f ${CTEST_OUTPUT_DIR})
   set_property(TEST ${exec} PROPERTY LABELS a)
 endforeach(exec)
