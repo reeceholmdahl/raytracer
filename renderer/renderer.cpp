@@ -4,9 +4,9 @@
 
 using namespace renderer;
 
-float *renderer::framebufferToGLPixelArray(const Framebuffer &fb)
+void renderer::framebufferToGLPixelArray(const Framebuffer &fb, float *pixels)
 {
-    float *pixels = new float[3 * fb.m_width * fb.m_height];
+    // float *pixels = new float[3 * fb.m_width * fb.m_height];
 
     for (size_t i(0); i < fb.m_width; ++i)
     {
@@ -21,6 +21,4 @@ float *renderer::framebufferToGLPixelArray(const Framebuffer &fb)
             pixels[3 * index_gl + 2] = px[2];
         }
     }
-
-    return pixels;
 }

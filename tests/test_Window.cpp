@@ -21,8 +21,59 @@
 
 using namespace renderer;
 
-Framebuffer renderCycle(int &count, int index, Camera *cam, Framebuffer (*fb)(size_t, size_t, Camera *), const size_t nx, const size_t ny);
+GLFWwindow *window;
+GLuint texture;
+Camera *camera;
+size_t nx, ny;
+float *pixels;
+
 Framebuffer sphereNormal(const size_t nx, const size_t ny, Camera *cam);
+
+void draw()
+{
+    // Render code goes here
+    std::cout << "before render" << std::endl;
+    // Framebuffer fb(sphereNormal(nx, ny, camera));
+    Framebuffer fb(nx, ny);
+    fb.clearColor(Vec3f(0.5, 0.5, 0));
+    std::cout << "after render" << std::endl;
+
+    framebufferToGLPixelArray(fb, pixels);
+    std::cout << "after pixel conversion" << std::endl;
+
+    // Debug print all pixels
+    // for (size_t i(0); i < 3 * nx * ny; ++i)
+    // {
+    //     std::cout << pixels[i] << " ";
+    //     if (i % 3 == 2)
+    //         std::cout << std::endl;
+    // }
+
+    glLoadIdentity(); // Load identity matrix? Does this need to be here?
+
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, nx, ny, 0, GL_RGB, GL_FLOAT, pixels);
+
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, texture);
+
+    // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glBegin(GL_TRIANGLE_STRIP);
+    glTexCoord2d(0.0, 0.0);
+    glVertex2d(-1.0, -1.0);
+    glTexCoord2d(1.0, 0.0);
+    glVertex2d(1.0, -1.0);
+    glTexCoord2d(1.0, 1.0);
+    glVertex2d(1.0, 1.0);
+    glTexCoord2d(0.0, 1.0);
+    glVertex2d(-1.0, 1.0);
+    glEnd();
+
+    glfwSwapBuffers(window);
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+}
 
 int main(int argc, char *argv[])
 {
@@ -40,13 +91,16 @@ int main(int argc, char *argv[])
     args.process(argc, argv);
 
     // Used cmdline arguments
-    const size_t nx(args.width), ny(args.height);
+    nx = args.width;
+    ny = args.height;
+
+    pixels = new float[3 * nx * ny];
 
     int windowWidth(nx);
     int windowHeight(ny);
     int aspectRatio = nx / ny;
 
-    GLFWwindow *window(glfwCreateWindow(windowWidth, windowHeight, "test_Window", NULL, NULL));
+    window = glfwCreateWindow(windowWidth, windowHeight, "test_Window", NULL, NULL);
 
     if (!window)
     {
@@ -72,80 +126,89 @@ int main(int argc, char *argv[])
     glfwGetFramebufferSize(window, &fb_w, &fb_h);
     glViewport(0, 0, fb_w, fb_h);
 
+    //Create orthographic view
+    glMatrixMode(GL_PROJECTION);
+    glOrtho(0, 0, -1.f, 1.f, 1.f, -1.f);
+    glMatrixMode(GL_MODELVIEW);
+    glEnable(GL_TEXTURE_2D);
+    glLoadIdentity();
+
     Vec3d u, v, w;
 
     u.set(1, 0, 0);
     w.set(0, 0, 1);
     v = u.cross(w);
 
-    CoordinateSys basis(Vec3d(0, 0, 0), u, v, -w);
+    CoordinateSys basis(Vec3d(0, 0, 0), u, v, w);
 
-    Camera *camera;
     camera = new PerspectiveCamera("persp", basis, 1.0, fb_w, fb_h, 1.0, 1.0 / aspectRatio);
 
-    int renderCount(0);
+    // Generate texture object
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    glPixelStorei(GL_PACK_ALIGNMENT, 1);
+    glGenTextures(1, &texture);
+
+    // Move to draw() ?
+    glBindTexture(GL_TEXTURE_2D, texture);
+    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+    // float borderColor[] = {1.0f, 0.0f, 0.0f, 1.0f};
+    // glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    // // Generate framebuffer object
+    // GLuint fboId;
+    // glGenFramebuffers(1, &fboId);
+    // glBindFramebuffer(GL_FRAMEBUFFER, fboId);
+
+    // // Attach the texture to FBO color attachment point
+    // glFramebufferTexture2D(GL_FRAMEBUFFER,       // 1. fbo target: GL_FRAMEBUFFER
+    //                        GL_COLOR_ATTACHMENT0, // 2. attachment point
+    //                        GL_TEXTURE_2D,        // 3. tex target: GL_TEXTURE_2D
+    //                        texture,              // 4. tex ID
+    //                        0);                   // 5. mipmap level: 0(base)
+
+    // // Switch back to GLFW framebuffer
+    // glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+    // // set rendering destination to FBO
+    // glBindFramebuffer(GL_FRAMEBUFFER, fboId);
+
+    // // clear buffers
+    // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    // // draw a scene to a texture directly
+
+    // // unbind FBO
+    // glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+    //
+    // glBindTexture(GL_TEXTURE_2D, texture);
+
+    // Unbind texture
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    draw();
+
     while (!glfwWindowShouldClose(window))
     {
-        // Render code goes here
-        std::cout << "renderCount " << renderCount << std::endl;
-        Framebuffer fb(renderCycle(renderCount, 0, camera, sphereNormal, fb_w, fb_h));
-        // Framebuffer fb(fb_w, fb_h);
-        std::cout << "renderCount " << renderCount << std::endl;
-
-        float *pixels = framebufferToGLPixelArray(fb);
-        std::cout << "hello" << std::endl;
-        // for (size_t i(0); i < 3 * fb_w * fb_h; ++i)
-        // {
-        //     std::cout << pixels[i] << " ";
-        //     if (i % 3 == 2)
-        //         std::cout << std::endl;
-        // }
-
-        GLuint texture;
-        glGenTextures(1, &texture);
-
-        glBindTexture(GL_TEXTURE_2D, texture);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-
-        float borderColor[] = {1.0f, 0.0f, 0.0f, 1.0f};
-        glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
-
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, fb_w, fb_h, 0, GL_RGB, GL_FLOAT, pixels);
-
-        //! I think this line is causing problems
-        glBlitNamedFramebuffer(texture, 0, 0, 0, fb_w, fb_h, 0, 0, fb_w, fb_h, GL_COLOR_BUFFER_BIT, GL_NEAREST);
-
         // Event polling
-        glfwPollEvents();
+        glfwWaitEvents();
 
         if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         {
             glfwSetWindowShouldClose(window, GL_TRUE);
         }
 
-        if (glfwGetKey(window, GLFW_KEY_H) == GLFW_PRESS)
+        if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
         {
-            std::cout << "Test";
+            std::cout << "Reload Render" << std::endl;
         }
     }
 
     glfwTerminate();
     return 0;
-}
-
-Framebuffer renderCycle(int &count, const int index, Camera *cam, Framebuffer (*fb)(size_t, size_t, Camera *), const size_t nx, const size_t ny)
-{
-    if (count == index)
-    {
-        ++count;
-        return fb(nx, ny, cam);
-    }
-
-    return Framebuffer();
 }
 
 Framebuffer sphereNormal(const size_t nx, const size_t ny, Camera *cam)

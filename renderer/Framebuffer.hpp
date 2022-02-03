@@ -38,10 +38,10 @@ namespace renderer
     }
 
   protected:
-    friend float *framebufferToGLPixelArray(const Framebuffer &fb);
+    friend void framebufferToGLPixelArray(const Framebuffer &fb, float *pixels);
   };
 
-  float *framebufferToGLPixelArray(const Framebuffer &fb);
+  void framebufferToGLPixelArray(const Framebuffer &fb, float *pixels);
 
 }
 
