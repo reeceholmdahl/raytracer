@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "boost/filesystem.hpp"
+#include <boost/filesystem.hpp>
 
 #include "Camera.hpp"
 #include "PerspectiveCamera.hpp"
@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
   Triangle tri(Vec3d(0.25, 0, 2), Vec3d(0, 0.1, 2.1), Vec3d(-0.1, -0.1, 2));
   Sphere sph(Vec3d(-0.15, -0.15, 2), 0.25);
 
-  PointLight light(Vec3d(0, 0, 0), Vec3f(1, 1, 1));
+  PointLight light(Vec3d(1, 1, 1), Vec3f(1, 1, 1));
 
   Camera *cam;
   cam = new PerspectiveCamera("persp", CoordinateSys::CAMERA_DEFAULT, 1.0);

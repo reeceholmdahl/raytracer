@@ -22,7 +22,7 @@ public:
 
   void exportAsPNG(const std::string &outputFileName) const;
 
-  void clearColor(const Vec3f &color = Vec3f(1.0, 1.0, 1.0));
+  void clearColor(const Vec3f &color = Vec3f(0.0f, 0.0f, 0.0f));
 
 private:
   size_t m_width, m_height;
