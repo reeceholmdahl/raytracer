@@ -118,7 +118,25 @@
 				"type": "shell",
 				"command": "cmake --build ${workspaceFolder}\\build --target clean",
 				"problemMatcher": []
-			}
+			},
+			{
+				"label": "CTest: All",
+				"type": "shell",
+				"command": "cd ${workspaceFolder}\\build; ctest; cd ${workspaceFolder}",
+				"problemMatcher": []
+			},
+			{
+				"label": "CTest: Tests",
+				"type": "shell",
+				"command": "cd ${workspaceFolder}\\build; ctest -L a; cd ${workspaceFolder}",
+				"problemMatcher": []
+			},
+			{
+				"label": "CTest: Unit Tests",
+				"type": "shell",
+				"command": "cd ${workspaceFolder}\\build; ctest -L b; cd ${workspaceFolder}",
+				"problemMatcher": []
+			},
 		]
 	}
 }

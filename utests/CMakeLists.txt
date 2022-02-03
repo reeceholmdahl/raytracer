@@ -20,12 +20,7 @@ endforeach(renderer_subdir)
 # 
 set(UTESTS 
   utest_Vector3D
-  utest_Framebuffer
-  utest_Vector3
-  utest_Cameras
-  utest_Miscellaneous
-  utest_RayDirectionColor
-  utest_LambertianShading)
+  utest_Vector3)
 
 # 
 # For each of the executables named in ${UTESTS}, compile them into a
@@ -40,6 +35,10 @@ foreach(uexec ${UTESTS})
   target_link_libraries(${uexec} ${Boost_LIBRARIES})
   target_link_libraries(${uexec} ${PNG_LIBRARY})
   target_link_libraries(${uexec} ${ZLIB_LIBRARY})
+
+  # add test
+  ADD_TEST(${uexec} ${CMAKE_BINARY_DIR}/utests/${uexec})
+  set_property(TEST ${uexec} PROPERTY LABELS b)
 endforeach(uexec)
 
 #
@@ -47,6 +46,6 @@ endforeach(uexec)
 # here in the ADD_TEST macro will be executed when make test is
 # called.
 #
-foreach(uexec ${UTESTS})
-  ADD_TEST(${uexec} ${CMAKE_BINARY_DIR}/utests/${uexec})
-endforeach(uexec)
+#foreach(uexec ${UTESTS})
+#  ADD_TEST(${uexec} ${CMAKE_BINARY_DIR}/utests/${uexec})
+#endforeach(uexec)
