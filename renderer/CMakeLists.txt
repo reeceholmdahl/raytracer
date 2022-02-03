@@ -17,6 +17,7 @@ endforeach(subdir)
 
 target_sources(renderer
     PRIVATE
+        renderer.cpp renderer.hpp
         Framebuffer.cpp Framebuffer.hpp
         SceneContainer.cpp SceneContainer.hpp)
 

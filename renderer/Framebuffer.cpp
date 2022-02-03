@@ -5,6 +5,8 @@
 #include "Vector3.hpp"
 #include "png++/png.hpp"
 
+using namespace renderer;
+
 Framebuffer::Framebuffer(size_t width, size_t height)
     : m_width(width), m_height(height), m_pixelArray(m_width * m_height)
 {

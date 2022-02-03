@@ -1,10 +1,13 @@
 #include "boost/filesystem.hpp"
 
+#include "renderer.hpp"
 #include "Vector3.hpp"
 #include "CoordinateSys.hpp"
 #include "PerspectiveCamera.hpp"
 #include "Framebuffer.hpp"
 #include "handleGraphicsArgs.h"
+
+using namespace renderer;
 
 namespace fs = boost::filesystem;
 

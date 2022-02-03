@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include "renderer.hpp"
 #include "Camera.hpp"
 #include "OrthographicCamera.hpp"
 #include "PerspectiveCamera.hpp"
@@ -8,6 +9,8 @@
 #include "Shape.hpp"
 #include "Triangle.hpp"
 #include "Sphere.hpp"
+
+using namespace renderer;
 
 int main()
 {
@@ -35,8 +38,10 @@ int main()
   Triangle t(Vec3d(0.25, 0.25, 3), Vec3d(-0.25, 0.5, 2.75), Vec3d(0, -0.1, 3.25));
   Sphere s(Vec3d(0.06, 0, 7), 0.5);
 
-  for (size_t i = 0; i < camera->pixels_x(); ++i) {
-    for (size_t j = 0; j < camera->pixels_y(); ++j) {
+  for (size_t i = 0; i < camera->pixels_x(); ++i)
+  {
+    for (size_t j = 0; j < camera->pixels_y(); ++j)
+    {
       auto r = camera->generateRay(i, j);
 
       double triT, sphT;
@@ -45,13 +50,19 @@ int main()
       bool sHit(s.closestHit(r, 0, INFINITY, sphT));
 
       Vec3f color;
-      if (sHit && tHit) {
-        if (triT < sphT) {
+      if (sHit && tHit)
+      {
+        if (triT < sphT)
+        {
           color = Vec3f(0, 1, 0);
-        } else {
+        }
+        else
+        {
           color = Vec3f(0, 0, 1);
         }
-      } else {
+      }
+      else
+      {
         color = Vec3f(0, tHit ? 1 : 0, sHit ? 1 : 0);
       }
 
