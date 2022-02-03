@@ -5,10 +5,10 @@
 # src files.
 #
 include_directories(${CMAKE_SOURCE_DIR}/src)
-include_directories(${CMAKE_SOURCE_DIR}/src/renderer)
+include_directories(${CMAKE_SOURCE_DIR}/renderer)
 
 foreach(renderer_subdir ${RENDERER_SUBDIRS})
-  include_directories(${CMAKE_SOURCE_DIR}/src/renderer/${renderer_subdir})
+  include_directories(${CMAKE_SOURCE_DIR}/renderer/${renderer_subdir})
 endforeach(renderer_subdir)
 
 # 

@@ -10,10 +10,10 @@ add_library (sive-util
   XMLSceneParser.h XMLSceneParser.cpp
 )
 
-add_subdirectory(renderer)
+#add_subdirectory(renderer)
 
 target_link_libraries(sive-util renderer)
 
 foreach(subdir ${RENDERER_SUBDIRS})
-  include_directories(renderer/${subdir})
+  include_directories(${CMAKE_SOURCE_DIR}/renderer/${subdir})
 endforeach(subdir)
