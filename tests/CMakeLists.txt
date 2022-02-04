@@ -10,7 +10,8 @@ SET(TESTS
     test_Cameras
     test_Miscellaneous
     test_RayDirectionColor
-    test_LambertianShading)
+    test_LambertianShading
+    test_SphereNormal)
 
 foreach(exec ${TESTS})
   add_executable(${exec} ${BUNDLEOPTS} ${exec}.cpp)
