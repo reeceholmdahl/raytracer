@@ -4,8 +4,12 @@
 #include <boost/filesystem.hpp>
 
 #include "handleGraphicsArgs.h"
+
+#include "renderer.hpp"
 #include "Vector3.hpp"
 #include "Framebuffer.hpp"
+
+using namespace renderer;
 
 namespace fs = boost::filesystem;
 

@@ -2,6 +2,7 @@
 
 #include <boost/filesystem.hpp>
 
+#include "renderer.hpp"
 #include "Camera.hpp"
 #include "PerspectiveCamera.hpp"
 #include "Vector3.hpp"
@@ -12,6 +13,8 @@
 #include "PointLight.hpp"
 
 #include "handleGraphicsArgs.h"
+
+using namespace renderer;
 
 namespace fs = boost::filesystem;
 

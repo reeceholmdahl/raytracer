@@ -11,6 +11,3 @@ target_link_libraries (basicCode glfw ${GLFW_STATIC_LIBRARIES})
 target_link_libraries (basicCode ${Vulkan_LIBRARIES})
 target_link_libraries (basicCode ${PNG_LIBRARIES})
 target_link_libraries (basicCode ${ZLIB_LIBRARIES})
-
-add_subdirectory(OpenGL)
-add_subdirectory(Vulkan)

@@ -1,8 +1,11 @@
 #include <iostream>
 
+#include "renderer.hpp"
 #include "Vector3.hpp"
 #include "CoordinateSys.hpp"
 #include "Sphere.hpp"
+
+using namespace renderer;
 
 int main()
 {

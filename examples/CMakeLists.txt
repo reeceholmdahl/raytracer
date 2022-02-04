@@ -54,3 +54,6 @@ target_link_libraries(genRandomVals sive-util)
 target_link_libraries(genRandomVals ${Boost_PROGRAM_OPTIONS_LIBRARIES})
 target_link_libraries(genRandomVals ${PNG_LIBRARY})
 target_link_libraries(genRandomVals ${ZLIB_LIBRARY})
+
+add_subdirectory(OpenGL)
+add_subdirectory(Vulkan)
