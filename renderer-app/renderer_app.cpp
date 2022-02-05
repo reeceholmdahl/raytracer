@@ -43,12 +43,28 @@ void renderer::getArguments(size_t &width, size_t &height, size_t &windowWidth, 
 }
 
 // init - app and gui : void
+// builds fields for camera, framebuffer, sets up environment
+
 // initOpenGL - gui : void
+// launches window, sets up scene ready to draw fullscreen quad
 
 // buildScene - app and gui : SceneContainer
+// parses scene file and sets up SceneContainer
+
 // renderScene - app and gui : Framebuffer
+// render scene using built SceneContainer and selected camera to draw Framebuffer
 
 // exportAsPNG - app and gui (optional) : void
+// use drawn Framebuffer(s) to export as png (if app export all cameras at once, if gui export currently viewing one)
+
 // generateTexture - gui : GLuint&
+// generate openGL texture from framebuffer
+
 // drawFrame - gui : void
+// draw full screen quad textured by framebuffer
+
 // changeCamera - gui : void
+// render scene using another camera and re-generateTexture and re-drawFrame
+
+// handleInput - gui : void
+// Passes boolean indicating activation of selected keys and develop respective functionality of handling input
