@@ -167,6 +167,9 @@ add_subdirectory(examples)
 # You will link your renderer library directory here
 add_subdirectory(renderer)
 
+# Add renderer app directory
+add_subdirectory(renderer-app)
+
 #
 # OpenGL Example
 #
