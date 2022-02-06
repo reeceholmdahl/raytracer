@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <cassert>
 
 #include <boost/filesystem.hpp>
 
@@ -53,6 +54,10 @@ void renderer::init(const fs::path &outputPath)
         std::cout << "Creating directory " << outdir.string() << std::endl;
         fs::create_directories(outdir);
     }
+    else
+    {
+        std::cout << "Directory exists" << std::endl;
+    }
 }
 
 // initOpenGL - gui : void
@@ -67,23 +72,59 @@ SceneContainer renderer::buildScene(const fs::path &sceneFile)
 
 // renderScene - app and gui : Framebuffer
 // render scene using built SceneContainer and selected camera to draw Framebuffer
-Framebuffer renderer::renderScene(const size_t width, const size_t height, const SceneContainer &scene)
+Framebuffer renderer::renderScene(const size_t width, const size_t height, const SceneContainer &scene, const int camera)
 {
+    // Camera index is in range
+    assert(camera >= 0 && camera < scene.cameras().size());
 
-    return Framebuffer();
+    Framebuffer fb(width, height);
+    Camera *cam = scene.cameras()[camera];
+
+    for (size_t i(0); i < width; ++i)
+    {
+        for (size_t j(0); j < height; ++j)
+        {
+            auto ray(cam->generateRay(i, j));
+
+            Shape *hitShape;
+            double hit_T(INFINITY);
+            for (Shape *shape : scene.shapes())
+            {
+                double t;
+                auto hit(shape->closestHit(ray, 0.0, INFINITY, t));
+
+                if (hit && t < hit_T)
+                {
+                    hit_T = t;
+                    hitShape = shape;
+                }
+            }
+
+            Vec3f color(0.1f, 0.1f, 0.1f);
+            if (hitShape)
+            {
+                color.set(1.0f, 1.0f, 0.0f);
+            }
+
+            fb.setPixelColor(i, j, color);
+        }
+    }
+
+    return fb;
 }
 
 // exportAsPNG - app and gui (optional) : void
 // use drawn Framebuffer(s) to export as png (if app export all cameras at once, if gui export currently viewing one)
+void renderer::exportAsPNG(const fs::path &outputPath, const std::vector<Framebuffer> &fbs)
+{
+    for (int i(0); i < fbs.size(); ++i)
+    {
+        auto outdir(outputPath.parent_path());
+        auto filename(outputPath.stem().string() + std::to_string(i + 1));
+        auto ext(outputPath.extension().string());
 
-// generateTexture - gui : GLuint&
-// generate openGL texture from framebuffer
-
-// drawFrame - gui : void
-// draw full screen quad textured by framebuffer
-
-// changeCamera - gui : void
-// render scene using another camera and re-generateTexture and re-drawFrame
-
-// handleInput - gui : void
-// Passes boolean indicating activation of selected keys and develop respective functionality of handling input
+        auto output((outdir / (filename + ext)).string());
+        std::cout << output << std::endl;
+        fbs[i].exportAsPNG(output);
+    }
+}

@@ -15,15 +15,15 @@ public:
   SceneContainer() = default;
   SceneContainer(const SceneContainer &sc);
 
-  void addCamera(Camera *camera);
-  void addLight(Light *light);
-  void addShape(Shape *shape);
-  void addShader(const std::string &name, Shader *shader);
+  void add(Camera *camera);
+  void add(Light *light);
+  void add(Shape *shape);
+  void add(const std::string &name, Shader *shader);
 
-  std::vector<Camera *> cameras() const;
-  std::vector<Light *> lights() const;
-  std::vector<Shape *> shapes() const;
-  std::map<std::string, Shader *> shaders() const;
+  const std::vector<Camera *> &cameras() const;
+  const std::vector<Light *> &lights() const;
+  const std::vector<Shape *> &shapes() const;
+  const std::map<std::string, Shader *> &shaders() const;
 
 private:
   std::vector<Camera *> m_cameras;

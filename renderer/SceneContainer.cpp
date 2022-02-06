@@ -6,29 +6,40 @@ SceneContainer::SceneContainer(const SceneContainer &sc)
   // Does this need a copy ctor?
 }
 
-void SceneContainer::addCamera(Camera *camera)
+void SceneContainer::add(Camera *camera)
 {
   m_cameras.push_back(camera);
 }
 
-void SceneContainer::addLight(Light *light)
+void SceneContainer::add(Light *light)
 {
   m_lights.push_back(light);
 }
 
-void SceneContainer::addShape(Shape *shape)
+void SceneContainer::add(Shape *shape)
 {
   m_shapes.push_back(shape);
 }
 
-void SceneContainer::addShader(const std::string &name, Shader *shader)
+void SceneContainer::add(const std::string &name, Shader *shader)
 {
   m_shaders[name] = shader;
 }
 
-std::vector<Camera *> SceneContainer::cameras() const
+const std::vector<Camera *> &SceneContainer::cameras() const
 {
+  return m_cameras;
 }
-std::vector<Light *> SceneContainer::lights() const;
-std::vector<Shape *> SceneContainer::shapes() const;
-std::map<std::string, Shader *> SceneContainer::shaders() const;
+
+const std::vector<Light *> &SceneContainer::lights() const
+{
+  return m_lights;
+}
+const std::vector<Shape *> &SceneContainer::shapes() const
+{
+  return m_shapes;
+}
+const std::map<std::string, Shader *> &SceneContainer::shaders() const
+{
+  return m_shaders;
+}

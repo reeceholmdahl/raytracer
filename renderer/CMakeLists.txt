@@ -22,3 +22,5 @@ target_sources(renderer
         SceneContainer.cpp SceneContainer.hpp)
 
 target_link_libraries(renderer sive-util)
+target_link_libraries(renderer ${PNG_LIBRARY})
+target_link_libraries(renderer ${ZLIB_LIBRARY})

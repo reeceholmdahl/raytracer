@@ -139,9 +139,9 @@ int main(int argc, char *argv[])
 
         glBindTexture(GL_TEXTURE_2D, 0);
 
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
-        glTranslatef(0, 0, -15);
+        // glMatrixMode(GL_MODELVIEW);
+        // glLoadIdentity();
+        // glTranslatef(0, 0, -15);
 
         // Swap front and back buffers
         glfwSwapBuffers(window);
