@@ -11,7 +11,8 @@ SET(TESTS
     test_Miscellaneous
     test_RayDirectionColor
     test_LambertianShading
-    test_SphereNormal)
+    test_SphereNormal
+    test_RayTraceTriangle)
 
 foreach(exec ${TESTS})
   add_executable(${exec} ${BUNDLEOPTS} ${exec}.cpp)
