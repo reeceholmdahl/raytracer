@@ -1,10 +1,22 @@
 #include "CoordinateSys.hpp"
 
-const CoordinateSys CoordinateSys::GLOBAL = CoordinateSys(Vec3d(), Vec3d(1, 0, 0), Vec3d(0, 1, 0), Vec3d(0, 0, 1));
-const CoordinateSys CoordinateSys::CAMERA_DEFAULT = CoordinateSys(Vec3d(), Vec3d(1, 0, 0), Vec3d(0, 1, 0), Vec3d(0, 0, -1));
+CoordinateSys::CoordinateSys()
+    : CoordinateSys(Vec3d(0, 0, 0), Vec3d(1, 0, 0), Vec3d(0, 1, 0), Vec3d(0, 0, 1))
+{
+}
+
+CoordinateSys::CoordinateSys(const Vec3d &position)
+    : CoordinateSys(position, Vec3d(1, 0, 0), Vec3d(0, 1, 0), Vec3d(0, 0, 1))
+{
+}
+
+CoordinateSys::CoordinateSys(const Vec3d &u, const Vec3d &v, const Vec3d &w)
+    : CoordinateSys(Vec3d(), u, v, w)
+{
+}
 
 CoordinateSys::CoordinateSys(const Vec3d &position, const Vec3d &u, const Vec3d &v, const Vec3d &w)
-  : m_position(position), m_u(u), m_v(v), m_w(w)
+    : m_position(position), m_u(u), m_v(v), m_w(w)
 {
 }
 

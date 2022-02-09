@@ -6,7 +6,10 @@
 class PerspectiveCamera : public Camera
 {
 public:
-  PerspectiveCamera() = default;
+  const static double DEFAULT_FOCAL_LENGTH;
+
+  PerspectiveCamera();
+  PerspectiveCamera(const std::string &name);
   PerspectiveCamera(const std::string &name, const CoordinateSys &basis, const double focalLength);
   PerspectiveCamera(const std::string &name, const CoordinateSys &basis, const double focalLength, const size_t pixels_x, const size_t pixels_y, const double image_w, const double image_h);
 

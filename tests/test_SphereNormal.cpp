@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
 
   Sphere sph(Vec3d(0, 0, -2), 0.5);
 
-  Camera *cam = new PerspectiveCamera("persp", CoordinateSys::GLOBAL, 1.0, nx, ny, 1.0, 1.0 * ny / nx);
+  Camera *cam = new PerspectiveCamera("persp", CoordinateSys(), 1.0, nx, ny, 1.0, 1.0 * ny / nx);
 
   for (size_t i(0); i < nx; ++i)
   {

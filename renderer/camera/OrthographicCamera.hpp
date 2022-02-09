@@ -8,7 +8,8 @@
 class OrthographicCamera : public Camera
 {
 public:
-  OrthographicCamera() = default;
+  OrthographicCamera();
+  OrthographicCamera(const std::string &name);
   OrthographicCamera(const std::string &name, const CoordinateSys &basis);
   OrthographicCamera(const std::string &name, const CoordinateSys &basis, const size_t pixels_x, const size_t pixels_y, const double image_w, const double image_h);
 

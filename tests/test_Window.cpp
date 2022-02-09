@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
             1.0, 0.0  // bottom right corner
         };
 
-    camera = new PerspectiveCamera("persp", CoordinateSys::GLOBAL, 1.0, nx, ny, 1.0, 1.0 * ny / nx);
+    camera = new PerspectiveCamera();
 
     glViewport(0, 0, nx, ny);        // specifies the part of the window to which OpenGL will draw (in pixels), convert from normalised to pixels
     glMatrixMode(GL_PROJECTION);     // projection matrix defines the properties of the camera that views the objects in the world coordinate frame. Here you typically set the zoom factor, aspect ratio and the near and far clipping planes

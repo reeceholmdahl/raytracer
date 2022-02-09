@@ -7,7 +7,7 @@
 class Triangle : public Shape
 {
 public:
-  Triangle() = default;
+  Triangle();
   Triangle(const Vec3d &a, const Vec3d &b, const Vec3d &c);
   virtual ~Triangle() {}
 

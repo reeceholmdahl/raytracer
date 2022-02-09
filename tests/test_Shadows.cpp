@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
 
     scene.add(new PointLight(Vec3d(1, 2, -1), Vec3f(1, 1, 1)));
 
-    scene.add(new PerspectiveCamera("persp", CoordinateSys::GLOBAL, 1.0, nx, ny, 1.0, 1.0 * ny / nx));
+    scene.add(new PerspectiveCamera());
 
     std::vector<Framebuffer> fbs;
 

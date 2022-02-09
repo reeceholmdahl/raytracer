@@ -1,15 +1,20 @@
 #include "Camera.hpp"
 
 const size_t Camera::DEFAULT_PIXELS_XY = 100;
-const double Camera::DEFAULT_IMAGE_WH = 1.0;
+const double Camera::DEFAULT_IMAGE_WH = 0.5;
+
+Camera::Camera(const std::string &name)
+    : Camera(name, CoordinateSys())
+{
+}
 
 Camera::Camera(const std::string &name, const CoordinateSys &basis)
-  : m_name(name), m_basis(basis), m_pixels_x(DEFAULT_PIXELS_XY), m_pixels_y(DEFAULT_PIXELS_XY), m_image_w(DEFAULT_IMAGE_WH), m_image_h(DEFAULT_IMAGE_WH)
+    : Camera(name, basis, DEFAULT_PIXELS_XY, DEFAULT_PIXELS_XY, DEFAULT_IMAGE_WH, DEFAULT_IMAGE_WH)
 {
 }
 
 Camera::Camera(const std::string &name, const CoordinateSys &basis, const size_t pixels_x, const size_t pixels_y, const double image_w, const double image_h)
-  : m_name(name), m_basis(basis), m_pixels_x(pixels_x), m_pixels_y(pixels_y), m_image_w(image_w), m_image_h(image_h)
+    : m_name(name), m_basis(basis), m_pixels_x(pixels_x), m_pixels_y(pixels_y), m_image_w(image_w), m_image_h(image_h)
 {
 }
 

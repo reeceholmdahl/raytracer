@@ -35,17 +35,15 @@ int main(int argc, char *argv[])
 
   Framebuffer fb(nx, ny);
 
-  Triangle tri(Vec3d(0.25, 0, 2), Vec3d(0, 0.1, 2.1), Vec3d(-0.1, -0.1, 2));
-  Sphere sph(Vec3d(-0.15, -0.15, 2), 0.25);
+  Triangle tri(Vec3d(0.25, 0, -2), Vec3d(0, 0.1, -2.1), Vec3d(-0.1, -0.1, -2));
+  Sphere sph(Vec3d(-0.15, -0.15, -2), 0.25);
 
-  PointLight light(Vec3d(1, 1, 1), Vec3f(1, 1, 1));
+  PointLight light(Vec3d(1, 1, -1), Vec3f(1, 1, 1));
 
   Camera *cam;
-  cam = new PerspectiveCamera("persp", CoordinateSys::CAMERA_DEFAULT, 1.0);
+  cam = new PerspectiveCamera();
   cam->set_pixels_x(nx);
   cam->set_pixels_y(ny);
-  cam->set_image_w(1.0);
-  cam->set_image_h(1.0 * ny / nx);
 
   for (size_t i = 0; i < nx; ++i)
   {

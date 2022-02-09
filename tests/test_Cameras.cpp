@@ -35,8 +35,8 @@ int main()
   // camera = new OrthographicCamera("camera", ori);
 
   Framebuffer f(camera->pixels_x(), camera->pixels_y());
-  Triangle t(Vec3d(0.25, 0.25, 3), Vec3d(-0.25, 0.5, 2.75), Vec3d(0, -0.1, 3.25));
-  Sphere s(Vec3d(0.06, 0, 7), 0.5);
+  Triangle t(Vec3d(0.25, 0.25, -3), Vec3d(-0.25, 0.5, -2.75), Vec3d(0, -0.1, -3.25));
+  Sphere s(Vec3d(0.06, 0, -7), 0.5);
 
   for (size_t i = 0; i < camera->pixels_x(); ++i)
   {

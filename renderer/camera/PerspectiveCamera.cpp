@@ -1,7 +1,19 @@
 #include "PerspectiveCamera.hpp"
 
+const double PerspectiveCamera::DEFAULT_FOCAL_LENGTH = 1.0;
+
+PerspectiveCamera::PerspectiveCamera()
+    : PerspectiveCamera("perspective") //! Should replace name with UUID
+{
+}
+
+PerspectiveCamera::PerspectiveCamera(const std::string &name)
+    : PerspectiveCamera(name, CoordinateSys(), DEFAULT_FOCAL_LENGTH)
+{
+}
+
 PerspectiveCamera::PerspectiveCamera(const std::string &name, const CoordinateSys &basis, const double focalLength)
-    : Camera(name, basis), m_focalLength(focalLength)
+    : PerspectiveCamera(name, basis, focalLength, DEFAULT_PIXELS_XY, DEFAULT_PIXELS_XY, DEFAULT_IMAGE_WH, DEFAULT_IMAGE_WH)
 {
 }
 
@@ -12,18 +24,18 @@ PerspectiveCamera::PerspectiveCamera(const std::string &name, const CoordinateSy
 
 Ray PerspectiveCamera::generateRay(const size_t i, const size_t j) const
 {
-  // Can be calculated on position change, image size change, or framebuffer change
-  auto l = -image_w() / 2;
-  auto r = image_w() / 2;
-  auto b = -image_h() / 2;
-  auto t = image_h() / 2;
+    // Can be calculated on position change, image size change, or framebuffer change
+    auto l = -image_w() / 2;
+    auto r = image_w() / 2;
+    auto b = -image_h() / 2;
+    auto t = image_h() / 2;
 
-  auto u = l + (r - l) * (i + 0.5) / pixels_x();
-  auto v = b + (t - b) * (j + 0.5) / pixels_y();
+    auto u = l + (r - l) * (i + 0.5) / pixels_x();
+    auto v = b + (t - b) * (j + 0.5) / pixels_y();
 
-  Vec3d origin, direction(u, v, -m_focalLength);
+    Vec3d origin, direction(u, v, -m_focalLength);
 
-  Ray ray(basis().toGlobal(origin), basis().toGlobal(direction));
+    Ray ray(basis().toGlobal(origin), basis().toGlobal(direction));
 
-  return ray;
+    return ray;
 }

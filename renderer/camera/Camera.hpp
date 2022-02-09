@@ -14,7 +14,7 @@ public:
   const static size_t DEFAULT_PIXELS_XY;
   const static double DEFAULT_IMAGE_WH;
 
-  Camera() = default;
+  Camera(const std::string &name);
   Camera(const std::string &name, const CoordinateSys &basis);
   Camera(const std::string &name, const CoordinateSys &basis, const size_t pixels_x, const size_t pixels_y, const double image_w, const double image_h);
   virtual ~Camera() {}
