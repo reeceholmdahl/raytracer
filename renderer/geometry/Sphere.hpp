@@ -7,7 +7,7 @@
 class Sphere : public Shape
 {
 public:
-  Sphere() = default;
+  Sphere();
   Sphere(const Vec3d &position, const double radius);
   virtual ~Sphere() {}
 

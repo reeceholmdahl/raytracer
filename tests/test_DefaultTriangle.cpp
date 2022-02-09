@@ -73,8 +73,8 @@ int main(int argc, char *argv[])
         }
     }
 
-    fbPersp.exportAsPNG((outdir / "test_RayTraceTrianglePerspective.test.png").string());
-    fbOrtho.exportAsPNG((outdir / "test_RayTraceTriangleOrthographic.test.png").string());
+    fbPersp.exportAsPNG((outdir / "test_DefaultTrianglePerspective.test.png").string());
+    fbOrtho.exportAsPNG((outdir / "test_DefaultTriangleOrthographic.test.png").string());
 
     return 0;
 }
