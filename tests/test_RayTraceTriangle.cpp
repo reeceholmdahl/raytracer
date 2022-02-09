@@ -35,10 +35,15 @@ int main(int argc, char *argv[])
     Framebuffer fbPersp(nx, ny);
     Framebuffer fbOrtho(nx, ny);
 
-    Triangle tri(Vec3d(0, 0.5, -2.5), Vec3d(-0.25, -0.25, -2.5), Vec3d(0.25, -0.25, -2.5));
+    Triangle tri;
 
-    Camera *persp = new PerspectiveCamera("persp", CoordinateSys::GLOBAL, 1.0, nx, ny, 1.0, 1.0 * ny / nx);
-    Camera *ortho = new OrthographicCamera("ortho", CoordinateSys::GLOBAL, nx, ny, 1.0, 1.0 * ny / nx);
+    Camera *persp = new PerspectiveCamera();
+    Camera *ortho = new OrthographicCamera();
+
+    persp->set_pixels_x(nx);
+    persp->set_pixels_y(ny);
+    ortho->set_pixels_x(nx);
+    ortho->set_pixels_y(ny);
 
     for (size_t i(0); i < nx; ++i)
     {
