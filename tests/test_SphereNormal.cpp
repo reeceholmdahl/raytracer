@@ -33,9 +33,12 @@ int main(int argc, char *argv[])
 
   Framebuffer fb(nx, ny);
 
-  Sphere sph(Vec3d(0, 0, -2), 0.5);
+  Sphere sph;
 
-  Camera *cam = new PerspectiveCamera("persp", CoordinateSys(), 1.0, nx, ny, 1.0, 1.0 * ny / nx);
+  Camera *cam = new PerspectiveCamera();
+
+  cam->set_pixels_x(nx);
+  cam->set_pixels_y(ny);
 
   for (size_t i(0); i < nx; ++i)
   {
