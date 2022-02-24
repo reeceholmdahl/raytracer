@@ -15,7 +15,7 @@ using namespace renderer;
 int main()
 {
   // CoordinateSys ori = CoordinateSys::global;
-  Vec3d u, v, w;
+  Vec3d u, w;
   const double pi = 2 * acos(0.0);
   const double angle = 0 * pi / 180;
   u = Vec3d(cos(angle), 0, sin(angle));
@@ -23,12 +23,10 @@ int main()
   // v = Vec3d(cos(angle + pi / 2), sin(angle + pi / 2), 0);
   u = u.unitize();
   w = w.unitize();
-  v = -u.cross(w);
   // v = v.unitize();
   // w = u.cross(v);
-  CoordinateSys ori(Vec3d(-0.1, 0, -0.25), u, v, -w);
+  CoordinateSys ori(Vec3d(-0.1, 0, -0.25), u, w);
   std::cout << "u: " << u << std::endl
-            << "v: " << v << std::endl
             << "w: " << w << std::endl;
   Camera *camera;
   camera = new PerspectiveCamera("camera", ori, 1.0);

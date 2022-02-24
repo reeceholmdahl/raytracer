@@ -34,8 +34,14 @@ Ray PerspectiveCamera::generateRay(const size_t i, const size_t j) const
     auto v = b + (t - b) * (j + 0.5) / pixels_y();
 
     Vec3d origin, direction(u, v, -m_focalLength);
+    direction.set(
+        basis().u().dot(direction),
+        basis().v().dot(direction),
+        basis().w().dot(direction));
 
-    Ray ray(basis().toGlobal(origin), basis().toGlobal(direction));
+    // Ray ray(basis().toGlobal(origin), basis().toGlobal(direction));
+    Ray ray(basis().toGlobal(origin), direction);
+    // Ray ray(basis().toGlobal(origin), direction);
 
     return ray;
 }

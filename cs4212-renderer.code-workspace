@@ -89,7 +89,8 @@
 			"xlocmes": "cpp",
 			"xlocmon": "cpp",
 			"xloctime": "cpp",
-			"*.ipp": "cpp"
+			"*.ipp": "cpp",
+			"mutex": "cpp"
 		},
 		"editor.cursorBlinking": "phase",
 		"editor.cursorSmoothCaretAnimation": true

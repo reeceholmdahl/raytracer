@@ -23,7 +23,7 @@ int main()
             << "udotw: " << udotw << std::endl
             << "vdotw: " << vdotw << std::endl;
 
-  CoordinateSys basis(Vec3d(), u, v, w);
+  CoordinateSys basis(Vec3d(), u, w);
 
   Vec3d a(0.5, 0.5, 0);
 
