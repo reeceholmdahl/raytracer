@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
     {
       auto r(cam->generateRay(i, j));
 
-      Shader *shader = new LambertShader(Vec3f(), Vec3f(0, 0, 1));
+      Shader *shader = new LambertShader(Vec3f(0.15, 0.15, 0.15), Vec3f(0, 0, 1));
       HitStruct hit;
       hit.t = INFINITY;
       for (Shape *shape : shapes)

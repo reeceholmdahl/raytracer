@@ -1,7 +1,7 @@
 #include "LambertShader.hpp"
 
 LambertShader::LambertShader(const Vec3f &ambient, const Vec3f &color)
-    : Shader(ambient), m_color(color)
+    : Shader(ambient), m_diffuse(color)
 {
 }
 
@@ -16,7 +16,7 @@ Vec3f LambertShader::apply(const HitStruct &hit) const
         intensity += light->intensity() * std::max(0.0, normal.dot(hitToLight));
     }
 
-    auto color = m_color * intensity;
+    auto color = m_diffuse * intensity + m_diffuse * m_ambient;
     color.set(
         std::min(1.0f, color[0]),
         std::min(1.0f, color[1]),
