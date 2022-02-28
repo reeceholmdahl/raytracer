@@ -14,6 +14,7 @@
 #include "Sphere.hpp"
 #include "Light.hpp"
 #include "PointLight.hpp"
+#include "LambertShader.hpp"
 
 #include "handleGraphicsArgs.h"
 
@@ -58,11 +59,15 @@ int main(int argc, char *argv[])
     {
       auto r(cam->generateRay(i, j));
 
+      Shader *shader = new LambertShader(Vec3f(), Vec3f(0, 0, 1));
       HitStruct hit;
       hit.t = INFINITY;
       for (Shape *shape : shapes)
       {
+        shape->shaderPtr = shader;
+
         auto testHit = HitStruct();
+        testHit.lights = &lights;
         if (shape->closestHit(r, 1, hit.t, testHit))
         {
           hit = testHit;

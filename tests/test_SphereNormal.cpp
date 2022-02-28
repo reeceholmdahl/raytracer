@@ -9,6 +9,7 @@
 #include "CoordinateSys.hpp"
 #include "Framebuffer.hpp"
 #include "Sphere.hpp"
+#include "NormalShader.hpp"
 
 #include "handleGraphicsArgs.h"
 
@@ -34,6 +35,7 @@ int main(int argc, char *argv[])
   Framebuffer fb(nx, ny);
 
   Sphere sph;
+  sph.shaderPtr = new NormalShader();
 
   Camera *cam = new PerspectiveCamera();
 
@@ -44,19 +46,14 @@ int main(int argc, char *argv[])
   {
     for (size_t j(0); j < ny; ++j)
     {
-      auto ray(cam->generateRay(i, j));
+      auto r(cam->generateRay(i, j));
 
       auto hit = HitStruct();
 
       Vec3f color(0.1, 0.1, 0.1);
-      if (sph.closestHit(ray, 0, INFINITY, hit))
+      if (sph.closestHit(r, 1, INFINITY, hit))
       {
-        auto normal(sph.normal(hit.hitPoint()));
-
-        // normal shading
-        color = normal;
-        color += Vec3f(1.0, 1.0, 1.0);
-        color /= 2;
+        color = hit.shaderPtr->apply(hit);
       }
 
       fb.setPixelColor(i, j, color);

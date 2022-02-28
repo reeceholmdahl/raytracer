@@ -14,7 +14,7 @@ Triangle::Triangle(const Vec3d &a, const Vec3d &b, const Vec3d &c)
 {
   auto AB(m_b - m_a);
   auto BC(m_c - m_b);
-  m_normal = BC.cross(AB).unitize();
+  m_normal = -BC.cross(AB).unitize();
 }
 
 bool Triangle::closestHit(const Ray &r, const double tmin, const double tmax, HitStruct &hit) const

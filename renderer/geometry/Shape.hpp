@@ -15,7 +15,7 @@ public:
 
   virtual Vec3d normal(const Vec3d &position) const = 0;
 
-protected:
+  //! protected: set to protected later with friend accessor for scene container/json parser
   Shader *shaderPtr;
 };
 
