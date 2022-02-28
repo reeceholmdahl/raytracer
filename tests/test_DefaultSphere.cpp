@@ -52,20 +52,19 @@ int main(int argc, char *argv[])
             auto orthoRay(ortho->generateRay(i, j));
             auto perspRay(persp->generateRay(i, j));
 
-            double hit_T;
-            auto hitPersp(sph.closestHit(perspRay, 1, INFINITY, hit_T));
-            auto hitOrtho(sph.closestHit(orthoRay, 1, INFINITY, hit_T));
+            auto hitOrtho = HitStruct();
+            auto hitPersp = HitStruct();
 
             Vec3f colorPersp(0.1, 0.1, 0.1);
             Vec3f colorOrtho(0.1, 0.1, 0.1);
-            if (hitPersp)
+            if (sph.closestHit(perspRay, 1, INFINITY, hitPersp))
             {
-                colorPersp.set(0, 1, 0.25);
+                colorPersp = hitPersp.shaderPtr->apply(hitPersp);
             }
 
-            if (hitOrtho)
+            if (sph.closestHit(orthoRay, 1, INFINITY, hitOrtho))
             {
-                colorOrtho.set(0, 1, 0.25);
+                colorOrtho = hitOrtho.shaderPtr->apply(hitOrtho);
             }
 
             fbPersp.setPixelColor(i, j, colorPersp);

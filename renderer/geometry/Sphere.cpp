@@ -11,8 +11,13 @@ Sphere::Sphere(const Vec3d &position, const double radius)
 {
 }
 
-bool Sphere::closestHit(const Ray &r, const double tmin, const double tmax, double &t) const
+bool Sphere::closestHit(const Ray &r, const double tmin, const double tmax, HitStruct &hit) const
 {
+  hit.ray = r;
+  hit.shaderPtr = shaderPtr;
+  hit.shape = this;
+  // std::cout << "After ray and shaderptr assignment" << std::endl;
+
   // discriminant b^2-4ac, negative no solutions, zero one solution, positive two solutions
   auto eminusc(r.origin() - m_position);
   auto d(r.direction());
@@ -26,9 +31,9 @@ bool Sphere::closestHit(const Ray &r, const double tmin, const double tmax, doub
   if (discriminant == 0.0)
   {
     double t1 = num / denom;
-    if (t < tmin || t > tmax)
+    if (t1 < tmin || t1 > tmax)
       return false;
-    t = t1;
+    hit.t = t1;
   }
   else
   {
@@ -37,16 +42,10 @@ bool Sphere::closestHit(const Ray &r, const double tmin, const double tmax, doub
 
     if ((t1 < tmin && t2 < tmin) || (t1 > tmax && t2 > tmax))
       return false;
-    t = std::min(t1, t2);
+    hit.t = std::min(t1, t2);
   }
 
   return true;
-}
-
-bool Sphere::closestHit(const Ray &r) const
-{
-  double t;
-  return closestHit(r, 0, INFINITY, t);
 }
 
 Vec3d Sphere::normal(const Vec3d &position) const

@@ -1,7 +1,12 @@
 #include "Ray.hpp"
 
+Ray::Ray(const Ray &r)
+    : Ray(r.m_origin, r.m_direction)
+{
+}
+
 Ray::Ray(const Vec3d &origin, const Vec3d &direction)
-  : m_origin(origin), m_direction(direction)
+    : m_origin(origin), m_direction(direction)
 {
 }
 

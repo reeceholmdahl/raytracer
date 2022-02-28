@@ -1,3 +1,5 @@
 target_sources(renderer
     PRIVATE
-        Shader.cpp Shader.hpp)
+        HitStruct.hpp
+        Shader.cpp Shader.hpp
+        NullShader.cpp NullShader.hpp)

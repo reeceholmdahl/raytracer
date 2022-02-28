@@ -7,7 +7,6 @@ endforeach(renderer_subdir)
 
 SET(TESTS
     test_Framebuffer
-    test_Cameras
     test_Miscellaneous
     test_RayDirectionColor
     test_LambertianShading

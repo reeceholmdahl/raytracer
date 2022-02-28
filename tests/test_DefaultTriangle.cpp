@@ -10,6 +10,7 @@
 #include "CoordinateSys.hpp"
 #include "Framebuffer.hpp"
 #include "Triangle.hpp"
+#include "HitStruct.hpp"
 
 #include "handleGraphicsArgs.h"
 
@@ -52,20 +53,19 @@ int main(int argc, char *argv[])
             auto orthoRay(ortho->generateRay(i, j));
             auto perspRay(persp->generateRay(i, j));
 
-            double hit_T;
-            auto hitPersp(tri.closestHit(perspRay, 1, INFINITY, hit_T));
-            auto hitOrtho(tri.closestHit(orthoRay, 1, INFINITY, hit_T));
+            auto hitOrtho = HitStruct();
+            auto hitPersp = HitStruct();
 
             Vec3f colorPersp(0.1, 0.1, 0.1);
             Vec3f colorOrtho(0.1, 0.1, 0.1);
-            if (hitPersp)
+            if (tri.closestHit(perspRay, 1, INFINITY, hitPersp))
             {
-                colorPersp.set(1, 1, 0);
+                colorPersp = hitPersp.shaderPtr->apply(hitPersp);
             }
 
-            if (hitOrtho)
+            if (tri.closestHit(orthoRay, 1, INFINITY, hitOrtho))
             {
-                colorOrtho.set(1, 1, 0);
+                colorOrtho = hitOrtho.shaderPtr->apply(hitOrtho);
             }
 
             fbPersp.setPixelColor(i, j, colorPersp);

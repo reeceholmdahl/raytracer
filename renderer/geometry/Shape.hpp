@@ -3,17 +3,21 @@
 
 #include "Vector3.hpp"
 #include "Ray.hpp"
+#include "Shader.hpp"
 
 class Shape
 {
 public:
-  Shape() = default;
+  Shape(Shader *shaderPtr = Shader::NULL_SHADER);
   virtual ~Shape() {}
 
-  virtual bool closestHit(const Ray &r, const double tmin, const double tmax, double &t) const = 0;
-  virtual bool closestHit(const Ray &r) const = 0;
+  virtual bool closestHit(const Ray &r, const double tmin, const double tmax, HitStruct &hit) const = 0;
 
   virtual Vec3d normal(const Vec3d &position) const = 0;
+
+protected:
+  Shader *shaderPtr;
 };
 
 #endif
+#include "HitStruct.hpp"

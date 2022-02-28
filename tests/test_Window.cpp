@@ -196,13 +196,12 @@ Framebuffer sphereNormal(const size_t nx, const size_t ny, Camera *cam)
         {
             auto ray(cam->generateRay(i, j));
 
-            double hit_T(0);
-            auto hit(sph.closestHit(ray, 0, INFINITY, hit_T));
+            auto hit = HitStruct();
 
             Vec3f color(0.1, 0.1, 0.1);
-            if (hit)
+            if (sph.closestHit(ray, 1, INFINITY, hit))
             {
-                auto normal(sph.normal(ray.point(hit_T)));
+                auto normal(sph.normal(hit.hitPoint()));
 
                 // normal shading
                 color = normal;

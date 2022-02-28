@@ -1,23 +1,24 @@
 #ifndef _SHADER_REECE_
 #define _SHADER_REECE_
 
-#include <string>
-
 #include "Vector3.hpp"
+
+class HitStruct;
 
 class Shader
 {
 public:
   const static Vec3f DEFAULT_AMBIENT;
+  static Shader *NULL_SHADER;
 
-  Shader(const std::string &name, const Vec3f &ambient = DEFAULT_AMBIENT);
+  Shader(const Vec3f &ambient = DEFAULT_AMBIENT);
   virtual ~Shader() {}
 
-  const std::string &name() const;
   const Vec3f &ambient() const;
 
+  virtual Vec3f apply(const HitStruct &h) const = 0;
+
 protected:
-  std::string m_name;
   Vec3f m_ambient;
 };
 
