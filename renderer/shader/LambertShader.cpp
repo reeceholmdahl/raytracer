@@ -17,10 +17,10 @@ Vec3f LambertShader::apply(const HitStruct &hit) const
     }
 
     color += m_diffuse * m_ambient;
-    color.set(
-        std::min(1.0f, color[0]),
-        std::min(1.0f, color[1]),
-        std::min(1.0f, color[2]));
+    // color.set(
+    //     std::min(1.0f, color[0]),
+    //     std::min(1.0f, color[1]),
+    //     std::min(1.0f, color[2]));
 
     return color;
 }
