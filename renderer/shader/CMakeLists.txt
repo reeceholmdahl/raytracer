@@ -4,4 +4,5 @@ target_sources(renderer
         Shader.cpp Shader.hpp
         NullShader.cpp NullShader.hpp
         NormalShader.cpp NormalShader.hpp
-        LambertShader.cpp LambertShader.hpp)
+        LambertShader.cpp LambertShader.hpp
+        BlinnPhongShader.cpp BlinnPhongShader.hpp)

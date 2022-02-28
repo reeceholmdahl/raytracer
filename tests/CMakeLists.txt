@@ -12,7 +12,8 @@ SET(TESTS
     test_LambertianShading
     test_SphereNormal
     test_DefaultTriangle
-    test_DefaultSphere)
+    test_DefaultSphere
+    test_BlinnPhongShading)
 
 foreach(exec ${TESTS})
   add_executable(${exec} ${BUNDLEOPTS} ${exec}.cpp)

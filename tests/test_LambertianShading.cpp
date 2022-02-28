@@ -53,13 +53,13 @@ int main(int argc, char *argv[])
   cam->set_pixels_x(nx);
   cam->set_pixels_y(ny);
 
+  Shader *shader = new LambertShader(Vec3f(0.15, 0.15, 0.15), Vec3f(0, 0, 1));
   for (size_t i = 0; i < nx; ++i)
   {
     for (size_t j = 0; j < ny; ++j)
     {
       auto r(cam->generateRay(i, j));
 
-      Shader *shader = new LambertShader(Vec3f(0.15, 0.15, 0.15), Vec3f(0, 0, 1));
       HitStruct hit;
       hit.t = INFINITY;
       for (Shape *shape : shapes)
