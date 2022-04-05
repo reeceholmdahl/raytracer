@@ -29,13 +29,7 @@ int main(int argc, char *argv[])
 
   // Used cmdline arguments
   const size_t nx(args.width), ny(args.height);
-  const fs::path outdir(args.outputDirectory);
-
-  if (!fs::exists(outdir))
-  {
-    std::cout << "Creating directory " << outdir.string() << std::endl;
-    fs::create_directories(outdir);
-  }
+  const fs::path outfile(args.outputFileName);
 
   Framebuffer fb(nx, ny);
 
@@ -140,7 +134,7 @@ int main(int argc, char *argv[])
     }
   }
 
-  fb.exportAsPNG((outdir / "test_LambertianShading.test.png").string());
+  fb.exportAsPNG(outfile.string());
 
   return 0;
 }

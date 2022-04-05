@@ -15,7 +15,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with libsivelab.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -29,42 +29,42 @@
 #include "ArgumentParsing.h"
 #include "Vector3D.h"
 
-namespace sivelab {
-
-// Derived from the Argument parsing class so that each can add to
-// this argument list.
-class GraphicsArgs : public ArgumentParsing
+namespace sivelab
 {
-public:
-  GraphicsArgs();
-  ~GraphicsArgs() {}
 
-  void process(int argc, char *argv[]);
+  // Derived from the Argument parsing class so that each can add to
+  // this argument list.
+  class GraphicsArgs : public ArgumentParsing
+  {
+  public:
+    GraphicsArgs();
+    ~GraphicsArgs() {}
 
-  bool verbose;
-  int windowWidth, windowHeight;
-  int width;
-  int height;
-  float aspectRatio;
-  bool useShadow;
-  Vector3D bgColor;
+    void process(int argc, char *argv[]);
 
-  bool useDepthOfField;
-  float depthOfFieldDistance;
+    bool verbose;
+    int windowWidth, windowHeight;
+    int width;
+    int height;
+    float aspectRatio;
+    bool useShadow;
+    Vector3D bgColor;
 
-  int numCpus;
+    bool useDepthOfField;
+    float depthOfFieldDistance;
 
-  int rpp;
+    int numCpus;
 
-  int recursionDepth;
+    int rpp;
 
-  std::string splitMethod;
+    int recursionDepth;
 
-  std::string inputFileName;
-  std::string outputFileName;
-  std::string outputDirectory;
-};
+    std::string splitMethod;
 
-}// namespace sivelab
+    std::string inputFileName;
+    std::string outputFileName;
+  };
 
-#endif// __HANDLE_ARGS_H__
+} // namespace sivelab
+
+#endif // __HANDLE_ARGS_H__

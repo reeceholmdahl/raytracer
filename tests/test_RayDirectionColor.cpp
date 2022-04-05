@@ -22,13 +22,7 @@ int main(int argc, char *argv[])
   // Used cmdline arguments
   // const size_t nx(args.width), ny(args.height);
   const size_t nx(350), ny(250);
-  const fs::path outdir(args.outputDirectory);
-
-  if (!fs::exists(outdir))
-  {
-    std::cout << "Creating directory " << outdir.string() << std::endl;
-    fs::create_directories(outdir);
-  }
+  const fs::path outdir(fs::path(args.outputFileName).parent_path());
 
   Framebuffer fb(nx, ny);
 

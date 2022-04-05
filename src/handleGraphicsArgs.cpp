@@ -15,7 +15,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with libsivelab.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -26,14 +26,14 @@
 using namespace sivelab;
 
 GraphicsArgs::GraphicsArgs()
-  : verbose(false), width(Camera::DEFAULT_PIXELS_XY), height(Camera::DEFAULT_PIXELS_XY),
-    aspectRatio(1.0), useShadow(true), bgColor(0.0, 0.0, 0.0),
-    useDepthOfField(false),
-    depthOfFieldDistance(0),
-    numCpus(1), rpp(1),
-    recursionDepth(4),
-    splitMethod("objectMedian"),
-    inputFileName(""), outputFileName(""), outputDirectory("")
+    : verbose(false), width(Camera::DEFAULT_PIXELS_XY), height(Camera::DEFAULT_PIXELS_XY),
+      aspectRatio(1.0), useShadow(true), bgColor(0.0, 0.0, 0.0),
+      useDepthOfField(false),
+      depthOfFieldDistance(0),
+      numCpus(1), rpp(1),
+      recursionDepth(4),
+      splitMethod("objectMedian"),
+      inputFileName(""), outputFileName("")
 {
   reg("help", "help/usage information", ArgumentParsing::NONE, '?');
   reg("verbose", "turn on verbose output", ArgumentParsing::NONE, 'v');
@@ -49,62 +49,73 @@ GraphicsArgs::GraphicsArgs()
   reg("split", "split method for bvh construction (default is objectMedian)", ArgumentParsing::STRING, 's');
   reg("winwidth", "width of window (if using preview)", ArgumentParsing::INT, 'x');
   reg("winheight", "height of window (if using preview)", ArgumentParsing::INT, 'y');
-  reg("outputdir", "the absolute output directory (folder) for files", ArgumentParsing::STRING, 'f');
 }
 
 void GraphicsArgs::process(int argc, char *argv[])
 {
   processCommandLineArgs(argc, argv);
 
-  if (isSet("help")) {
+  if (isSet("help"))
+  {
     printUsage();
     exit(EXIT_SUCCESS);
   }
 
   verbose = isSet("verbose");
-  if (verbose) std::cout << "Verbose Output: ON" << std::endl;
+  if (verbose)
+    std::cout << "Verbose Output: ON" << std::endl;
 
   isSet("width", width);
-  if (verbose) std::cout << "Setting width to " << width << std::endl;
+  if (verbose)
+    std::cout << "Setting width to " << width << std::endl;
 
   isSet("height", height);
-  if (verbose) std::cout << "Setting height to " << height << std::endl;
+  if (verbose)
+    std::cout << "Setting height to " << height << std::endl;
 
   isSet("winwidth", windowWidth);
-  if (verbose) std::cout << "Setting Window Width to " << windowWidth << std::endl;
+  if (verbose)
+    std::cout << "Setting Window Width to " << windowWidth << std::endl;
 
   isSet("winheight", windowHeight);
-  if (verbose) std::cout << "Setting Windo Height to " << windowHeight << std::endl;
+  if (verbose)
+    std::cout << "Setting Windo Height to " << windowHeight << std::endl;
 
   // recalculate aspect ratio in lieu of aspectRatio being set
-  aspectRatio = width / (float)height;// as in W to H as in 16:9
+  aspectRatio = width / (float)height; // as in W to H as in 16:9
 
   isSet("aspect", aspectRatio);
-  if (verbose) std::cout << "Setting aspect ratio to " << aspectRatio << std::endl;
+  if (verbose)
+    std::cout << "Setting aspect ratio to " << aspectRatio << std::endl;
 
-  if (isSet("depth", depthOfFieldDistance)) {
+  if (isSet("depth", depthOfFieldDistance))
+  {
     useDepthOfField = true;
-    if (verbose) std::cout << "Setting depth of field distance to " << depthOfFieldDistance << std::endl;
+    if (verbose)
+      std::cout << "Setting depth of field distance to " << depthOfFieldDistance << std::endl;
   }
 
   isSet("numcpus", numCpus);
-  if (verbose) std::cout << "Setting num cpus to " << numCpus << std::endl;
+  if (verbose)
+    std::cout << "Setting num cpus to " << numCpus << std::endl;
 
   isSet("rpp", rpp);
-  if (verbose) std::cout << "Setting rays per pixel to " << rpp << std::endl;
+  if (verbose)
+    std::cout << "Setting rays per pixel to " << rpp << std::endl;
 
   isSet("recursionDepth", recursionDepth);
-  if (verbose) std::cout << "Setting recursionDepth to " << recursionDepth << std::endl;
+  if (verbose)
+    std::cout << "Setting recursionDepth to " << recursionDepth << std::endl;
 
   isSet("split", splitMethod);
-  if (verbose) std::cout << "Setting split method to " << splitMethod << std::endl;
+  if (verbose)
+    std::cout << "Setting split method to " << splitMethod << std::endl;
 
   isSet("inputfile", inputFileName);
-  if (verbose) std::cout << "Setting inputFileName to " << inputFileName << std::endl;
+  if (verbose)
+    std::cout << "Setting inputFileName to " << inputFileName << std::endl;
 
   isSet("outputfile", outputFileName);
-  if (verbose) std::cout << "Setting outputFileName to " << outputFileName << std::endl;
-
-  isSet("outputdir", outputDirectory);
-  if (verbose) std::cout << "Setting outputDirectory to " << outputDirectory << std::endl;
+  if (verbose)
+    std::cout << "Setting outputFileName to " << outputFileName << std::endl;
 }
