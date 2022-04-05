@@ -7,7 +7,7 @@
 #include "Camera.hpp"
 #include "PerspectiveCamera.hpp"
 #include "Vector3.hpp"
-#include "CoordinateSys.hpp"
+#include "CoordSys.hpp"
 #include "Framebuffer.hpp"
 #include "Shape.hpp"
 #include "Triangle.hpp"

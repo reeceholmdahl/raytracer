@@ -8,16 +8,16 @@ PerspectiveCamera::PerspectiveCamera()
 }
 
 PerspectiveCamera::PerspectiveCamera(const std::string &name)
-    : PerspectiveCamera(name, CoordinateSys(), DEFAULT_FOCAL_LENGTH)
+    : PerspectiveCamera(name, CoordSys(), DEFAULT_FOCAL_LENGTH)
 {
 }
 
-PerspectiveCamera::PerspectiveCamera(const std::string &name, const CoordinateSys &basis, const double focalLength)
+PerspectiveCamera::PerspectiveCamera(const std::string &name, const CoordSys &basis, const double focalLength)
     : PerspectiveCamera(name, basis, focalLength, DEFAULT_PIXELS_XY, DEFAULT_PIXELS_XY, DEFAULT_IMAGE_WH, DEFAULT_IMAGE_WH)
 {
 }
 
-PerspectiveCamera::PerspectiveCamera(const std::string &name, const CoordinateSys &basis, const double focalLength, const size_t pixels_x, const size_t pixels_y, const double image_w, const double image_h)
+PerspectiveCamera::PerspectiveCamera(const std::string &name, const CoordSys &basis, const double focalLength, const size_t pixels_x, const size_t pixels_y, const double image_w, const double image_h)
     : Camera(name, basis, pixels_x, pixels_y, image_w, image_h), m_focalLength(focalLength)
 {
 }

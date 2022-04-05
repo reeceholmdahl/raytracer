@@ -1,5 +1,5 @@
-#ifndef _TRIANGLE_REECE_
-#define _TRIANGLE_REECE_
+#ifndef RENDERER_GEOMETRY_TRIANGLE_H_
+#define RENDERER_GEOMETRY_TRIANGLE_H_
 
 #include "Vector3.hpp"
 #include "Shape.hpp"

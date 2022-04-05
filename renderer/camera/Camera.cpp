@@ -4,16 +4,16 @@ const size_t Camera::DEFAULT_PIXELS_XY = 100;
 const double Camera::DEFAULT_IMAGE_WH = 0.5;
 
 Camera::Camera(const std::string &name)
-    : Camera(name, CoordinateSys())
+    : Camera(name, CoordSys())
 {
 }
 
-Camera::Camera(const std::string &name, const CoordinateSys &basis)
+Camera::Camera(const std::string &name, const CoordSys &basis)
     : Camera(name, basis, DEFAULT_PIXELS_XY, DEFAULT_PIXELS_XY, DEFAULT_IMAGE_WH, DEFAULT_IMAGE_WH)
 {
 }
 
-Camera::Camera(const std::string &name, const CoordinateSys &basis, const size_t pixels_x, const size_t pixels_y, const double image_w, const double image_h)
+Camera::Camera(const std::string &name, const CoordSys &basis, const size_t pixels_x, const size_t pixels_y, const double image_w, const double image_h)
     : m_name(name), m_basis(basis), m_pixels_x(pixels_x), m_pixels_y(pixels_y), m_image_w(image_w), m_image_h(image_h)
 {
 }
@@ -23,7 +23,7 @@ std::string Camera::name() const
   return m_name;
 }
 
-CoordinateSys Camera::basis() const
+CoordSys Camera::basis() const
 {
   return m_basis;
 }

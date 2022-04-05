@@ -1,5 +1,5 @@
-#ifndef _LAMBERT_SHADER_REECE_
-#define _LAMBERT_SHADER_REECE_
+#ifndef RENDERER_SHADER_LAMBERT_SHADER_H_
+#define RENDERER_SHADER_LAMBERT_SHADER_H_
 
 #include "Vector3.hpp"
 #include "HitStruct.hpp"

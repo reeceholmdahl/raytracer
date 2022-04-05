@@ -1,5 +1,5 @@
-#ifndef _HITSTRUCT_REECE_
-#define _HITSTRUCT_REECE_
+#ifndef RENDERER_SHADER_HITSTRUCT_H_
+#define RENDERER_SHADER_HITSTRUCT_H_
 
 #include <vector>
 

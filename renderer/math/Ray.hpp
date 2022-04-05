@@ -1,5 +1,5 @@
-#ifndef _RAY_REECE_
-#define _RAY_REECE_
+#ifndef RENDERER_MATH_RAY_H_
+#define RENDERER_MATH_RAY_H_
 
 #include "Vector3.hpp"
 

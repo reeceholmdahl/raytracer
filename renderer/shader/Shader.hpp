@@ -1,5 +1,5 @@
-#ifndef _SHADER_REECE_
-#define _SHADER_REECE_
+#ifndef RENDERER_SHADER_SHADER_H_
+#define RENDERER_SHADER_SHADER_H_
 
 #include "Vector3.hpp"
 

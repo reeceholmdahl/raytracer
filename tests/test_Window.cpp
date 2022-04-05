@@ -6,7 +6,7 @@
 #include "renderer.hpp"
 #include "Camera.hpp"
 #include "PerspectiveCamera.hpp"
-#include "CoordinateSys.hpp"
+#include "CoordSys.hpp"
 #include "Framebuffer.hpp"
 #include "Vector3.hpp"
 #include "Sphere.hpp"

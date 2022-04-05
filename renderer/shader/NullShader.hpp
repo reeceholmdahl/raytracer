@@ -1,5 +1,5 @@
-#ifndef _NULL_SHADER_REECE_
-#define _NULL_SHADER_REECE_
+#ifndef RENDERER_SHADER_NULL_SHADER_H_
+#define RENDERER_SHADER_NULL_SHADER_H_
 
 #include "Vector3.hpp"
 #include "HitStruct.hpp"

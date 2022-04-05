@@ -1,5 +1,5 @@
-#ifndef _LIGHT_REECE_
-#define _LIGHT_REECE_
+#ifndef RENDERER_LIGHT_LIGHT_H_
+#define RENDERER_LIGHT_LIGHT_H_
 
 #include "Vector3.hpp"
 

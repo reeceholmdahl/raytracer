@@ -1,5 +1,5 @@
-#ifndef _SHAPE_REECE_
-#define _SHAPE_REECE_
+#ifndef RENDERER_GEOMETRY_SHAPE_H_
+#define RENDERER_GEOMETRY_SHAPE_H_
 
 #include "Vector3.hpp"
 #include "Ray.hpp"

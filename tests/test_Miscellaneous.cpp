@@ -2,7 +2,7 @@
 
 #include "renderer.hpp"
 #include "Vector3.hpp"
-#include "CoordinateSys.hpp"
+#include "CoordSys.hpp"
 #include "Sphere.hpp"
 
 using namespace renderer;
@@ -23,7 +23,7 @@ int main()
             << "udotw: " << udotw << std::endl
             << "vdotw: " << vdotw << std::endl;
 
-  CoordinateSys basis(Vec3d(), u, w);
+  CoordSys basis(Vec3d(), u, w);
 
   Vec3d a(0.5, 0.5, 0);
 

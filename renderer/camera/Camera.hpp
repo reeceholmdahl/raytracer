@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "Vector3.hpp"
-#include "CoordinateSys.hpp"
+#include "CoordSys.hpp"
 #include "Ray.hpp"
 
 class Camera
@@ -15,11 +15,11 @@ public:
   const static double DEFAULT_IMAGE_WH;
 
   Camera(const std::string &name);
-  Camera(const std::string &name, const CoordinateSys &basis);
-  Camera(const std::string &name, const CoordinateSys &basis, const size_t pixels_x, const size_t pixels_y, const double image_w, const double image_h);
+  Camera(const std::string &name, const CoordSys &basis);
+  Camera(const std::string &name, const CoordSys &basis, const size_t pixels_x, const size_t pixels_y, const double image_w, const double image_h);
   virtual ~Camera() {}
 
-  CoordinateSys basis() const;
+  CoordSys basis() const;
   std::string name() const;
   size_t pixels_x() const;
   size_t pixels_y() const;
@@ -35,7 +35,7 @@ public:
 
 private:
   std::string m_name;
-  CoordinateSys m_basis;
+  CoordSys m_basis;
   size_t m_pixels_x, m_pixels_y;
   double m_image_w, m_image_h;
 };

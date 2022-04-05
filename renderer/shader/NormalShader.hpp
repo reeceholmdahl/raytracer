@@ -1,5 +1,5 @@
-#ifndef _NORMAL_SHADER_REECE_
-#define _NORMAL_SHADER_REECE_
+#ifndef RENDERER_SHADER_NORMAL_SHADER_H_
+#define RENDERER_SHADER_NORMAL_SHADER_H_
 
 #include "Vector3.hpp"
 #include "HitStruct.hpp"

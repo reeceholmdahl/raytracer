@@ -1,12 +1,12 @@
-#ifndef _VECTOR3_REECE_
-#define _VECTOR3_REECE_
+#ifndef RENDERER_MATH_VECTOR3_H_
+#define RENDERER_MATH_VECTOR3_H_
 
 #include <vector>
 #include <istream>
 #include <ostream>
 #include <cassert>
 
-template<typename real_type>
+template <typename real_type>
 class Vector3
 {
 public:
@@ -14,9 +14,9 @@ public:
   Vector3(const real_type x = 0.0, const real_type y = 0.0, const real_type z = 0.0);
 
   // Copy constructor
-  template<typename other>
+  template <typename other>
   Vector3(const Vector3<other> &v)
-    : data(3)
+      : data(3)
   {
     data[0] = v[0];
     data[1] = v[1];

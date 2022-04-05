@@ -6,16 +6,16 @@ OrthographicCamera::OrthographicCamera()
 }
 
 OrthographicCamera::OrthographicCamera(const std::string &name)
-    : OrthographicCamera(name, CoordinateSys())
+    : OrthographicCamera(name, CoordSys())
 {
 }
 
-OrthographicCamera::OrthographicCamera(const std::string &name, const CoordinateSys &basis)
+OrthographicCamera::OrthographicCamera(const std::string &name, const CoordSys &basis)
     : OrthographicCamera(name, basis, DEFAULT_PIXELS_XY, DEFAULT_PIXELS_XY, DEFAULT_IMAGE_WH, DEFAULT_IMAGE_WH)
 {
 }
 
-OrthographicCamera::OrthographicCamera(const std::string &name, const CoordinateSys &basis, const size_t pixels_x, const size_t pixels_y, const double image_w, const double image_h)
+OrthographicCamera::OrthographicCamera(const std::string &name, const CoordSys &basis, const size_t pixels_x, const size_t pixels_y, const double image_w, const double image_h)
     : Camera(name, basis, pixels_x, pixels_y, image_w, image_h)
 {
 }
