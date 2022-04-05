@@ -1,0 +1,3 @@
+[submodule "SceneData"]
+	path = SceneData
+	url = git@github.umn.edu:umdcs4212/SceneData.git
