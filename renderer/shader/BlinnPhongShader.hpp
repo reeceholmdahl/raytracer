@@ -1,5 +1,5 @@
-#ifndef _BLINN_PHONG_SHADER_REECE_
-#define _BLINN_PHONG_SHADER_REECE_
+#ifndef RENDERER_SHADER_BLINN_PHONG_SHADER_H_
+#define RENDERER_SHADER_BLINN_PHONG_SHADER_H_
 
 #include "LambertShader.hpp"
 #include "Vector3.hpp"
