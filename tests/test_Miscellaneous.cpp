@@ -9,25 +9,34 @@ using namespace renderer;
 
 int main()
 {
-  Vec3d u(1, 1, 0), v(-1, 1, 0);
-  u = u.unitize();
-  v = v.unitize();
-  Vec3d w = u.cross(v);
-  auto udotv = u.dot(v);
-  auto udotw = u.dot(w);
-  auto vdotw = v.dot(w);
-  std::cout << "u: " << u << " |u| = " << u.magnitude() << std::endl
-            << "v: " << v << " |v| = " << v.magnitude() << std::endl
-            << "w: " << w << " |w| = " << w.magnitude() << std::endl
-            << "udotv: " << udotv << std::endl
-            << "udotw: " << udotw << std::endl
-            << "vdotw: " << vdotw << std::endl;
+  // Vec3d u(1, 1, 0), v(-1, 1, 0);
+  // u = u.unitize();
+  // v = v.unitize();
+  // Vec3d w = u.cross(v);
+  // auto udotv = u.dot(v);
+  // auto udotw = u.dot(w);
+  // auto vdotw = v.dot(w);
+  // std::cout << "u: " << u << " |u| = " << u.magnitude() << std::endl
+  //           << "v: " << v << " |v| = " << v.magnitude() << std::endl
+  //           << "w: " << w << " |w| = " << w.magnitude() << std::endl
+  //           << "udotv: " << udotv << std::endl
+  //           << "udotw: " << udotw << std::endl
+  //           << "vdotw: " << vdotw << std::endl;
 
-  CoordSys basis(Vec3d(), u, w);
+  // CoordSys basis(Vec3d(), u, w);
 
-  Vec3d a(0.5, 0.5, 0);
+  // Vec3d a(0.5, 0.5, 0);
 
-  std::cout << "a_basis: " << basis.toGlobal(a) << std::endl;
+  // std::cout << "a_basis: " << basis.toGlobal(a) << std::endl;
+
+  Vec3f a;
+
+  a = "1 2 3";
+
+  Vec3d b = "1 2 3";
+
+  std::cout << "a: " << a << std::endl
+            << "b: " << b << std::endl;
 
   return 0;
 }

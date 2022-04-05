@@ -13,6 +13,8 @@ public:
   // Constructor with default float values of zero, forces parameter to accept 0.0, implicitly selecting real types
   Vector3(const real_type x = 0.0, const real_type y = 0.0, const real_type z = 0.0);
 
+  Vector3(const std::string &str);
+
   // Copy constructor
   template <typename other>
   Vector3(const Vector3<other> &v)
@@ -55,7 +57,7 @@ public:
     return data[index];
   }
 
-  // Assignment operator
+  // Assignment operator: Vector3
   Vector3<real_type> &operator=(const Vector3 &rhs)
   {
     data[0] = rhs[0];
@@ -63,6 +65,9 @@ public:
     data[2] = rhs[2];
     return *this;
   }
+
+  // Assignment operator: String
+  Vector3<real_type> &operator=(const std::string &str);
 
   // Add
   Vector3<real_type> operator+(const Vector3 &rhs) const;

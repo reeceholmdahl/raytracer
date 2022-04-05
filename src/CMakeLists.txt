@@ -1,7 +1,7 @@
 add_library (sive-util
   ArgumentParsing.cpp ArgumentParsing.h
   handleGraphicsArgs.cpp handleGraphicsArgs.h
-  jsonSceneParser.cpp jsonSceneParser.h
+  #jsonSceneParser.cpp
   model_obj.cpp model_obj.h
   Random.cpp Random.h
   SceneDataContainer.h
@@ -14,6 +14,7 @@ add_library (sive-util
 
 target_link_libraries(sive-util renderer)
 
+include_directories(${CMAKE_SOURCE_DIR}/renderer)
 foreach(subdir ${RENDERER_SUBDIRS})
   include_directories(${CMAKE_SOURCE_DIR}/renderer/${subdir})
 endforeach(subdir)
