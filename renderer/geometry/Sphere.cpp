@@ -14,7 +14,7 @@ Sphere::Sphere(const Vec3d &position, const double radius)
 bool Sphere::closestHit(const Ray &r, const double tmin, const double tmax, HitStruct &hit) const
 {
   hit.ray = r;
-  hit.shaderPtr = shaderPtr;
+  hit.shaderPtr = getShader();
   hit.shape = this;
   // std::cout << "After ray and shaderptr assignment" << std::endl;
 

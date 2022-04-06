@@ -20,7 +20,7 @@ Triangle::Triangle(const Vec3d &a, const Vec3d &b, const Vec3d &c)
 bool Triangle::closestHit(const Ray &r, const double tmin, const double tmax, HitStruct &hit) const
 {
   hit.ray = r;
-  hit.shaderPtr = shaderPtr;
+  hit.shaderPtr = getShader();
   hit.shape = this;
 
   // e = r.origin, d = r.direction

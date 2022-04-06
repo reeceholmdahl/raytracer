@@ -8,15 +8,18 @@
 class Shape
 {
 public:
-  Shape(Shader *shaderPtr = Shader::NULL_SHADER);
+  Shape(Shader *shaderPtr = nullptr);
   virtual ~Shape() {}
 
   virtual bool closestHit(const Ray &r, const double tmin, const double tmax, HitStruct &hit) const = 0;
 
   virtual Vec3d normal(const Vec3d &position) const = 0;
 
-  //! protected: set to protected later with friend accessor for scene container/json parser
-  Shader *shaderPtr;
+  void setShader(Shader *shaderPtr);
+  Shader *getShader() const;
+
+protected:
+  Shader *m_shaderPtr;
 };
 
 #endif
