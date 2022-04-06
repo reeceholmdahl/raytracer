@@ -13,7 +13,7 @@ class HitStruct
 {
 public:
     double t;
-    Ray ray; //? const reference?
+    Ray ray;
     Shader *shaderPtr;
     const Shape *shape;
     std::vector<Light *> *lights;

@@ -9,7 +9,6 @@ class Shader
 {
 public:
   const static Vec3f DEFAULT_AMBIENT;
-  static Shader *NULL_SHADER;
 
   Shader(const Vec3f &ambient = DEFAULT_AMBIENT);
   virtual ~Shader() {}
