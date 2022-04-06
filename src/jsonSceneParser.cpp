@@ -6,8 +6,22 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/string_cast.hpp>
 
+#include <boost/math/constants/constants.hpp>
+
+#include "Camera.hpp"
+#include "PerspectiveCamera.hpp"
+#include "OrthographicCamera.hpp"
 #include "Scene.hpp"
 #include "Vector3.hpp"
+#include "Shader.hpp"
+#include "DiffuseShader.hpp"
+#include "LambertShader.hpp"
+#include "NormalShader.hpp"
+#include "Shape.hpp"
+#include "Sphere.hpp"
+#include "Triangle.hpp"
+#include "Light.hpp"
+#include "PointLight.hpp"
 
 #include <nlohmann/json.hpp>
 
@@ -19,7 +33,6 @@
 // using this for convenience in specifying the namespace
 using json = nlohmann::json;
 
-#if 0
 glm::mat4 extractRotation(json &rotInfo)
 {
     glm::mat4 tmpM(1.0f);
@@ -28,17 +41,17 @@ glm::mat4 extractRotation(json &rotInfo)
 
     if (axis == "X")
     {
-        tmpM = glm::rotate(glm::mat4(1.0f), rot * RConsts::m_pi / 180.0f, glm::vec3(1.0f, 0.0f, 0.0f));
+        tmpM = glm::rotate(glm::mat4(1.0f), rot * boost::math::constants::pi<float>() / 180.0f, glm::vec3(1.0f, 0.0f, 0.0f));
         ;
     }
     else if (axis == "Y")
     {
-        tmpM = glm::rotate(glm::mat4(1.0f), rot * RConsts::m_pi / 180.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+        tmpM = glm::rotate(glm::mat4(1.0f), rot * boost::math::constants::pi<float>() / 180.0f, glm::vec3(0.0f, 1.0f, 0.0f));
         ;
     }
     else if (axis == "Z")
     {
-        tmpM = glm::rotate(glm::mat4(1.0f), rot * RConsts::m_pi / 180.0f, glm::vec3(0.0f, 0.0f, 1.0f));
+        tmpM = glm::rotate(glm::mat4(1.0f), rot * boost::math::constants::pi<float>() / 180.0f, glm::vec3(0.0f, 0.0f, 1.0f));
         ;
     }
 
@@ -61,14 +74,14 @@ glm::mat4 Scene::parseTransformData(json &transformData)
         // Translation transform
         if (xformInfo["type"] == "translate")
         {
-            sivelab::Vector3D translation;
+            Vec3d translation;
             translation = xformInfo["amount"];
             tmpM = glm::translate(glm::mat4(1.0f), glm::vec3(translation[0], translation[1], translation[2]));
             transformStack.push(tmpM);
         }
         else if (xformInfo["type"] == "scale")
         {
-            sivelab::Vector3D scale;
+            Vec3d scale;
             scale = xformInfo["amount"];
             tmpM = glm::scale(glm::mat4(1.0f), glm::vec3(scale[0], scale[1], scale[2]));
             transformStack.push(tmpM);
@@ -113,23 +126,26 @@ Shape *Scene::extractAndCreateShapeFromJSONData(json &shapeData)
 
     if (type == "sphere")
     {
-        float radius;
-        sivelab::Vector3D center;
+        double radius;
+        Vec3d center;
 
         center = shapeData["center"];
         radius = shapeData["radius"];
 
-        sPtr = new Sphere(center[0], center[1], center[2], radius);
+        sPtr = new Sphere(center, radius);
     }
     else if (type == "triangle")
     {
-        sivelab::Vector3D v0, v1, v2;
-        v0 = shapeData["v0"];
-        v1 = shapeData["v1"];
-        v2 = shapeData["v2"];
+        Vec3d a, b, c;
+        a = shapeData["v0"];
+        b = shapeData["v1"];
+        c = shapeData["v2"];
 
-        sPtr = new Triangle(v0, v1, v2);
+        sPtr = new Triangle(a, b, c);
     }
+
+#define BOXES_READY 0
+#if BOXES_READY
     else if (type == "box")
     {
         sivelab::Vector3D minPt, maxPt;
@@ -139,7 +155,10 @@ Shape *Scene::extractAndCreateShapeFromJSONData(json &shapeData)
 
         sPtr = new Box(minPt, maxPt);
     }
+#endif
 
+#define MESHES_READY 0
+#if MESHES_READY
     else if (type == "mesh")
     {
         std::string mesh_filename = shapeData["file"];
@@ -148,6 +167,10 @@ Shape *Scene::extractAndCreateShapeFromJSONData(json &shapeData)
         Shader *defaultShader = locateShader(shapeData["shader"]["_ref"]);
         sPtr = new OBJMesh(meshFile_fullPath, defaultShader, m_useBVH);
     }
+#endif
+
+#define INSTANCING_READY 0
+#if INSTANCING_READY
     else if (type == "instance")
     {
 
@@ -176,14 +199,13 @@ Shape *Scene::extractAndCreateShapeFromJSONData(json &shapeData)
             }
         }
     }
+#endif
 
     assert(sPtr); // must have one
-    sPtr->setName(name);
+    // sPtr->setName(name);
 
     return sPtr;
 }
-
-#endif
 
 void Scene::parseJSONData(const std::string &filename)
 {
@@ -224,7 +246,7 @@ void Scene::parseJSONData(const std::string &filename)
 
             if (!camInfo["lookatPoint"].empty())
             {
-                sivelab::Vector3D lookAtPoint;
+                Vec3d lookAtPoint;
                 lookAtPoint = camInfo["lookatPoint"];
                 viewDir = lookAtPoint - position;
             }
@@ -239,11 +261,11 @@ void Scene::parseJSONData(const std::string &filename)
 
             if (camType == "perspective")
             {
-                cameras.push_back(new PerspectiveCamera(position, viewDir, focalLength, m_aspectRatio, imagePlaneWidth));
+                add(new PerspectiveCamera(position, viewDir, focalLength, m_aspectRatio, imagePlaneWidth));
             }
             else if (camType == "orthographic")
             {
-                cameras.push_back(new OrthographicCamera(position, viewDir, focalLength, m_aspectRatio, imagePlaneWidth));
+                add(new OrthographicCamera(position, viewDir, m_aspectRatio, imagePlaneWidth));
             }
         }
     }
@@ -264,18 +286,14 @@ void Scene::parseJSONData(const std::string &filename)
         if (shaderType == "Lambertian" || shaderType == "Diffuse")
         {
 
-            sivelab::Vector3D diffuse;
+            Vec3f diffuse;
             diffuse = shaderInfo["diffuse"];
 
-            // Shader Coefficient is just a wrapper class for
-            // me... you can use a Vec3D instead.
-            ShaderCoefficient kd(diffuse, 0);
-
             if (shaderType == "Lambertian")
-                shaderPtr = new sivelab::Lambertian(kd);
+                shaderPtr = new LambertShader(m_background, diffuse);
 
             else if (shaderType == "Diffuse")
-                shaderPtr = new sivelab::Diffuse(kd);
+                shaderPtr = new DiffuseShader(m_background, diffuse);
         }
 
 #define ADVSHADERS_READY 0
@@ -291,22 +309,24 @@ void Scene::parseJSONData(const std::string &filename)
         }
 #endif
 
+#define BLINNPHONG_READY 0
+#if BLINNPHONG_READY
         else if (shaderType == "BlinnPhong" || shaderType == "Phong")
         {
 
-            float phongExp;
-            sivelab::Vector3D diffuse, specular;
+            double phongExp;
+            Vec3f diffuse, specular;
             diffuse = shaderInfo["diffuse"];
             specular = shaderInfo["specular"];
             phongExp = shaderInfo["phongExp"];
 
-            ShaderCoefficient kd(diffuse, 0);
-            ShaderCoefficient ks(specular, 0);
             if (shaderType == "BlinnPhong")
                 shaderPtr = new sivelab::BlinnPhong(kd, ks, phongExp);
             else
                 shaderPtr = new sivelab::Phong(diffuse, specular, phongExp);
         }
+#endif
+
 #if ADVSHADERS_READY
         else if (shaderType == "Mirror")
         {
@@ -360,8 +380,8 @@ void Scene::parseJSONData(const std::string &filename)
         assert(shaderPtr);
 
         std::string name = shaderInfo["_name"];
-        shaderPtr->setName(name);
-        shaderMap[name] = shaderPtr;
+        // shaderPtr->setName(name);
+        addShader(name, shaderPtr);
     }
 
 #if MESHES_READY
@@ -403,10 +423,10 @@ void Scene::parseJSONData(const std::string &filename)
 
         if (!shapeInfo["shader"]["_ref"].empty())
         {
-            sPtr->provideShader(locateShader(shapeInfo["shader"]["_ref"]));
+            sPtr->setShader(getShader(shapeInfo["shader"]["_ref"]));
         }
 
-        m_objs.push_back(sPtr);
+        add(sPtr);
     }
     std::cout << "Completed parsing shapes." << std::endl;
 
@@ -417,13 +437,14 @@ void Scene::parseJSONData(const std::string &filename)
 
         std::string type = j["scene"]["light"][i]["_type"];
 
-        sivelab::Vector3D position, radiantEnergy;
-        radiantEnergy = j["scene"]["light"][i]["intensity"];
+        Vec3d position;
+        Vec3f intensity;
+        intensity = j["scene"]["light"][i]["intensity"];
 
         if (type == "point")
         {
             position = j["scene"]["light"][i]["position"];
-            lights.push_back(new Light(position, radiantEnergy));
+            add(new PointLight(position, intensity));
         }
 
 #define ADVLIGHTS_READY 0

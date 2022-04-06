@@ -1,7 +1,7 @@
 add_library (sive-util
   ArgumentParsing.cpp ArgumentParsing.h
   handleGraphicsArgs.cpp handleGraphicsArgs.h
-  #jsonSceneParser.cpp
+  jsonSceneParser.cpp
   model_obj.cpp model_obj.h
   Random.cpp Random.h
   SceneDataContainer.h
