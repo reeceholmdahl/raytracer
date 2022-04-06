@@ -1,35 +1,25 @@
 #include "OrthographicCamera.hpp"
 
-OrthographicCamera::OrthographicCamera()
-    : OrthographicCamera("orthographic") //! should replace name with UUID
-{
-}
+// OrthographicCamera::OrthographicCamera()
+//     : OrthographicCamera(Vec3d(), Vec3d())
+// {
+// }
 
-OrthographicCamera::OrthographicCamera(const std::string &name)
-    : OrthographicCamera(name, CoordSys())
-{
-}
-
-OrthographicCamera::OrthographicCamera(const std::string &name, const CoordSys &basis)
-    : OrthographicCamera(name, basis, DEFAULT_PIXELS_XY, DEFAULT_PIXELS_XY, DEFAULT_IMAGE_WH, DEFAULT_IMAGE_WH)
-{
-}
-
-OrthographicCamera::OrthographicCamera(const std::string &name, const CoordSys &basis, const size_t pixels_x, const size_t pixels_y, const double image_w, const double image_h)
-    : Camera(name, basis, pixels_x, pixels_y, image_w, image_h)
+OrthographicCamera::OrthographicCamera(const Vec3d &position, const Vec3d &viewDir, const double imagePlaneWidth, const double aspectRatio)
+    : Camera(position, viewDir, imagePlaneWidth, aspectRatio)
 {
 }
 
 Ray OrthographicCamera::generateRay(const size_t i, const size_t j) const
 {
     // Can be calculated on position change, image size change, or framebuffer change
-    auto l = -image_w() / 2;
-    auto r = image_w() / 2;
-    auto b = -image_h() / 2;
-    auto t = image_h() / 2;
+    auto l = -m_imagePlaneWidth / 2;
+    auto r = m_imagePlaneWidth / 2;
+    auto b = -m_imagePlaneHeight / 2;
+    auto t = m_imagePlaneHeight / 2;
 
-    auto u = l + (r - l) * (i + 0.5) / pixels_x();
-    auto v = b + (t - b) * (j + 0.5) / pixels_y();
+    auto u = l + (r - l) * (i + 0.5) / m_pixelsX;
+    auto v = b + (t - b) * (j + 0.5) / m_pixelsY;
 
     Vec3d origin(u, v, 0);
 

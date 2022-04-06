@@ -8,10 +8,7 @@
 class OrthographicCamera : public Camera
 {
 public:
-  OrthographicCamera();
-  OrthographicCamera(const std::string &name);
-  OrthographicCamera(const std::string &name, const CoordSys &basis);
-  OrthographicCamera(const std::string &name, const CoordSys &basis, const size_t pixels_x, const size_t pixels_y, const double image_w, const double image_h);
+  OrthographicCamera(const Vec3d &position = Vec3d(), const Vec3d &viewDir = Vec3d(0, 0, 1), const double imagePlaneWidth = Camera::DEFAULT_IMAGE_WIDTH, const double aspectRatio = Camera::DEFAULT_ASPECT_RATIO);
 
   virtual Ray generateRay(const size_t i, const size_t j) const;
 };
