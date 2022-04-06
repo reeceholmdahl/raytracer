@@ -6,8 +6,6 @@ const double PerspectiveCamera::DEFAULT_FOCAL_LENGTH = 1.0;
 PerspectiveCamera::PerspectiveCamera(const Vec3d &position, const Vec3d &viewDir, const double focalLength, const double imagePlaneWidth, const double aspectRatio)
     : Camera(position, viewDir, imagePlaneWidth, aspectRatio), m_focalLength(focalLength)
 {
-    std::cout << "Image plane width: " << m_imagePlaneWidth << std::endl
-              << "Image plane height: " << m_imagePlaneHeight << std::endl;
 }
 
 Ray PerspectiveCamera::generateRay(const size_t i, const size_t j) const

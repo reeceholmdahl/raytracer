@@ -1,0 +1,80 @@
+#include <iostream>
+#include <vector>
+
+#include <boost/filesystem.hpp>
+
+#include "handleGraphicsArgs.h"
+
+#include "Scene.hpp"
+#include "Shape.hpp"
+#include "Camera.hpp"
+#include "HitStruct.hpp"
+#include "Framebuffer.hpp"
+
+namespace fs = boost::filesystem;
+
+using renderer::Framebuffer;
+
+int main(int argc, char *argv[])
+{
+    sivelab::GraphicsArgs args;
+    args.process(argc, argv);
+
+    // Used cmdline arguments
+    // const size_t nx(args.width), ny(args.height);
+    const size_t nx(50), ny(50);
+    const fs::path outdir(fs::path(args.outputFileName).parent_path());
+    const fs::path indir(fs::path(args.inputFileName).parent_path());
+    const fs::path toScene((indir / "scenes_A") / "oneSphere.json");
+
+    Scene scene(nx, ny);
+
+    scene.parseJSONData(toScene.string());
+
+    std::vector<Framebuffer> fbs(scene.cameras().size());
+    for (int i(0); i < fbs.size(); ++i)
+    {
+        fbs[i] = Framebuffer(scene.pixelsX(), scene.pixelsY());
+    }
+
+    for (size_t i(0); i < nx; ++i)
+    {
+        for (size_t j(0); j < ny; ++j)
+        {
+            std::cout << "i: " << i << " j: " << j << std::endl;
+            for (int c(0); c < scene.cameras().size(); ++c)
+            {
+                auto cam = scene.cameras()[c];
+                auto fb = fbs[c];
+                auto ray = cam->generateRay(i, j);
+                HitStruct hit;
+                hit.t = INFINITY;
+                for (Shape *shape : scene.shapes())
+                {
+                    HitStruct testHit;
+                    testHit.lights = &(scene.lights());
+                    if (shape->closestHit(ray, 1, hit.t, testHit))
+                    {
+                        hit = testHit;
+                    }
+                }
+
+                Vec3f color(0.1, 0.1, 0.1);
+                if (hit.t != INFINITY && hit.shaderPtr)
+                {
+                    color = hit.shaderPtr->apply(hit);
+                }
+
+                fb.setPixelColor(i, j, color);
+            }
+        }
+    }
+
+    for (int i(0); i < fbs.size(); ++i)
+    {
+        auto fb = fbs[i];
+        fb.exportAsPNG((outdir / ("test_JSONParsing" + std::to_string(i + 1) + ".test.png")).string());
+    }
+
+    return 0;
+}

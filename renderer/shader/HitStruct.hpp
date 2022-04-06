@@ -16,7 +16,7 @@ public:
     Ray ray;
     Shader *shaderPtr;
     const Shape *shape;
-    std::vector<Light *> *lights;
+    const std::vector<Light *> *lights;
 
     HitStruct() = default;
     ~HitStruct() {}

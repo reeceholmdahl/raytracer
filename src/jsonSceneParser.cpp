@@ -257,15 +257,29 @@ void Scene::parseJSONData(const std::string &filename)
 
             float focalLength = camInfo["focalLength"];
             float imagePlaneWidth = camInfo["imagePlaneWidth"];
+
+            std::cout << "|focalLength: " << focalLength << std::endl
+                      << "|imagePlaneWidth: " << imagePlaneWidth << std::endl
+                      << "|pixelsX: " << m_pixelsX << std::endl
+                      << "|pixelsY: " << m_pixelsY << std::endl
+                      << "|aspectRatio: " << m_aspectRatio << std::endl;
+
             std::string camType = camInfo["_type"];
 
+            Camera *cam;
             if (camType == "perspective")
             {
-                add(new PerspectiveCamera(position, viewDir, focalLength, m_aspectRatio, imagePlaneWidth));
+                cam = new PerspectiveCamera(position, viewDir, focalLength, m_aspectRatio, imagePlaneWidth);
             }
             else if (camType == "orthographic")
             {
-                add(new OrthographicCamera(position, viewDir, m_aspectRatio, imagePlaneWidth));
+                cam = new OrthographicCamera(position, viewDir, m_aspectRatio, imagePlaneWidth);
+            }
+
+            if (cam)
+            {
+                cam->setImagePixels(m_pixelsX, m_pixelsY);
+                add(cam);
             }
         }
     }

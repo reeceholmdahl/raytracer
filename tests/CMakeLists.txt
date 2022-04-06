@@ -12,7 +12,8 @@ SET(TESTS
     test_LambertianShading
     test_SphereNormal
     test_DefaultTriangle
-    test_DefaultSphere)
+    test_DefaultSphere
+    test_JSONParsing)
 
 foreach(exec ${TESTS})
   add_executable(${exec} ${BUNDLEOPTS} ${exec}.cpp)
@@ -25,7 +26,7 @@ foreach(exec ${TESTS})
   target_link_libraries(${exec} ${ZLIB_LIBRARY})
 
   # add test
-  ADD_TEST(${exec} ${CMAKE_BINARY_DIR}/tests/${exec} -w ${CTEST_WINDOW_WIDTH} -h ${CTEST_WINDOW_HEIGHT} -o ${CTEST_OUTPUT_DIR}/${exec}.test.png)
+  ADD_TEST(${exec} ${CMAKE_BINARY_DIR}/tests/${exec} -w ${CTEST_WINDOW_WIDTH} -h ${CTEST_WINDOW_HEIGHT} -o ${CTEST_OUTPUT_DIR}/${exec}.test.png -i ${CTEST_INPUT_DIR}/nothing.ext)
   set_property(TEST ${exec} PROPERTY LABELS a)
 endforeach(exec)
 
