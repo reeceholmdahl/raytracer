@@ -3,27 +3,25 @@
 #include "CoordSys.hpp"
 
 CoordSys::CoordSys()
-    : CoordSys(Vec3d(), Vec3d(0, 1, 0), Vec3d(0, 0, -1))
+    : CoordSys(Vec3d(), Vec3d(0, 0, 1))
 {
 }
 
-CoordSys::CoordSys(const Vec3d &position)
-    : CoordSys(position, Vec3d(0, 1, 0), Vec3d(0, 0, -1))
-{
-}
-
-CoordSys::CoordSys(const Vec3d &up, const Vec3d &view)
-    : CoordSys(Vec3d(), up, view)
-{
-}
-
-CoordSys::CoordSys(const Vec3d &position, const Vec3d &up, const Vec3d &view)
+CoordSys::CoordSys(const Vec3d &position, const Vec3d &view)
     : m_position(position)
 {
   // m_u = v.cross(w);
 
-  m_w = (-view).unitize();
+  Vec3d up(0, 1, 0);
+
+  m_w = (view).unitize();
   m_u = up.cross(m_w).unitize();
+  if (m_u.magnitude() != 1.)
+  {
+    std::cout << "Having to use another temp up vector" << std::endl;
+    up = Vec3d(0, 0, -1);
+    m_u = up.cross(m_w);
+  }
   m_v = m_w.cross(m_u);
 
   assert(m_w.dot(m_u) == 0.0);
