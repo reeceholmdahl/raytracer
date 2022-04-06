@@ -10,6 +10,7 @@
 #include "CoordSys.hpp"
 #include "Framebuffer.hpp"
 #include "Sphere.hpp"
+#include "DiffuseShader.hpp"
 
 #include "handleGraphicsArgs.h"
 
@@ -30,14 +31,13 @@ int main(int argc, char *argv[])
     Framebuffer fbOrtho(nx, ny);
 
     Sphere sph;
+    sph.setShader(new DiffuseShader(Vec3f(), Vec3f(1, 0, 1)));
 
     Camera *persp = new PerspectiveCamera();
     Camera *ortho = new OrthographicCamera();
 
-    persp->set_pixels_x(nx);
-    persp->set_pixels_y(ny);
-    ortho->set_pixels_x(nx);
-    ortho->set_pixels_y(ny);
+    persp->setImagePixels(nx, ny);
+    ortho->setImagePixels(nx, ny);
 
     for (size_t i(0); i < nx; ++i)
     {

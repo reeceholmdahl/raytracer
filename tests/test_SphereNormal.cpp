@@ -29,12 +29,11 @@ int main(int argc, char *argv[])
   Framebuffer fb(nx, ny);
 
   Sphere sph;
-  sph.shaderPtr = new NormalShader();
+  sph.setShader(new NormalShader());
 
   Camera *cam = new PerspectiveCamera();
 
-  cam->set_pixels_x(nx);
-  cam->set_pixels_y(ny);
+  cam->setImagePixels(nx, ny);
 
   for (size_t i(0); i < nx; ++i)
   {

@@ -44,8 +44,7 @@ int main(int argc, char *argv[])
 
   Camera *cam;
   cam = new PerspectiveCamera();
-  cam->set_pixels_x(nx);
-  cam->set_pixels_y(ny);
+  cam->setImagePixels(nx, ny);
 
   for (size_t i = 0; i < nx; ++i)
   {
@@ -58,7 +57,7 @@ int main(int argc, char *argv[])
       hit.t = INFINITY;
       for (Shape *shape : shapes)
       {
-        shape->shaderPtr = shader;
+        shape->setShader(shader);
 
         auto testHit = HitStruct();
         testHit.lights = &lights;
