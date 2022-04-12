@@ -8,7 +8,7 @@ LambertShader::LambertShader(const Vec3f &ambient, const Vec3f &color)
 Vec3f LambertShader::apply(const HitStruct &hit) const
 {
     Vec3f color;
-    for (Light *light : *(hit.lights))
+    for (Light *light : hit.m_lights)
     {
         auto hitToLight((light->position() - hit.hitPoint()).unitize());
         auto normal(hit.shape->normal(hit.hitPoint()));

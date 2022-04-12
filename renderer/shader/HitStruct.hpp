@@ -16,9 +16,12 @@ public:
     Ray ray;
     Shader *shaderPtr;
     const Shape *shape;
-    const std::vector<Light *> *lights;
+    std::vector<Light *> m_lights;
 
-    HitStruct() = default;
+    HitStruct(const std::vector<Light *> &lights = {})
+    {
+        m_lights = lights;
+    }
     ~HitStruct() {}
 
     Vec3d hitPoint() const

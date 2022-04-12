@@ -204,6 +204,8 @@ Shape *Scene::extractAndCreateShapeFromJSONData(json &shapeData)
     assert(sPtr); // must have one
     // sPtr->setName(name);
 
+    std::cout << "Shape type: " << typeid(*sPtr).name() << std::endl;
+
     return sPtr;
 }
 
@@ -266,10 +268,12 @@ void Scene::parseJSONData(const std::string &filename)
 
             std::string camType = camInfo["_type"];
 
+            std::cout << "Camera type: " << camType << std::endl;
+
             Camera *cam;
             if (camType == "perspective")
             {
-                cam = new PerspectiveCamera(position, viewDir, focalLength, m_aspectRatio, imagePlaneWidth);
+                cam = new PerspectiveCamera(position, viewDir, focalLength, imagePlaneWidth, m_aspectRatio);
             }
             else if (camType == "orthographic")
             {
@@ -295,6 +299,8 @@ void Scene::parseJSONData(const std::string &filename)
 
         json shaderInfo = j["scene"]["shader"][i];
         std::string shaderType = shaderInfo["_type"];
+
+        std::cout << "Shader type: " << shaderType << std::endl;
 
         Shader *shaderPtr = nullptr;
         if (shaderType == "Lambertian" || shaderType == "Diffuse")

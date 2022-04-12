@@ -14,7 +14,7 @@ CoordSys::CoordSys(const Vec3d &position, const Vec3d &view)
 
   Vec3d up(0, 1, 0);
 
-  m_w = (view).unitize();
+  m_w = (-view).unitize();
   m_u = up.cross(m_w).unitize();
   if (m_u.magnitude() != 1.)
   {

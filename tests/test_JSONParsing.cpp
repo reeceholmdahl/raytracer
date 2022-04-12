@@ -10,6 +10,7 @@
 #include "Camera.hpp"
 #include "HitStruct.hpp"
 #include "Framebuffer.hpp"
+#include "PerspectiveCamera.hpp"
 
 namespace fs = boost::filesystem;
 
@@ -21,28 +22,32 @@ int main(int argc, char *argv[])
     args.process(argc, argv);
 
     // Used cmdline arguments
-    // const size_t nx(args.width), ny(args.height);
-    const size_t nx(50), ny(50);
+    const size_t nx(args.width), ny(args.height);
+    // const size_t nx(50), ny(50);
     const fs::path outdir(fs::path(args.outputFileName).parent_path());
     const fs::path indir(fs::path(args.inputFileName).parent_path());
-    const fs::path toScene((indir / "scenes_A") / "oneSphere.json");
+    const std::string fileName = "oneSphere.json";
+    const fs::path toScene((indir / "scenes_A") / fileName);
 
     Scene scene(nx, ny);
 
     scene.parseJSONData(toScene.string());
 
-    std::vector<Framebuffer> fbs(scene.cameras().size());
-    for (int i(0); i < fbs.size(); ++i)
+    std::vector<Framebuffer *> fbs(scene.cameras().size());
+    for (int i(0); i < scene.cameras().size(); ++i)
     {
-        fbs[i] = Framebuffer(scene.pixelsX(), scene.pixelsY());
+        fbs[i] = new Framebuffer(scene.pixelsX(), scene.pixelsY());
     }
 
-    for (size_t i(0); i < nx; ++i)
+    std::cout << "Cameras: " << scene.cameras().size() << std::endl
+              << "Shapes: " << scene.shapes().size() << std::endl
+              << "Lights: " << scene.lights().size() << std::endl;
+
+    for (int c(0); c < scene.cameras().size(); ++c)
     {
-        for (size_t j(0); j < ny; ++j)
+        for (size_t i(0); i < nx; ++i)
         {
-            std::cout << "i: " << i << " j: " << j << std::endl;
-            for (int c(0); c < scene.cameras().size(); ++c)
+            for (size_t j(0); j < ny; ++j)
             {
                 auto cam = scene.cameras()[c];
                 auto fb = fbs[c];
@@ -51,8 +56,7 @@ int main(int argc, char *argv[])
                 hit.t = INFINITY;
                 for (Shape *shape : scene.shapes())
                 {
-                    HitStruct testHit;
-                    testHit.lights = &(scene.lights());
+                    HitStruct testHit(scene.lights());
                     if (shape->closestHit(ray, 1, hit.t, testHit))
                     {
                         hit = testHit;
@@ -61,11 +65,12 @@ int main(int argc, char *argv[])
 
                 Vec3f color(0.1, 0.1, 0.1);
                 if (hit.t != INFINITY && hit.shaderPtr)
+
                 {
                     color = hit.shaderPtr->apply(hit);
                 }
 
-                fb.setPixelColor(i, j, color);
+                fb->setPixelColor(i, j, color);
             }
         }
     }
@@ -73,7 +78,7 @@ int main(int argc, char *argv[])
     for (int i(0); i < fbs.size(); ++i)
     {
         auto fb = fbs[i];
-        fb.exportAsPNG((outdir / ("test_JSONParsing" + std::to_string(i + 1) + ".test.png")).string());
+        fb->exportAsPNG((outdir / (fileName + std::to_string(i + 1) + ".test.png")).string());
     }
 
     return 0;

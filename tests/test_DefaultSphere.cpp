@@ -39,6 +39,8 @@ int main(int argc, char *argv[])
     persp->setImagePixels(nx, ny);
     ortho->setImagePixels(nx, ny);
 
+    std::vector<Light *> lights;
+
     for (size_t i(0); i < nx; ++i)
     {
         for (size_t j(0); j < ny; ++j)
