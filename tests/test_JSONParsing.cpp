@@ -65,7 +65,6 @@ int main(int argc, char *argv[])
 
                 Vec3f color(0.1, 0.1, 0.1);
                 if (hit.t != INFINITY && hit.shaderPtr)
-
                 {
                     color = hit.shaderPtr->apply(hit);
                 }
