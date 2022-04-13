@@ -204,7 +204,7 @@ Shape *Scene::extractAndCreateShapeFromJSONData(json &shapeData)
     assert(sPtr); // must have one
     // sPtr->setName(name);
 
-    std::cout << "Shape type: " << typeid(*sPtr).name() << std::endl;
+    // std::cout << "Shape type: " << typeid(*sPtr).name() << std::endl;
 
     return sPtr;
 }
@@ -236,7 +236,7 @@ void Scene::parseJSONData(const std::string &filename)
     json jsonCameraStructure = j["scene"]["camera"];
     if (jsonCameraStructure.is_array())
     {
-        std::cout << "Number of cameras: " << jsonCameraStructure.size() << std::endl;
+        // std::cout << "Number of cameras: " << jsonCameraStructure.size() << std::endl;
 
         for (auto i = 0; i < jsonCameraStructure.size(); i++)
         {
@@ -260,15 +260,15 @@ void Scene::parseJSONData(const std::string &filename)
             float focalLength = camInfo["focalLength"];
             float imagePlaneWidth = camInfo["imagePlaneWidth"];
 
-            std::cout << "|focalLength: " << focalLength << std::endl
-                      << "|imagePlaneWidth: " << imagePlaneWidth << std::endl
-                      << "|pixelsX: " << m_pixelsX << std::endl
-                      << "|pixelsY: " << m_pixelsY << std::endl
-                      << "|aspectRatio: " << m_aspectRatio << std::endl;
+            // std::cout << "|focalLength: " << focalLength << std::endl
+            //           << "|imagePlaneWidth: " << imagePlaneWidth << std::endl
+            //           << "|pixelsX: " << m_pixelsX << std::endl
+            //           << "|pixelsY: " << m_pixelsY << std::endl
+            //           << "|aspectRatio: " << m_aspectRatio << std::endl;
 
             std::string camType = camInfo["_type"];
 
-            std::cout << "Camera type: " << camType << std::endl;
+            // std::cout << "Camera type: " << camType << std::endl;
 
             Camera *cam;
             if (camType == "perspective")
@@ -300,7 +300,7 @@ void Scene::parseJSONData(const std::string &filename)
         json shaderInfo = j["scene"]["shader"][i];
         std::string shaderType = shaderInfo["_type"];
 
-        std::cout << "Shader type: " << shaderType << std::endl;
+        // std::cout << "Shader type: " << shaderType << std::endl;
 
         Shader *shaderPtr = nullptr;
         if (shaderType == "Lambertian" || shaderType == "Diffuse")

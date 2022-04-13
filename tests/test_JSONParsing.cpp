@@ -22,11 +22,11 @@ int main(int argc, char *argv[])
     args.process(argc, argv);
 
     // Used cmdline arguments
-    const size_t nx(args.width), ny(args.height);
-    // const size_t nx(50), ny(50);
+    // const size_t nx(args.width), ny(args.height);
+    const size_t nx(500), ny(500);
     const fs::path outdir(fs::path(args.outputFileName).parent_path());
     const fs::path indir(fs::path(args.inputFileName).parent_path());
-    const std::string fileName = "oneSphere.json";
+    const std::string fileName = "spheres_1K.json";
     const fs::path toScene((indir / "scenes_A") / fileName);
 
     Scene scene(nx, ny);
