@@ -26,8 +26,8 @@ int main(int argc, char *argv[])
     const size_t nx(500), ny(500);
     const fs::path outdir(fs::path(args.outputFileName).parent_path());
     const fs::path indir(fs::path(args.inputFileName).parent_path());
-    const std::string fileName = "spheres_1K.json";
-    const fs::path toScene((indir / "scenes_A") / fileName);
+    const std::string fileName = "CornellBox_Specular.json";
+    const fs::path toScene((indir / "scenes_B") / fileName);
 
     Scene scene(nx, ny);
 

@@ -49,6 +49,7 @@ int main(int argc, char *argv[])
   cam = new PerspectiveCamera(Vec3d(), Vec3d(0, 0, -1));
   cam->setImagePixels(nx, ny);
 
+  Shader *shader = new LambertShader(Vec3f(0.15, 0.15, 0.15), Vec3f(0, 0, 1));
   for (size_t i = 0; i < nx; ++i)
   {
     for (size_t j = 0; j < ny; ++j)

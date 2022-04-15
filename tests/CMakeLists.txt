@@ -13,6 +13,7 @@ SET(TESTS
     test_SphereNormal
     test_DefaultTriangle
     test_DefaultSphere
+    test_BlinnPhongShading
     test_JSONParsing)
 
 foreach(exec ${TESTS})

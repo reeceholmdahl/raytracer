@@ -17,6 +17,7 @@
 #include "DiffuseShader.hpp"
 #include "LambertShader.hpp"
 #include "NormalShader.hpp"
+#include "BlinnPhongShader.hpp"
 #include "Shape.hpp"
 #include "Sphere.hpp"
 #include "Triangle.hpp"
@@ -204,8 +205,6 @@ Shape *Scene::extractAndCreateShapeFromJSONData(json &shapeData)
     assert(sPtr); // must have one
     // sPtr->setName(name);
 
-    // std::cout << "Shape type: " << typeid(*sPtr).name() << std::endl;
-
     return sPtr;
 }
 
@@ -329,8 +328,6 @@ void Scene::parseJSONData(const std::string &filename)
         }
 #endif
 
-#define BLINNPHONG_READY 0
-#if BLINNPHONG_READY
         else if (shaderType == "BlinnPhong" || shaderType == "Phong")
         {
 
@@ -341,11 +338,15 @@ void Scene::parseJSONData(const std::string &filename)
             phongExp = shaderInfo["phongExp"];
 
             if (shaderType == "BlinnPhong")
-                shaderPtr = new sivelab::BlinnPhong(kd, ks, phongExp);
+            {
+                shaderPtr = new BlinnPhongShader(m_background, diffuse, specular, phongExp);
+            }
             else
-                shaderPtr = new sivelab::Phong(diffuse, specular, phongExp);
+            {
+                shaderPtr = nullptr;
+            }
+            // shaderPtr = new sivelab::Phong(diffuse, specular, phongExp);
         }
-#endif
 
 #if ADVSHADERS_READY
         else if (shaderType == "Mirror")
@@ -400,6 +401,7 @@ void Scene::parseJSONData(const std::string &filename)
         assert(shaderPtr);
 
         std::string name = shaderInfo["_name"];
+        std::cout << "Shader name: " << name << std::endl;
         // shaderPtr->setName(name);
         addShader(name, shaderPtr);
     }
@@ -443,7 +445,13 @@ void Scene::parseJSONData(const std::string &filename)
 
         if (!shapeInfo["shader"]["_ref"].empty())
         {
-            sPtr->setShader(getShader(shapeInfo["shader"]["_ref"]));
+            std::cout << "before segfault" << std::endl;
+            std::string shaderName(shapeInfo["shader"]["_ref"]);
+            // std::cout << sPtr << std::endl;
+            std::cout << "Shape type: " << typeid(*sPtr).name() << std::endl;
+
+            sPtr->setShader(getShader(shaderName));
+            std::cout << "after segfault" << std::endl;
         }
 
         add(sPtr);

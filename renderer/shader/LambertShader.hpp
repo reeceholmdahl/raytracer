@@ -13,7 +13,7 @@ public:
 
     virtual Vec3f apply(const HitStruct &h) const;
 
-private:
+protected:
     Vec3f m_diffuse;
 };
 
