@@ -13,6 +13,7 @@ SET(TESTS
     test_SphereNormal
     test_DefaultTriangle
     test_DefaultSphere
+    test_DefaultBox
     test_BlinnPhongShading
     test_JSONParsing)
 

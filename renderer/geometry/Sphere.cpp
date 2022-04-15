@@ -1,5 +1,4 @@
 #include "Sphere.hpp"
-#include "CoordSys.hpp"
 
 Sphere::Sphere()
     : Sphere(Vec3d(0, 0, -2), 0.25)

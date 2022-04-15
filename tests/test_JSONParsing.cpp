@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <cassert>
 
 #include <boost/filesystem.hpp>
 
@@ -26,8 +27,11 @@ int main(int argc, char *argv[])
     const size_t nx(500), ny(500);
     const fs::path outdir(fs::path(args.outputFileName).parent_path());
     const fs::path indir(fs::path(args.inputFileName).parent_path());
-    const std::string fileName = "CornellBox_Specular.json";
-    const fs::path toScene((indir / "scenes_B") / fileName);
+    const std::string fileName = "spheres_1K.json";
+    const fs::path toScene((indir / "scenes_A") / fileName);
+
+    // Assert that the file exists
+    // assert(fs::exists(toScene));
 
     Scene scene(nx, ny);
 
@@ -63,7 +67,7 @@ int main(int argc, char *argv[])
                     }
                 }
 
-                Vec3f color(0.1, 0.1, 0.1);
+                Vec3f color(scene.background());
                 if (hit.t != INFINITY && hit.shaderPtr)
                 {
                     color = hit.shaderPtr->apply(hit);

@@ -445,13 +445,11 @@ void Scene::parseJSONData(const std::string &filename)
 
         if (!shapeInfo["shader"]["_ref"].empty())
         {
-            std::cout << "before segfault" << std::endl;
             std::string shaderName(shapeInfo["shader"]["_ref"]);
             // std::cout << sPtr << std::endl;
-            std::cout << "Shape type: " << typeid(*sPtr).name() << std::endl;
+            // std::cout << "Shape type: " << typeid(*sPtr).name() << std::endl;
 
             sPtr->setShader(getShader(shaderName));
-            std::cout << "after segfault" << std::endl;
         }
 
         add(sPtr);
