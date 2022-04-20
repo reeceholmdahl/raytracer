@@ -11,9 +11,9 @@ public:
   Shape(Shader *shaderPtr = nullptr);
   virtual ~Shape() {}
 
-  virtual bool closestHit(const Ray &r, const double tmin, const double tmax, HitStruct &hit) const = 0;
+  virtual bool closestHit(const Ray &r, HitStruct &hit) const = 0;
 
-  virtual Vec3d normal(const Vec3d &position) const = 0;
+  // virtual Vec3d normal(const Vec3d &position) const = 0;
 
   void setShader(Shader *shaderPtr);
   Shader *getShader() const;

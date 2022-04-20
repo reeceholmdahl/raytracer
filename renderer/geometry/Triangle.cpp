@@ -17,7 +17,7 @@ Triangle::Triangle(const Vec3d &a, const Vec3d &b, const Vec3d &c)
   m_normal = -BC.cross(AB).unitize();
 }
 
-bool Triangle::closestHit(const Ray &r, const double tmin, const double tmax, HitStruct &hit) const
+bool Triangle::closestHit(const Ray &r, HitStruct &hit) const
 {
   hit.ray = r;
   hit.shaderPtr = getShader();
@@ -67,7 +67,7 @@ bool Triangle::closestHit(const Ray &r, const double tmin, const double tmax, Hi
 
   double intersectT = detT / detA;
 
-  if (intersectT < tmin || intersectT > tmax)
+  if (intersectT < hit.tmin || intersectT > hit.tmax)
     return false;
 
   matrixGamma = {
@@ -113,11 +113,11 @@ bool Triangle::closestHit(const Ray &r, const double tmin, const double tmax, Hi
     return false;
 
   hit.t = intersectT;
+  hit.normal = normal(r.point(hit.t));
 
   return true;
 }
 
-//! Had issue in one case, need to ensure normal always faces camera, z direction is + in camera space
 Vec3d Triangle::normal(const Vec3d &position) const
 {
   return m_normal;

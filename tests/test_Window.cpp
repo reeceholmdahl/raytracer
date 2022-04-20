@@ -196,10 +196,10 @@ Framebuffer sphereNormal(const size_t nx, const size_t ny, Camera *cam)
         {
             auto ray(cam->generateRay(i, j));
 
-            auto hit = HitStruct();
+            HitStruct hit;
 
             Vec3f color(0.1, 0.1, 0.1);
-            if (sph.closestHit(ray, 1, INFINITY, hit))
+            if (sph.closestHit(ray, hit))
             {
                 auto normal(sph.normal(hit.hitPoint()));
 

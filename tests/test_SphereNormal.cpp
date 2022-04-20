@@ -41,10 +41,10 @@ int main(int argc, char *argv[])
     {
       auto r(cam->generateRay(i, j));
 
-      auto hit = HitStruct();
+      HitStruct hit;
 
       Vec3f color(0.1, 0.1, 0.1);
-      if (sph.closestHit(r, 1, INFINITY, hit))
+      if (sph.closestHit(r, hit))
       {
         color = hit.shaderPtr->apply(hit);
       }

@@ -53,12 +53,12 @@ int main(int argc, char *argv[])
 
             Vec3f colorPersp(0.1, 0.1, 0.1);
             Vec3f colorOrtho(0.1, 0.1, 0.1);
-            if (sph.closestHit(perspRay, 1, INFINITY, hitPersp))
+            if (sph.closestHit(perspRay, hitPersp))
             {
                 colorPersp = hitPersp.shaderPtr->apply(hitPersp);
             }
 
-            if (sph.closestHit(orthoRay, 1, INFINITY, hitOrtho))
+            if (sph.closestHit(orthoRay, hitOrtho))
             {
                 colorOrtho = hitOrtho.shaderPtr->apply(hitOrtho);
             }

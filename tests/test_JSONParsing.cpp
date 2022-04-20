@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
     const size_t nx(500), ny(500);
     const fs::path outdir(fs::path(args.outputFileName).parent_path());
     const fs::path indir(fs::path(args.inputFileName).parent_path());
-    const std::string fileName = "spheres_1K.json";
+    const std::string fileName = "PhongExp.json";
     const fs::path toScene((indir / "scenes_A") / fileName);
 
     // Assert that the file exists
@@ -56,12 +56,11 @@ int main(int argc, char *argv[])
                 auto cam = scene.cameras()[c];
                 auto fb = fbs[c];
                 auto ray = cam->generateRay(i, j);
-                HitStruct hit;
-                hit.t = INFINITY;
+                HitStruct hit(1, INFINITY, scene.lights());
                 for (Shape *shape : scene.shapes())
                 {
-                    HitStruct testHit(scene.lights());
-                    if (shape->closestHit(ray, 1, hit.t, testHit))
+                    auto testHit = hit;
+                    if (shape->closestHit(ray, testHit))
                     {
                         hit = testHit;
                     }

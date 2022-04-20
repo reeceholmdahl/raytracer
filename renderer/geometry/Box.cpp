@@ -25,33 +25,37 @@ Box::Box(const Vec3d &min, const Vec3d &max) : m_min(min), m_max(max)
     };
 }
 
-bool Box::closestHit(const Ray &r, const double tmin, const double tmax, HitStruct &hit) const
+bool Box::closestHit(const Ray &r, HitStruct &hit) const
 {
-    hit.ray = r;
-    hit.shaderPtr = getShader();
-    hit.shape = this;
-
-    double minT(INFINITY);
+    double t(INFINITY);
+    Triangle hitTri;
     int hitCount(0);
     for (Triangle tri : tris)
     {
-        // if (hitCount == 2)
-        //     break;
+        if (hitCount == 2)
+            break;
 
-        HitStruct testHit;
-        if (tri.closestHit(r, 1, minT, testHit))
+        auto testHit = HitStruct(hit.tmin, hit.tmax);
+        if (tri.closestHit(r, testHit))
         {
-            minT = testHit.t;
             ++hitCount;
+            if (testHit.t < t)
+            {
+                t = testHit.t;
+                hitTri = tri;
+            }
         }
     }
 
-    hit.t = minT;
+    if (t != INFINITY)
+    {
+        hit.ray = r;
+        hit.shaderPtr = getShader();
+        hit.shape = this;
+        hit.t = t;
+        hit.normal = hitTri.normal(r.point(t));
+        return true;
+    }
 
-    return minT != INFINITY;
-}
-
-Vec3d Box::normal(const Vec3d &position) const
-{
-    return Vec3d();
+    return false;
 }

@@ -54,14 +54,13 @@ int main(int argc, char *argv[])
     {
       auto r(cam->generateRay(i, j));
 
-      HitStruct hit;
-      hit.t = INFINITY;
+      HitStruct hit(1, INFINITY, lights);
       for (Shape *shape : shapes)
       {
         shape->setShader(shader);
 
-        auto testHit = HitStruct(lights);
-        if (shape->closestHit(r, 1, hit.t, testHit))
+        auto testHit = hit;
+        if (shape->closestHit(r, testHit))
         {
           hit = testHit;
         }

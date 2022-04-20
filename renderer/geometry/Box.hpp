@@ -14,9 +14,7 @@ public:
     Box(const Vec3d &min, const Vec3d &max);
     virtual ~Box() {}
 
-    virtual bool closestHit(const Ray &r, const double tmin, const double tmax, HitStruct &hit) const;
-
-    virtual Vec3d normal(const Vec3d &position) const;
+    virtual bool closestHit(const Ray &r, HitStruct &hit) const;
 
 private:
     Vec3d m_min, m_max;

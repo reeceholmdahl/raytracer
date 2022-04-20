@@ -11,6 +11,7 @@
 #include "Framebuffer.hpp"
 #include "Box.hpp"
 #include "DiffuseShader.hpp"
+#include "NormalShader.hpp"
 
 #include "handleGraphicsArgs.h"
 
@@ -31,9 +32,10 @@ int main(int argc, char *argv[])
     Framebuffer fbOrtho(nx, ny);
 
     Box box;
-    box.setShader(new DiffuseShader(Vec3f(), Vec3f(1, 0, 1)));
+    // box.setShader(new DiffuseShader(Vec3f(), Vec3f(1, 0, 1)));
+    box.setShader(new NormalShader());
 
-    Camera *persp = new PerspectiveCamera(Vec3d(0.1, -0.1, 0), Vec3d(0.3, -0.2, -2));
+    Camera *persp = new PerspectiveCamera(Vec3d(1, 0, 0), Vec3d(-1, -1, -2), 0.15);
     Camera *ortho = new OrthographicCamera();
 
     persp->setImagePixels(nx, ny);
@@ -53,12 +55,12 @@ int main(int argc, char *argv[])
 
             Vec3f colorPersp(0.1, 0.1, 0.1);
             Vec3f colorOrtho(0.1, 0.1, 0.1);
-            if (box.closestHit(perspRay, 1, INFINITY, hitPersp))
+            if (box.closestHit(perspRay, hitPersp))
             {
                 colorPersp = hitPersp.shaderPtr->apply(hitPersp);
             }
 
-            if (box.closestHit(orthoRay, 1, INFINITY, hitOrtho))
+            if (box.closestHit(orthoRay, hitOrtho))
             {
                 colorOrtho = hitOrtho.shaderPtr->apply(hitOrtho);
             }

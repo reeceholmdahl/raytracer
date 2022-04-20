@@ -12,9 +12,9 @@ public:
   Sphere(const Vec3d &position, const double radius);
   virtual ~Sphere() {}
 
-  virtual bool closestHit(const Ray &r, const double tmin, const double tmax, HitStruct &hit) const;
+  virtual bool closestHit(const Ray &r, HitStruct &hit) const;
 
-  virtual Vec3d normal(const Vec3d &position) const;
+  Vec3d normal(const Vec3d &position) const;
 
 private:
   Vec3d m_position;
