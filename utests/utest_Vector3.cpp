@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <string>
 
 #define BOOST_TEST_MODULE Vector3TemplateTest
 #include <boost/test/included/unit_test.hpp>
@@ -181,14 +182,20 @@ BOOST_AUTO_TEST_CASE(IO_Stream_Valid)
   Vec3d x(1.0, 0.0, 0.0);
   Vec3d z(0.0, 0.0, 1.0);
   Vec3d four5(0.0, std::sqrt(2) / 2, std::sqrt(2) / 2);
+  Vec3f str1;
+  str1 = "1 2 3";
+  Vec3d str2 = "4 5 6";
 
   // std::cout << "1 (" << typeid(input).name() << "): " << input << std::endl
-  std::cout << "2 (" << typeid(f).name() << "): " << f << std::endl
-            << "3 (" << typeid(d).name() << "): " << d << std::endl
-            << "4 (" << typeid(one).name() << "): " << one << std::endl
-            << "5 (" << typeid(x).name() << "): " << x << std::endl
-            << "6 (" << typeid(z).name() << "): " << z << std::endl
-            << "7 (" << typeid(four5).name() << "): " << four5 << std::endl;
+  std::cout
+      << "1 String input (" << typeid(str1).name() << "): " << str1 << std::endl
+      << "2 String input (" << typeid(str2).name() << "): " << str2 << std::endl
+      << "3 (" << typeid(f).name() << "): " << f << std::endl
+      << "4 (" << typeid(d).name() << "): " << d << std::endl
+      << "5 (" << typeid(one).name() << "): " << one << std::endl
+      << "6 (" << typeid(x).name() << "): " << x << std::endl
+      << "7 (" << typeid(z).name() << "): " << z << std::endl
+      << "8 (" << typeid(four5).name() << "): " << four5 << std::endl;
 }
 
 BOOST_AUTO_TEST_SUITE_END();

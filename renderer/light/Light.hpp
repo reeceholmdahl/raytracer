@@ -1,5 +1,5 @@
-#ifndef _LIGHT_REECE_
-#define _LIGHT_REECE_
+#ifndef RENDERER_LIGHT_LIGHT_H_
+#define RENDERER_LIGHT_LIGHT_H_
 
 #include "Vector3.hpp"
 
@@ -10,6 +10,7 @@ public:
   virtual ~Light() {}
 
   virtual Vec3f intensity() const = 0;
+  virtual Vec3d position() const = 0;
 };
 
 #endif

@@ -19,7 +19,9 @@ target_sources(renderer
     PRIVATE
         renderer.cpp renderer.hpp
         Framebuffer.cpp Framebuffer.hpp
-        SceneContainer.cpp SceneContainer.hpp)
+        Scene.cpp
+    PUBLIC
+        Scene.hpp)
 
 target_link_libraries(renderer sive-util)
 target_link_libraries(renderer ${PNG_LIBRARY})

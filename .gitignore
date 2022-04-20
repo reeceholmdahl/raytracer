@@ -18,3 +18,6 @@ Testing/
 
 # ignore out folder for images/files created by tests and programs
 out/
+
+# SceneData
+SceneData/

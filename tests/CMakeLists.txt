@@ -7,11 +7,15 @@ endforeach(renderer_subdir)
 
 SET(TESTS
     test_Framebuffer
-    test_Cameras
     test_Miscellaneous
     test_RayDirectionColor
     test_LambertianShading
-    test_SphereNormal)
+    test_SphereNormal
+    test_DefaultTriangle
+    test_DefaultSphere
+    test_DefaultBox
+    test_BlinnPhongShading
+    test_JSONParsing)
 
 foreach(exec ${TESTS})
   add_executable(${exec} ${BUNDLEOPTS} ${exec}.cpp)
@@ -24,7 +28,7 @@ foreach(exec ${TESTS})
   target_link_libraries(${exec} ${ZLIB_LIBRARY})
 
   # add test
-  ADD_TEST(${exec} ${CMAKE_BINARY_DIR}/tests/${exec} -w ${CTEST_WINDOW_WIDTH} -h ${CTEST_WINDOW_HEIGHT} -f ${CTEST_OUTPUT_DIR})
+  ADD_TEST(${exec} ${CMAKE_BINARY_DIR}/tests/${exec} -w ${CTEST_WINDOW_WIDTH} -h ${CTEST_WINDOW_HEIGHT} -o ${CTEST_OUTPUT_DIR}/${exec}.test.png -i ${CTEST_INPUT_DIR}/nothing.ext)
   set_property(TEST ${exec} PROPERTY LABELS a)
 endforeach(exec)
 

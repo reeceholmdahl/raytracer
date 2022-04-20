@@ -6,7 +6,7 @@
 #include "renderer.hpp"
 #include "Camera.hpp"
 #include "PerspectiveCamera.hpp"
-#include "CoordinateSys.hpp"
+#include "CoordSys.hpp"
 #include "Framebuffer.hpp"
 #include "Vector3.hpp"
 #include "Sphere.hpp"
@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
             1.0, 0.0  // bottom right corner
         };
 
-    camera = new PerspectiveCamera("persp", CoordinateSys::GLOBAL, 1.0, nx, ny, 1.0, 1.0 * ny / nx);
+    camera = new PerspectiveCamera();
 
     glViewport(0, 0, nx, ny);        // specifies the part of the window to which OpenGL will draw (in pixels), convert from normalised to pixels
     glMatrixMode(GL_PROJECTION);     // projection matrix defines the properties of the camera that views the objects in the world coordinate frame. Here you typically set the zoom factor, aspect ratio and the near and far clipping planes
@@ -196,13 +196,12 @@ Framebuffer sphereNormal(const size_t nx, const size_t ny, Camera *cam)
         {
             auto ray(cam->generateRay(i, j));
 
-            double hit_T(0);
-            auto hit(sph.closestHit(ray, 0, INFINITY, hit_T));
+            HitStruct hit;
 
             Vec3f color(0.1, 0.1, 0.1);
-            if (hit)
+            if (sph.closestHit(ray, hit))
             {
-                auto normal(sph.normal(ray.point(hit_T)));
+                auto normal(sph.normal(hit.hitPoint()));
 
                 // normal shading
                 color = normal;

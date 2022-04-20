@@ -5,39 +5,32 @@
 #include <vector>
 
 #include "Vector3.hpp"
-#include "CoordinateSys.hpp"
+#include "CoordSys.hpp"
 #include "Ray.hpp"
 
 class Camera
 {
 public:
-  const static size_t DEFAULT_PIXELS_XY;
-  const static double DEFAULT_IMAGE_WH;
+  const static double DEFAULT_IMAGE_WIDTH;
+  const static double DEFAULT_ASPECT_RATIO;
 
-  Camera() = default;
-  Camera(const std::string &name, const CoordinateSys &basis);
-  Camera(const std::string &name, const CoordinateSys &basis, const size_t pixels_x, const size_t pixels_y, const double image_w, const double image_h);
+  Camera();
+  Camera(const Vec3d &position, const Vec3d &viewDir, const double imagePlaneWidth = DEFAULT_IMAGE_WIDTH, const double aspectRatio = DEFAULT_ASPECT_RATIO);
+
   virtual ~Camera() {}
 
-  CoordinateSys basis() const;
-  std::string name() const;
-  size_t pixels_x() const;
-  size_t pixels_y() const;
-  double image_w() const;
-  double image_h() const;
+  CoordSys basis() const;
+  double imagePlaneWidth() const;
+  double imagePlaneHeight() const;
 
-  void set_pixels_x(const size_t pixels_x);
-  void set_pixels_y(const size_t pixels_y);
-  void set_image_w(const double width);
-  void set_image_h(const double height);
+  void setImagePixels(const size_t x, const size_t y);
 
   virtual Ray generateRay(const size_t i, const size_t j) const = 0;
 
-private:
-  std::string m_name;
-  CoordinateSys m_basis;
-  size_t m_pixels_x, m_pixels_y;
-  double m_image_w, m_image_h;
+protected:
+  size_t m_pixelsX = 0, m_pixelsY = 0;
+  double m_imagePlaneWidth, m_imagePlaneHeight;
+  CoordSys m_basis;
 };
 
 #endif

@@ -91,7 +91,9 @@
 			"xloctime": "cpp",
 			"*.ipp": "cpp",
 			"cwctype": "cpp",
-			"mutex": "cpp"
+			"mutex": "cpp",
+			"stack": "cpp",
+			"valarray": "cpp"
 		},
 		"editor.cursorBlinking": "phase",
 		"editor.cursorSmoothCaretAnimation": true

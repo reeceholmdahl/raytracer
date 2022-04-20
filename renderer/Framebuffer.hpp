@@ -1,5 +1,5 @@
-#ifndef _FRAMEBUFFER_REECE_
-#define _FRAMEBUFFER_REECE_
+#ifndef RENDERER_FRAMEBUFFER_H_
+#define RENDERER_FRAMEBUFFER_H_
 
 #include <vector>
 #include <string>

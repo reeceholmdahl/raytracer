@@ -1,13 +1,22 @@
 #include "Sphere.hpp"
-#include "CoordinateSys.hpp"
+
+Sphere::Sphere()
+    : Sphere(Vec3d(0, 0, -2), 0.25)
+{
+}
 
 Sphere::Sphere(const Vec3d &position, const double radius)
     : m_position(position), m_radius(radius)
 {
 }
 
-bool Sphere::closestHit(const Ray &r, const double tmin, const double tmax, double &t) const
+bool Sphere::closestHit(const Ray &r, HitStruct &hit) const
 {
+  hit.ray = r;
+  hit.shaderPtr = getShader();
+  hit.shape = this;
+  // std::cout << "After ray and shaderptr assignment" << std::endl;
+
   // discriminant b^2-4ac, negative no solutions, zero one solution, positive two solutions
   auto eminusc(r.origin() - m_position);
   auto d(r.direction());
@@ -21,48 +30,28 @@ bool Sphere::closestHit(const Ray &r, const double tmin, const double tmax, doub
   if (discriminant == 0.0)
   {
     double t1 = num / denom;
-    if (t < tmin || t > tmax)
+    if (t1 < hit.tmin || t1 > hit.tmax)
       return false;
-    t = t1;
+    hit.t = t1;
   }
   else
   {
     double t1((num + sqrt(discriminant)) / denom);
     double t2((num - sqrt(discriminant)) / denom);
 
-    if ((t1 < tmin && t2 < tmin) || (t1 > tmax && t2 > tmax))
+    if ((t1 < hit.tmin && t2 < hit.tmin) || (t1 > hit.tmax && t2 > hit.tmax))
       return false;
-    t = std::min(t1, t2);
+    hit.t = std::min(t1, t2);
   }
+
+  hit.normal = normal(r.point(hit.t));
 
   return true;
 }
 
-bool Sphere::closestHit(const Ray &r) const
-{
-  double t;
-  return closestHit(r, 0, INFINITY, t);
-}
-
 Vec3d Sphere::normal(const Vec3d &position) const
 {
-  // x = < rcos(theta)sin(phi), rsin(theta)sin(phi), rcos(phi) >
-  // n = < r^2cos(theta)sin^2(phi), r^2sin(theta)sin^2(phi), -r^2sin(phi)cos(phi) >
-
   Vec3d localPos((position - m_position));
 
-  // double phi(-acos(localPos[2] / m_radius));
-  // double theta(-acos(localPos[0] / (m_radius * sin(phi))));
-
-  // double r2(m_radius * m_radius);
-
-  // Vec3d n(
-  //   r2 * cos(theta) * pow(sin(phi), 2),// should be positive
-  //   r2 * sin(theta) * pow(sin(phi), 2),// should be positive
-  //   r2 * sin(phi) * cos(phi));// should be negative
-
-  // |n|=r^2sin(phi), can just divide
-  // return n.unitize();
-  // return n /= (r2 * sin(phi));
   return localPos.unitize();
 }
