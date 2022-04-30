@@ -34,165 +34,142 @@
 #include <cassert>
 #include "io_base.hpp"
 
-namespace png
+namespace png {
+
+/**
+ * \brief PNG writer class template.  This is the low-level
+ * writing interface--use image class or generator class to
+ * actually write images.
+ *
+ * The \c ostream template parameter specifies the type of output
+ * stream to work with.  The \c ostream class should implement the
+ * minimum of the following interface:
+ *
+ * \code
+ * class my_ostream
+ * {
+ * public:
+ *     void write(char const*, size_t);
+ *     void flush();
+ *     bool good();
+ * };
+ * \endcode
+ *
+ * With the semantics similar to the \c std::ostream.  Naturally,
+ * \c std::ostream fits this requirement and can be used with the
+ * writer class as is.
+ *
+ * \see image, reader, generator, io_base
+ */
+template <class ostream>
+class writer : public io_base
 {
+public:
+  /**
+   * \brief Constructs a writer prepared to write PNG image into
+   * a \a stream.
+   */
+  explicit writer(ostream& stream)
+    : io_base(png_create_write_struct(
+        PNG_LIBPNG_VER_STRING, static_cast<io_base*>(this), raise_error, 0))
+  {
+    png_set_write_fn(m_png, &stream, write_data, flush_data);
+  }
 
-    /**
-     * \brief PNG writer class template.  This is the low-level
-     * writing interface--use image class or generator class to
-     * actually write images.
-     *
-     * The \c ostream template parameter specifies the type of output
-     * stream to work with.  The \c ostream class should implement the
-     * minimum of the following interface:
-     *
-     * \code
-     * class my_ostream
-     * {
-     * public:
-     *     void write(char const*, size_t);
-     *     void flush();
-     *     bool good();
-     * };
-     * \endcode
-     *
-     * With the semantics similar to the \c std::ostream.  Naturally,
-     * \c std::ostream fits this requirement and can be used with the
-     * writer class as is.
-     *
-     * \see image, reader, generator, io_base
-     */
-    template< class ostream >
-    class writer
-        : public io_base
-    {
-    public:
-        /**
-         * \brief Constructs a writer prepared to write PNG image into
-         * a \a stream.
-         */
-        explicit writer(ostream& stream)
-            : io_base(png_create_write_struct(PNG_LIBPNG_VER_STRING,
-                                              static_cast< io_base* >(this),
-                                              raise_error,
-                                              0))
-        {
-            png_set_write_fn(m_png, & stream, write_data, flush_data);
-        }
+  ~writer()
+  {
+    m_end_info.destroy();
+    png_destroy_write_struct(&m_png, m_info.get_png_info_ptr());
+  }
 
-        ~writer()
-        {
-            m_end_info.destroy();
-            png_destroy_write_struct(& m_png, m_info.get_png_info_ptr());
-        }
+  void write_png() const
+  {
+    if (setjmp(png_jmpbuf(m_png))) {
+      throw error(m_error);
+    }
+    png_write_png(m_png, m_info.get_png_info(),
+                  /* transforms = */ 0,
+                  /* params = */ 0);
+  }
 
-        void write_png() const
-        {
-            if (setjmp(png_jmpbuf(m_png)))
-            {
-                throw error(m_error);
-            }
-            png_write_png(m_png,
-                          m_info.get_png_info(),
-                          /* transforms = */ 0,
-                          /* params = */ 0);
-        }
+  /**
+   * \brief Write info about PNG image.
+   */
+  void write_info() const
+  {
+    if (setjmp(png_jmpbuf(m_png))) {
+      throw error(m_error);
+    }
+    m_info.write();
+  }
 
-        /**
-         * \brief Write info about PNG image.
-         */
-        void write_info() const
-        {
-            if (setjmp(png_jmpbuf(m_png)))
-            {
-                throw error(m_error);
-            }
-            m_info.write();
-        }
+  /**
+   * \brief Writes a row of image data at a time.
+   */
+  void write_row(byte* bytes)
+  {
+    if (setjmp(png_jmpbuf(m_png))) {
+      throw error(m_error);
+    }
+    png_write_row(m_png, bytes);
+  }
 
-        /**
-         * \brief Writes a row of image data at a time.
-         */
-        void write_row(byte* bytes)
-        {
-            if (setjmp(png_jmpbuf(m_png)))
-            {
-                throw error(m_error);
-            }
-            png_write_row(m_png, bytes);
-        }
+  /**
+   * \brief Reads ending info about PNG image.
+   */
+  void write_end_info() const
+  {
+    if (setjmp(png_jmpbuf(m_png))) {
+      throw error(m_error);
+    }
+    m_end_info.write();
+  }
 
-        /**
-         * \brief Reads ending info about PNG image.
-         */
-        void write_end_info() const
-        {
-            if (setjmp(png_jmpbuf(m_png)))
-            {
-                throw error(m_error);
-            }
-            m_end_info.write();
-        }
+private:
+  static void write_data(png_struct* png, byte* data, size_t length)
+  {
+    io_base* io = static_cast<io_base*>(png_get_error_ptr(png));
+    writer* wr = static_cast<writer*>(io);
+    wr->reset_error();
+    ostream* stream = reinterpret_cast<ostream*>(png_get_io_ptr(png));
+    try {
+      stream->write(reinterpret_cast<char*>(data), length);
+      if (!stream->good()) {
+        wr->set_error("ostream::write() failed");
+      }
+    } catch (std::exception const& error) {
+      wr->set_error(error.what());
+    } catch (...) {
+      assert(!"caught something wrong");
+      wr->set_error("write_data: caught something wrong");
+    }
+    if (wr->is_error()) {
+      wr->raise_error();
+    }
+  }
 
-    private:
-        static void write_data(png_struct* png, byte* data, size_t length)
-        {
-            io_base* io = static_cast< io_base* >(png_get_error_ptr(png));
-            writer* wr = static_cast< writer* >(io);
-            wr->reset_error();
-            ostream* stream = reinterpret_cast< ostream* >(png_get_io_ptr(png));
-            try
-            {
-                stream->write(reinterpret_cast< char* >(data), length);
-                if (!stream->good())
-                {
-                    wr->set_error("ostream::write() failed");
-                }
-            }
-            catch (std::exception const& error)
-            {
-                wr->set_error(error.what());
-            }
-            catch (...)
-            {
-                assert(!"caught something wrong");
-                wr->set_error("write_data: caught something wrong");
-            }
-            if (wr->is_error())
-            {
-                wr->raise_error();
-            }
-        }
-
-        static void flush_data(png_struct* png)
-        {
-            io_base* io = static_cast< io_base* >(png_get_error_ptr(png));
-            writer* wr = static_cast< writer* >(io);
-            wr->reset_error();
-            ostream* stream = reinterpret_cast< ostream* >(png_get_io_ptr(png));
-            try
-            {
-                stream->flush();
-                if (!stream->good())
-                {
-                    wr->set_error("ostream::flush() failed");
-                }
-            }
-            catch (std::exception const& error)
-            {
-                wr->set_error(error.what());
-            }
-            catch (...)
-            {
-                assert(!"caught something wrong");
-                wr->set_error("flush_data: caught something wrong");
-            }
-            if (wr->is_error())
-            {
-                wr->raise_error();
-            }
-        }
-    };
+  static void flush_data(png_struct* png)
+  {
+    io_base* io = static_cast<io_base*>(png_get_error_ptr(png));
+    writer* wr = static_cast<writer*>(io);
+    wr->reset_error();
+    ostream* stream = reinterpret_cast<ostream*>(png_get_io_ptr(png));
+    try {
+      stream->flush();
+      if (!stream->good()) {
+        wr->set_error("ostream::flush() failed");
+      }
+    } catch (std::exception const& error) {
+      wr->set_error(error.what());
+    } catch (...) {
+      assert(!"caught something wrong");
+      wr->set_error("flush_data: caught something wrong");
+    }
+    if (wr->is_error()) {
+      wr->raise_error();
+    }
+  }
+};
 
 } // namespace png
 

@@ -33,32 +33,30 @@
 
 #include "types.hpp"
 
-namespace png
+namespace png {
+
+/**
+ * \brief PNG color struct extension.  Adds constructors.
+ */
+struct color : png_color
 {
+  explicit color(byte r = 0, byte g = 0, byte b = 0)
+  {
+    this->red = r;
+    this->green = g;
+    this->blue = b;
+  }
 
-    /**
-     * \brief PNG color struct extension.  Adds constructors. 
-     */
-    struct color
-        : png_color
-    {
-        explicit color(byte r = 0, byte g = 0, byte b = 0)
-        {
-            this->red = r;
-            this->green = g;
-            this->blue = b;
-        }
-
-        /**
-         * \brief Initializes color with a copy of png_color object.
-         */
-        color(png_color const& other)
-        {
-            this->red = other.red;
-            this->green = other.green;
-            this->blue = other.blue;
-        }
-    };
+  /**
+   * \brief Initializes color with a copy of png_color object.
+   */
+  color(png_color const& other)
+  {
+    this->red = other.red;
+    this->green = other.green;
+    this->blue = other.blue;
+  }
+};
 
 } // namespace png
 

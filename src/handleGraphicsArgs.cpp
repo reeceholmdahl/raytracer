@@ -26,20 +26,21 @@
 using namespace sivelab;
 
 GraphicsArgs::GraphicsArgs()
-    : verbose(false),
-      width(100),
-      height(100),
-      aspectRatio(1.0),
-      useShadow(true),
-      bgColor(0.0, 0.0, 0.0),
-      useDepthOfField(false),
-      depthOfFieldDistance(0),
-      numCpus(1),
-      rpp(1),
-      recursionDepth(4),
-      splitMethod("objectMedian"),
-      inputFileName(""),
-      outputFileName("") {
+  : verbose(false)
+  , width(100)
+  , height(100)
+  , aspectRatio(1.0)
+  , useShadow(true)
+  , bgColor(0.0, 0.0, 0.0)
+  , useDepthOfField(false)
+  , depthOfFieldDistance(0)
+  , numCpus(1)
+  , rpp(1)
+  , recursionDepth(4)
+  , splitMethod("objectMedian")
+  , inputFileName("")
+  , outputFileName("")
+{
   reg("help", "help/usage information", ArgumentParsing::NONE, '?');
   reg("verbose", "turn on verbose output", ArgumentParsing::NONE, 'v');
   reg("inputfile", "input file name to use", ArgumentParsing::STRING, 'i');
@@ -64,7 +65,9 @@ GraphicsArgs::GraphicsArgs()
       'y');
 }
 
-void GraphicsArgs::process(int argc, char *argv[]) {
+void
+GraphicsArgs::process(int argc, char* argv[])
+{
   processCommandLineArgs(argc, argv);
 
   if (isSet("help")) {
@@ -73,13 +76,16 @@ void GraphicsArgs::process(int argc, char *argv[]) {
   }
 
   verbose = isSet("verbose");
-  if (verbose) std::cout << "Verbose Output: ON" << std::endl;
+  if (verbose)
+    std::cout << "Verbose Output: ON" << std::endl;
 
   isSet("width", width);
-  if (verbose) std::cout << "Setting width to " << width << std::endl;
+  if (verbose)
+    std::cout << "Setting width to " << width << std::endl;
 
   isSet("height", height);
-  if (verbose) std::cout << "Setting height to " << height << std::endl;
+  if (verbose)
+    std::cout << "Setting height to " << height << std::endl;
 
   isSet("winwidth", windowWidth);
   if (verbose)
@@ -90,7 +96,7 @@ void GraphicsArgs::process(int argc, char *argv[]) {
     std::cout << "Setting Windo Height to " << windowHeight << std::endl;
 
   // recalculate aspect ratio in lieu of aspectRatio being set
-  aspectRatio = width / (float)height;  // as in W to H as in 16:9
+  aspectRatio = width / (float)height; // as in W to H as in 16:9
 
   isSet("aspect", aspectRatio);
   if (verbose)
@@ -104,10 +110,12 @@ void GraphicsArgs::process(int argc, char *argv[]) {
   }
 
   isSet("numcpus", numCpus);
-  if (verbose) std::cout << "Setting num cpus to " << numCpus << std::endl;
+  if (verbose)
+    std::cout << "Setting num cpus to " << numCpus << std::endl;
 
   isSet("rpp", rpp);
-  if (verbose) std::cout << "Setting rays per pixel to " << rpp << std::endl;
+  if (verbose)
+    std::cout << "Setting rays per pixel to " << rpp << std::endl;
 
   isSet("recursionDepth", recursionDepth);
   if (verbose)

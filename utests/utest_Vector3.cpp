@@ -21,8 +21,10 @@ BOOST_AUTO_TEST_CASE(Create_and_Convert)
   BOOST_TEST(typeid(d).name() == "class Vector3<double>");
   BOOST_TEST(typeid(ld).name() == "class Vector3<long double>");
 
-  // Do a bunch of random operations that (at least conceptually) create ambiguous types (mixing real_type parameter)
-  // My code sets the making the return real_type equal to that of the LHS real_type
+  // Do a bunch of random operations that (at least conceptually) create
+  // ambiguous types (mixing real_type parameter)
+  // My code sets the making the return real_type equal to that of the LHS
+  // real_type
   auto fdotd = f.dot(d);
   auto dplusf = d + f;
   ld += f;
@@ -36,7 +38,8 @@ BOOST_AUTO_TEST_CASE(Create_and_Convert)
   f /= 3;
   auto lddiv2 = ld / 2;
 
-  // After random operations check if types are what they are expected to be, and if types persisted (they should)
+  // After random operations check if types are what they are expected to be,
+  // and if types persisted (they should)
   BOOST_TEST(typeid(fdotd).name() == "double");
   BOOST_TEST(typeid(dplusf).name() == "class Vector3<double>");
   BOOST_TEST(typeid(ld).name() == "class Vector3<long double>");
@@ -220,15 +223,16 @@ BOOST_AUTO_TEST_CASE(IO_Stream_Valid)
   Vec3d str2 = "4 5 6";
 
   // std::cout << "1 (" << typeid(input).name() << "): " << input << std::endl
-  std::cout
-      << "1 String input (" << typeid(str1).name() << "): " << str1 << std::endl
-      << "2 String input (" << typeid(str2).name() << "): " << str2 << std::endl
-      << "3 (" << typeid(f).name() << "): " << f << std::endl
-      << "4 (" << typeid(d).name() << "): " << d << std::endl
-      << "5 (" << typeid(one).name() << "): " << one << std::endl
-      << "6 (" << typeid(x).name() << "): " << x << std::endl
-      << "7 (" << typeid(z).name() << "): " << z << std::endl
-      << "8 (" << typeid(four5).name() << "): " << four5 << std::endl;
+  std::cout << "1 String input (" << typeid(str1).name() << "): " << str1
+            << std::endl
+            << "2 String input (" << typeid(str2).name() << "): " << str2
+            << std::endl
+            << "3 (" << typeid(f).name() << "): " << f << std::endl
+            << "4 (" << typeid(d).name() << "): " << d << std::endl
+            << "5 (" << typeid(one).name() << "): " << one << std::endl
+            << "6 (" << typeid(x).name() << "): " << x << std::endl
+            << "7 (" << typeid(z).name() << "): " << z << std::endl
+            << "8 (" << typeid(four5).name() << "): " << four5 << std::endl;
 }
 
 BOOST_AUTO_TEST_SUITE_END();

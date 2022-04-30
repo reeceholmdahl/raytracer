@@ -99,7 +99,10 @@
 			"filesystem": "cpp"
 		},
 		"editor.cursorBlinking": "phase",
-		"editor.cursorSmoothCaretAnimation": true
+		"editor.cursorSmoothCaretAnimation": true,
+		"C_Cpp.clang_format_path": "C:\\Languages\\LLVM\\bin\\clang-format.exe",
+		"C_Cpp.clang_format_fallbackStyle": "Mozilla",
+		"C_Cpp.clang_format_style": "Mozilla"
 	},
 	"tasks": {
 		"version": "2.0.0",

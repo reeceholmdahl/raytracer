@@ -2,7 +2,8 @@
  *  ArgumentParsing.cpp
  *
  *  Created by Pete Willemsen on 10/6/09.
- *  Copyright 2009 Department of Computer Science, University of Minnesota-Duluth. All rights reserved.
+ *  Copyright 2009 Department of Computer Science, University of
+ * Minnesota-Duluth. All rights reserved.
  *
  * This file is part of libSIVELab library (libsivelab).
  *
@@ -29,7 +30,9 @@ using namespace sivelab;
 ArgumentParsing::ArgumentParsing()
   : m_optDesc("Allowed options"){};
 
-void ArgumentParsing::reg(const std::string &argName, const std::string &description, ArgTypes t, char shortArgName)
+void
+ArgumentParsing::reg(const std::string& argName, const std::string& description,
+                     ArgTypes t, char shortArgName)
 {
   std::ostringstream argName_wShort;
 
@@ -41,27 +44,34 @@ void ArgumentParsing::reg(const std::string &argName, const std::string &descrip
   if (t == NONE) {
     m_optDesc.add_options()(argName_wShort.str().c_str(), description.c_str());
   } else if (t == INT) {
-    m_optDesc.add_options()(argName_wShort.str().c_str(), po::value<int>(), description.c_str());
+    m_optDesc.add_options()(argName_wShort.str().c_str(), po::value<int>(),
+                            description.c_str());
   } else if (t == FLOAT) {
-    m_optDesc.add_options()(argName_wShort.str().c_str(), po::value<float>(), description.c_str());
+    m_optDesc.add_options()(argName_wShort.str().c_str(), po::value<float>(),
+                            description.c_str());
   } else if (t == CHAR) {
-    m_optDesc.add_options()(argName_wShort.str().c_str(), po::value<char>(), description.c_str());
+    m_optDesc.add_options()(argName_wShort.str().c_str(), po::value<char>(),
+                            description.c_str());
   } else if (t == STRING) {
-    m_optDesc.add_options()(argName_wShort.str().c_str(), po::value<std::string>(), description.c_str());
+    m_optDesc.add_options()(argName_wShort.str().c_str(),
+                            po::value<std::string>(), description.c_str());
   }
 }
 
-void ArgumentParsing::printUsage() const
+void
+ArgumentParsing::printUsage() const
 {
   std::cout << m_optDesc << std::endl;
 }
 
-bool ArgumentParsing::isSet(const std::string &argName)
+bool
+ArgumentParsing::isSet(const std::string& argName)
 {
-    return (m_varMap.count(argName) > 0);
+  return (m_varMap.count(argName) > 0);
 }
 
-bool ArgumentParsing::isSet(const std::string &argName, int &argValue)
+bool
+ArgumentParsing::isSet(const std::string& argName, int& argValue)
 {
   if (m_varMap.count(argName) > 0) {
     argValue = m_varMap[argName].as<int>();
@@ -71,7 +81,8 @@ bool ArgumentParsing::isSet(const std::string &argName, int &argValue)
   return false;
 }
 
-bool ArgumentParsing::isSet(const std::string &argName, float &argValue)
+bool
+ArgumentParsing::isSet(const std::string& argName, float& argValue)
 {
   if (m_varMap.count(argName) > 0) {
     argValue = m_varMap[argName].as<float>();
@@ -81,7 +92,8 @@ bool ArgumentParsing::isSet(const std::string &argName, float &argValue)
   return false;
 }
 
-bool ArgumentParsing::isSet(const std::string &argName, char &argValue)
+bool
+ArgumentParsing::isSet(const std::string& argName, char& argValue)
 {
   if (m_varMap.count(argName) > 0) {
     argValue = m_varMap[argName].as<char>();
@@ -91,7 +103,8 @@ bool ArgumentParsing::isSet(const std::string &argName, char &argValue)
   return false;
 }
 
-bool ArgumentParsing::isSet(const std::string &argName, std::string &argValue)
+bool
+ArgumentParsing::isSet(const std::string& argName, std::string& argValue)
 {
   if (m_varMap.count(argName) > 0) {
     argValue = m_varMap[argName].as<std::string>();
@@ -101,7 +114,8 @@ bool ArgumentParsing::isSet(const std::string &argName, std::string &argValue)
   return false;
 }
 
-int ArgumentParsing::process(int argc, char *argv[])
+int
+ArgumentParsing::process(int argc, char* argv[])
 {
   po::store(po::parse_command_line(argc, argv, m_optDesc), m_varMap);
   po::notify(m_varMap);

@@ -33,51 +33,49 @@
 
 #include "types.hpp"
 
-namespace png
+namespace png {
+
+namespace detail {
+template <size_t bits>
+class allowed_bit_depth;
+
+template <>
+class allowed_bit_depth<1>
 {
+};
+template <>
+class allowed_bit_depth<2>
+{
+};
+template <>
+class allowed_bit_depth<4>
+{
+};
+} // namespace detail
 
-    namespace detail
-    {
-        template< size_t bits > class allowed_bit_depth;
+/**
+ * \brief The packed pixel class template.
+ *
+ * \see packed_gray_pixel, packed_index_pixel
+ */
+template <size_t bits>
+class packed_pixel : detail::allowed_bit_depth<bits>
+{
+public:
+  packed_pixel(byte value = 0)
+    : m_value(value & get_bit_mask())
+  {
+  }
 
-        template<> class allowed_bit_depth< 1 > {};
-        template<> class allowed_bit_depth< 2 > {};
-        template<> class allowed_bit_depth< 4 > {};
-    } // namespace detail
+  operator byte() const { return m_value; }
 
-    /**
-     * \brief The packed pixel class template.
-     *
-     * \see packed_gray_pixel, packed_index_pixel
-     */
-    template< size_t bits >
-    class packed_pixel
-        : detail::allowed_bit_depth< bits >
-    {
-    public:
-        packed_pixel(byte value = 0)
-            : m_value(value & get_bit_mask())
-        {
-        }
+  static size_t const get_bit_depth() { return bits; }
 
-        operator byte() const
-        {
-            return m_value;
-        }
+  static byte const get_bit_mask() { return (1 << bits) - 1; }
 
-        static size_t const get_bit_depth()
-        {
-            return bits;
-        }
-
-        static byte const get_bit_mask()
-        {
-            return (1 << bits) - 1;
-        }
-
-    private:
-        byte m_value;
-    };
+private:
+  byte m_value;
+};
 
 } // namespace png
 

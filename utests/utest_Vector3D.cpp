@@ -16,17 +16,18 @@ BOOST_AUTO_TEST_SUITE(Vector3D)
 
 BOOST_AUTO_TEST_CASE(Add)
 {
-  sivelab::Vector3D a(1.0f,0.0f,0.0f), b(0.0f,1.0f,0.0f), c(0.0f, 0.0f, 1.0f);
+  sivelab::Vector3D a(1.0f, 0.0f, 0.0f), b(0.0f, 1.0f, 0.0f),
+    c(0.0f, 0.0f, 1.0f);
   sivelab::Vector3D ans(1.0f, 1.0f, 1.0f), res;
 
   res = a + b + c;
-  
-  BOOST_CHECK_CLOSE_FRACTION ( res[0], ans[0], 0.00001 );   
-  BOOST_CHECK_CLOSE_FRACTION ( res[1], ans[1], 0.00001 );   
-  BOOST_CHECK_CLOSE_FRACTION ( res[2], ans[2], 0.00001 );   
+
+  BOOST_CHECK_CLOSE_FRACTION(res[0], ans[0], 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(res[1], ans[1], 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(res[2], ans[2], 0.00001);
 }
 
-BOOST_AUTO_TEST_CASE (dotProduct)
+BOOST_AUTO_TEST_CASE(dotProduct)
 {
   // Check the orthogonality of the Cartesian coordinate system using
   // the dot product. The resulting dot products between these vectors
@@ -34,14 +35,15 @@ BOOST_AUTO_TEST_CASE (dotProduct)
   // floating point representations and have it be a robust
   // calculation. So, we use Boost's CHECK_CLOSE_FRACTION function to
   // compare closeness within 0.00001.
-  sivelab::Vector3D X(1.0f, 0.0f, 0.0f), Y(0.0f, 1.0f, 0.0f), Z(0.0f, 0.0f, 1.0f);
+  sivelab::Vector3D X(1.0f, 0.0f, 0.0f), Y(0.0f, 1.0f, 0.0f),
+    Z(0.0f, 0.0f, 1.0f);
 
-  BOOST_CHECK_CLOSE_FRACTION ( X.dot(Y), 0.0, 0.00001 ); 
-  BOOST_CHECK_CLOSE_FRACTION ( X.dot(Z), 0.0, 0.00001 ); 
-  BOOST_CHECK_CLOSE_FRACTION ( Y.dot(Z), 0.0, 0.00001 ); 
+  BOOST_CHECK_CLOSE_FRACTION(X.dot(Y), 0.0, 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(X.dot(Z), 0.0, 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(Y.dot(Z), 0.0, 0.00001);
 }
 
-BOOST_AUTO_TEST_CASE (crossProduct)
+BOOST_AUTO_TEST_CASE(crossProduct)
 {
   // Check the orthogonality of the Cartesian coordinate system using
   // the dot product. The resulting dot products between these vectors
@@ -49,26 +51,24 @@ BOOST_AUTO_TEST_CASE (crossProduct)
   // floating point representations and have it be a robust
   // calculation. So, we use Boost's CHECK_CLOSE_FRACTION function to
   // compare closeness within 0.00001.
-  sivelab::Vector3D X(1.0f, 0.0f, 0.0f), Y(0.0f, 1.0f, 0.0f), 
-      Z(0.0f, 0.0f, 1.0f), negZ(0.0f, 0.0f, -1.0f);
+  sivelab::Vector3D X(1.0f, 0.0f, 0.0f), Y(0.0f, 1.0f, 0.0f),
+    Z(0.0f, 0.0f, 1.0f), negZ(0.0f, 0.0f, -1.0f);
   sivelab::Vector3D res;
 
   res = X.cross(Y);
-  
-  BOOST_CHECK_CLOSE_FRACTION ( res[0], Z[0], 0.00001 ); 
-  BOOST_CHECK_CLOSE_FRACTION ( res[1], Z[1], 0.00001 ); 
-  BOOST_CHECK_CLOSE_FRACTION ( res[2], Z[2], 0.00001 ); 
+
+  BOOST_CHECK_CLOSE_FRACTION(res[0], Z[0], 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(res[1], Z[1], 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(res[2], Z[2], 0.00001);
 
   res = Y.cross(X);
-  
-  BOOST_CHECK_CLOSE_FRACTION ( res[0], negZ[0], 0.00001 ); 
-  BOOST_CHECK_CLOSE_FRACTION ( res[1], negZ[1], 0.00001 ); 
-  BOOST_CHECK_CLOSE_FRACTION ( res[2], negZ[2], 0.00001 ); 
 
+  BOOST_CHECK_CLOSE_FRACTION(res[0], negZ[0], 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(res[1], negZ[1], 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(res[2], negZ[2], 0.00001);
 }
 
-
-BOOST_AUTO_TEST_CASE (length)
+BOOST_AUTO_TEST_CASE(length)
 {
   // Check the orthogonality of the Cartesian coordinate system using
   // the dot product. The resulting dot products between these vectors
@@ -76,21 +76,19 @@ BOOST_AUTO_TEST_CASE (length)
   // floating point representations and have it be a robust
   // calculation. So, we use Boost's CHECK_CLOSE_FRACTION function to
   // compare closeness within 0.00001.
-  sivelab::Vector3D X(1.0f, 0.0f, 0.0f), 
-    Y(0.0f, 1.0f, 0.0f), 
-    Z(0.0f, 0.0f, 1.0f), 
-    XYZ(1.0f, 1.0f, 1.0f);
+  sivelab::Vector3D X(1.0f, 0.0f, 0.0f), Y(0.0f, 1.0f, 0.0f),
+    Z(0.0f, 0.0f, 1.0f), XYZ(1.0f, 1.0f, 1.0f);
 
   // length of these should each be 1 (or sqrt(1))
   double sqrtOne = sqrt(1.0);
-  
-  BOOST_CHECK_CLOSE_FRACTION ( sqrtOne, X.length(), 0.00001 );   
-  BOOST_CHECK_CLOSE_FRACTION ( sqrtOne, Y.length(), 0.00001 );   
-  BOOST_CHECK_CLOSE_FRACTION ( sqrtOne, Z.length(), 0.00001 );   
+
+  BOOST_CHECK_CLOSE_FRACTION(sqrtOne, X.length(), 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(sqrtOne, Y.length(), 0.00001);
+  BOOST_CHECK_CLOSE_FRACTION(sqrtOne, Z.length(), 0.00001);
 
   // A vector that points to 1, 1, 1 should have sqrt(1+1+1)
-  double sqrtAllOnes = sqrt( 1.0*1.0 + 1.0*1.0 + 1.0*1.0 );
-  BOOST_CHECK_CLOSE_FRACTION ( sqrtAllOnes, XYZ.length(), 0.00001 );   
+  double sqrtAllOnes = sqrt(1.0 * 1.0 + 1.0 * 1.0 + 1.0 * 1.0);
+  BOOST_CHECK_CLOSE_FRACTION(sqrtAllOnes, XYZ.length(), 0.00001);
 }
 
-BOOST_AUTO_TEST_SUITE_END ()
+BOOST_AUTO_TEST_SUITE_END()

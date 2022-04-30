@@ -35,93 +35,80 @@
 #include "image_info.hpp"
 #include "pixel_traits.hpp"
 
-namespace png
+namespace png {
+
+/**
+ * \brief The default image_info holder class.  Stores image_info
+ * member object.
+ */
+class def_image_info_holder
 {
+public:
+  def_image_info_holder(image_info const& info)
+    : m_info(info)
+  {
+  }
 
-    /**
-     * \brief The default image_info holder class.  Stores image_info
-     * member object.
-     */
-    class def_image_info_holder
-    {
-    public:
-        def_image_info_holder(image_info const& info)
-            : m_info(info)
-        {
-        }
+  image_info& get_info() { return m_info; }
 
-        image_info& get_info()
-        {
-            return m_info;
-        }
+private:
+  image_info m_info;
+};
 
-    private:
-        image_info m_info;
-    };
+/**
+ * \brief An image_info holder class.  Stores a reference to the
+ * image_info object.  The image_info object itself should be
+ * stored elsewhere.
+ */
+class image_info_ref_holder
+{
+public:
+  image_info_ref_holder(image_info& info)
+    : m_info(info)
+  {
+  }
 
-    /**
-     * \brief An image_info holder class.  Stores a reference to the
-     * image_info object.  The image_info object itself should be
-     * stored elsewhere.
-     */
-    class image_info_ref_holder
-    {
-    public:
-        image_info_ref_holder(image_info& info)
-            : m_info(info)
-        {
-        }
+  image_info& get_info() { return m_info; }
 
-        image_info& get_info()
-        {
-            return m_info;
-        }
+private:
+  image_info& m_info;
+};
 
-    private:
-        image_info& m_info;
-    };
+/**
+ * \brief A base class template for consumer and generator
+ * classes.  Provides default \c reset() method implementation as
+ * well as \c info_holder policy.
+ */
+template <typename pixel, class info_holder>
+class streaming_base
+{
+public:
+  typedef pixel_traits<pixel> traits;
 
-    /**
-     * \brief A base class template for consumer and generator
-     * classes.  Provides default \c reset() method implementation as
-     * well as \c info_holder policy.
-     */
-    template< typename pixel, class info_holder >
-    class streaming_base
-    {
-    public:
-        typedef pixel_traits< pixel > traits;
+  explicit streaming_base(image_info& info)
+    : m_info_holder(info)
+  {
+  }
 
-        explicit streaming_base(image_info& info)
-            : m_info_holder(info)
-        {
-        }
+  streaming_base(size_t width, size_t height)
+    : m_info_holder(make_image_info<pixel>())
+  {
+    get_info().set_width(width);
+    get_info().set_height(height);
+  }
 
-        streaming_base(size_t width, size_t height)
-            : m_info_holder(make_image_info< pixel >())
-        {
-            get_info().set_width(width);
-            get_info().set_height(height);
-        }
+  image_info const& get_info() const { return m_info_holder.get_info(); }
 
-        image_info const& get_info() const
-        {
-            return m_info_holder.get_info();
-        }
+protected:
+  void reset(size_t /*pass*/)
+  {
+    // nothing to do in the most general case
+  }
 
-    protected:
-        void reset(size_t /*pass*/)
-        {
-            // nothing to do in the most general case
-        }
+  image_info& get_info() { return m_info_holder.get_info(); }
 
-        image_info& get_info()
-        {
-            return m_info_holder.get_info();
-        }
-
-        info_holder m_info_holder;
-    };
+  info_holder m_info_holder;
+};
 
 } // namespace png
 

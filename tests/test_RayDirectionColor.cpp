@@ -12,7 +12,8 @@ using namespace renderer;
 
 namespace fs = std::filesystem;
 
-int main(int argc, char *argv[])
+int
+main(int argc, char* argv[])
 {
   sivelab::GraphicsArgs args;
   args.process(argc, argv);
@@ -24,32 +25,35 @@ int main(int argc, char *argv[])
 
   Framebuffer fb(nx, ny);
 
-  std::vector<Camera *> cams(7);
+  std::vector<Camera*> cams(7);
   // cams[0] = new PerspectiveCamera("1", CoordSys(), 1.0);
   cams[0] = new PerspectiveCamera();
-  // cams[1] = new PerspectiveCamera("2", CoordSys(Vec3d(), Vec3d(0, 1, 0), Vec3d(0, 0, 1)), 1.0);
+  // cams[1] = new PerspectiveCamera("2", CoordSys(Vec3d(), Vec3d(0, 1, 0),
+  // Vec3d(0, 0, 1)), 1.0);
   cams[1] = new PerspectiveCamera(Vec3d(), Vec3d(0, 0, 1));
-  // cams[2] = new PerspectiveCamera("3", CoordSys(Vec3d(), Vec3d(0, 1, 0), Vec3d(1, 0, 0)), 1.0);
+  // cams[2] = new PerspectiveCamera("3", CoordSys(Vec3d(), Vec3d(0, 1, 0),
+  // Vec3d(1, 0, 0)), 1.0);
   cams[2] = new PerspectiveCamera(Vec3d(), Vec3d(1, 0, 0));
-  // cams[3] = new PerspectiveCamera("4", CoordSys(Vec3d(), Vec3d(0, 1, 0), Vec3d(-1, 0, 0)), 1.0);
+  // cams[3] = new PerspectiveCamera("4", CoordSys(Vec3d(), Vec3d(0, 1, 0),
+  // Vec3d(-1, 0, 0)), 1.0);
   cams[3] = new PerspectiveCamera(Vec3d(), Vec3d(-1, 0, 0));
-  // cams[4] = new PerspectiveCamera("5", CoordSys(Vec3d(-19, 12, 3), Vec3d(0, 0, -1), Vec3d(0, 1, 0)), 0.15);
+  // cams[4] = new PerspectiveCamera("5", CoordSys(Vec3d(-19, 12, 3), Vec3d(0,
+  // 0, -1), Vec3d(0, 1, 0)), 0.15);
   cams[4] = new PerspectiveCamera(Vec3d(-19, 12, 3), Vec3d(0, 1, 0), 0.15);
-  // cams[5] = new PerspectiveCamera("6", CoordSys(Vec3d(-19, 12, 3), Vec3d(0, 0, 1), Vec3d(0, -1, 0)), 0.15);
+  // cams[5] = new PerspectiveCamera("6", CoordSys(Vec3d(-19, 12, 3), Vec3d(0,
+  // 0, 1), Vec3d(0, -1, 0)), 0.15);
   cams[5] = new PerspectiveCamera(Vec3d(-19, 12, 3), Vec3d(0, -1, 0), 0.15);
-  // cams[6] = new PerspectiveCamera("7", CoordSys(Vec3d(), Vec3d(0, 1, 0), Vec3d(0, 0, -1)), 0.05);
+  // cams[6] = new PerspectiveCamera("7", CoordSys(Vec3d(), Vec3d(0, 1, 0),
+  // Vec3d(0, 0, -1)), 0.05);
   cams[6] = new PerspectiveCamera(Vec3d(), Vec3d(0, 0, -1), 0.05);
 
-  for (int c(0); c < 7; ++c)
-  {
+  for (int c(0); c < 7; ++c) {
     std::cout << c << std::endl;
 
     cams[c]->setImagePixels(nx, ny);
 
-    for (size_t i = 0; i < nx; ++i)
-    {
-      for (size_t j = 0; j < ny; ++j)
-      {
+    for (size_t i = 0; i < nx; ++i) {
+      for (size_t j = 0; j < ny; ++j) {
 
         auto r = cams[c]->generateRay(i, j);
         Vec3f color((Vec3f(1, 1, 1) + r.direction().unitize()) / 2);
@@ -57,7 +61,9 @@ int main(int argc, char *argv[])
       }
     }
 
-    fb.exportAsPNG((outdir / ("test_RayDirectionColor" + std::to_string(c + 1) + ".test.png")).string());
+    fb.exportAsPNG((outdir / ("test_RayDirectionColor" + std::to_string(c + 1) +
+                              ".test.png"))
+                     .string());
   }
 
   return 0;

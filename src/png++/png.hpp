@@ -104,7 +104,8 @@
  * type.  With png++ you can specify it this way:
  *
  * \code
- * png::image< png::rgb_pixel > image("rgb.png", png::require_color_space< png::rgb_pixel >());
+ * png::image< png::rgb_pixel > image("rgb.png", png::require_color_space<
+ * png::rgb_pixel >());
  * \endcode
  *
  * \section sec_installing Installing

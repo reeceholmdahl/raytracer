@@ -17,7 +17,9 @@ namespace fs = std::filesystem;
 
 using renderer::Framebuffer;
 
-int main(int argc, char *argv[]) {
+int
+main(int argc, char* argv[])
+{
   sivelab::GraphicsArgs args;
   args.process(argc, argv);
 
@@ -37,7 +39,7 @@ int main(int argc, char *argv[]) {
   auto bvh = BVH(scene.shapes);
   std::cout << "Made the BVH" << std::endl;
 
-  std::vector<Framebuffer *> fbs(scene.cameras.size());
+  std::vector<Framebuffer*> fbs(scene.cameras.size());
   for (int i(0); i < scene.cameras.size(); ++i) {
     fbs[i] = new Framebuffer(scene.pixelsX, scene.pixelsY);
   }

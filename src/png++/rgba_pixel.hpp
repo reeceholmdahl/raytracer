@@ -34,62 +34,66 @@
 #include "types.hpp"
 #include "pixel_traits.hpp"
 
-namespace png
+namespace png {
+
+/**
+ * \brief RGBA pixel type.
+ */
+template <typename T>
+struct basic_rgba_pixel
 {
+  typedef pixel_traits<basic_rgba_pixel<T>> traits;
 
-    /**
-     * \brief RGBA pixel type.
-     */
-    template< typename T >
-    struct basic_rgba_pixel
-    {
-        typedef pixel_traits< basic_rgba_pixel< T > > traits;
+  /**
+   * \brief Default constructor.  Initializes all components
+   * with zeros.
+   */
+  basic_rgba_pixel()
+    : red(0)
+    , green(0)
+    , blue(0)
+    , alpha(0)
+  {
+  }
 
-        /**
-         * \brief Default constructor.  Initializes all components
-         * with zeros.
-         */
-        basic_rgba_pixel()
-            : red(0), green(0), blue(0), alpha(0)
-        {
-        }
+  /**
+   * \brief Constructs rgba_pixel object from \a red, \a green,
+   * \a blue and \a alpha components passed as parameters.
+   * Alpha defaults to full opacity.
+   */
+  basic_rgba_pixel(T red, T green, T blue, T alpha = traits::get_alpha_filler())
+    : red(red)
+    , green(green)
+    , blue(blue)
+    , alpha(alpha)
+  {
+  }
 
-        /**
-         * \brief Constructs rgba_pixel object from \a red, \a green,
-         * \a blue and \a alpha components passed as parameters.
-         * Alpha defaults to full opacity.
-         */
-        basic_rgba_pixel(T red, T green, T blue,
-                         T alpha = traits::get_alpha_filler())
-            : red(red), green(green), blue(blue), alpha(alpha)
-        {
-        }
+  T red;
+  T green;
+  T blue;
+  T alpha;
+};
 
-        T red;
-        T green;
-        T blue;
-        T alpha;
-    };
+/**
+ * The 8-bit RGBA pixel type.
+ */
+typedef basic_rgba_pixel<byte> rgba_pixel;
 
-    /**
-     * The 8-bit RGBA pixel type.
-     */
-    typedef basic_rgba_pixel< byte > rgba_pixel;
+/**
+ * The 16-bit RGBA pixel type.
+ */
+typedef basic_rgba_pixel<uint_16> rgba_pixel_16;
 
-    /**
-     * The 16-bit RGBA pixel type.
-     */
-    typedef basic_rgba_pixel< uint_16 > rgba_pixel_16;
-
-    /**
-     * \brief Pixel traits specialization for basic_rgba_pixel.
-     */
-    template< typename T >
-    struct pixel_traits< basic_rgba_pixel< T > >
-        : basic_pixel_traits< basic_rgba_pixel< T >, T, color_type_rgba >,
-          basic_alpha_pixel_traits< T >
-    {
-    };
+/**
+ * \brief Pixel traits specialization for basic_rgba_pixel.
+ */
+template <typename T>
+struct pixel_traits<basic_rgba_pixel<T>>
+  : basic_pixel_traits<basic_rgba_pixel<T>, T, color_type_rgba>,
+    basic_alpha_pixel_traits<T>
+{
+};
 
 } // namespace png
 

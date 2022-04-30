@@ -26,44 +26,52 @@
 using namespace std;
 
 namespace sivelab {
-ostream &operator<<(ostream &os, const sivelab::Vector3D &v) {
+ostream& operator<<(ostream& os, const sivelab::Vector3D& v)
+{
   os << '[' << v[0] << ' ' << v[1] << ' ' << v[2] << ']';
   return os;
 }
 
-istream &operator>>(istream &is, sivelab::Vector3D &v) {
+istream& operator>>(istream& is, sivelab::Vector3D& v)
+{
   double x = 0, y = 0, z = 0;
   is >> x >> y >> z;
   v.set(x, y, z);
   return is;
 }
 
-const sivelab::Vector3D operator+(const sivelab::Vector3D &lhs,
-                                  const sivelab::Vector3D &rhs) {
+const sivelab::Vector3D operator+(const sivelab::Vector3D& lhs,
+                                  const sivelab::Vector3D& rhs)
+{
   return sivelab::Vector3D(lhs) += rhs;
 }
 
-const sivelab::Vector3D operator-(const sivelab::Vector3D &lhs,
-                                  const sivelab::Vector3D &rhs) {
+const sivelab::Vector3D operator-(const sivelab::Vector3D& lhs,
+                                  const sivelab::Vector3D& rhs)
+{
   return sivelab::Vector3D(lhs) -= rhs;
 }
 
-const sivelab::Vector3D operator*(const sivelab::Vector3D &lhs,
-                                  const double rhs) {
+const sivelab::Vector3D operator*(const sivelab::Vector3D& lhs,
+                                  const double rhs)
+{
   return sivelab::Vector3D(lhs) *= rhs;
 }
 
 const sivelab::Vector3D operator*(const double rhs,
-                                  const sivelab::Vector3D &lhs) {
+                                  const sivelab::Vector3D& lhs)
+{
   return sivelab::Vector3D(lhs) *= rhs;
 }
 
-const sivelab::Vector3D operator/(const sivelab::Vector3D &lhs,
-                                  const double rhs) {
+const sivelab::Vector3D operator/(const sivelab::Vector3D& lhs,
+                                  const double rhs)
+{
   return sivelab::Vector3D(lhs) /= rhs;
 }
 
-const Vector3D operator*(const Vector3D &lhs, const Vector3D &rhs) {
+const Vector3D operator*(const Vector3D& lhs, const Vector3D& rhs)
+{
   sivelab::Vector3D retVec(lhs);
   retVec[0] *= rhs[0];
   retVec[1] *= rhs[1];
@@ -74,9 +82,11 @@ const Vector3D operator*(const Vector3D &lhs, const Vector3D &rhs) {
 
 using namespace sivelab;
 
-double Vector3D::normalize(void) {
+double
+Vector3D::normalize(void)
+{
   const double vector_length =
-      sqrt(data[0] * data[0] + data[1] * data[1] + data[2] * data[2]);
+    sqrt(data[0] * data[0] + data[1] * data[1] + data[2] * data[2]);
   if (vector_length > 0.0) {
     data[0] /= vector_length;
     data[1] /= vector_length;

@@ -15,7 +15,9 @@ using namespace renderer;
 
 namespace fs = std::filesystem;
 
-int main(int argc, char *argv[]) {
+int
+main(int argc, char* argv[])
+{
   sivelab::GraphicsArgs args;
   args.process(argc, argv);
 
@@ -28,7 +30,7 @@ int main(int argc, char *argv[]) {
   Sphere sph;
   sph.shaderPtr = new NormalShader();
 
-  Camera *cam = new PerspectiveCamera();
+  Camera* cam = new PerspectiveCamera();
 
   cam->setImagePixels(nx, ny);
 

@@ -6,7 +6,7 @@ XMLSceneParser::XMLSceneParser()
 {
 }
 
-XMLSceneParser::XMLSceneParser(const std::string &filename)
+XMLSceneParser::XMLSceneParser(const std::string& filename)
   : m_currFileName(filename)
 {
   f_parse();
@@ -17,119 +17,117 @@ XMLSceneParser::~XMLSceneParser()
   f_cleanup();
 }
 
-void XMLSceneParser::parseFile(const std::string &filename)
+void
+XMLSceneParser::parseFile(const std::string& filename)
 {
   f_cleanup();
   m_currFileName = filename;
   f_parse();
 }
 
-void XMLSceneParser::f_parse()
+void
+XMLSceneParser::f_parse()
 {
-  SceneElementCreator *creator = 0;
+  SceneElementCreator* creator = 0;
 
   read_xml(m_currFileName, m_ptree);
 
   //  if (m_doc == NULL) {
-  //    std::cerr << "Error: could not parse file " << m_currFileName << std::endl;
+  //    std::cerr << "Error: could not parse file " << m_currFileName <<
+  //    std::endl;
   //  }
 
-  // call the call back for the scene, which could potentially over-ride all that is here. However, it would 
+  // call the call back for the scene, which could potentially over-ride all
+  // that is here. However, it would
 
   using boost::property_tree::ptree;
-  BOOST_FOREACH( ptree::value_type const &v, m_ptree.get_child("scene") ) {
+  BOOST_FOREACH (ptree::value_type const& v, m_ptree.get_child("scene")) {
 
     if (v.first == "sceneParameters") {
       creator = m_elemCallbackMap["sceneParameters"];
-      if (creator)
-	{
-	  creator->m_otype = SceneElementCreator::SCENEPROPS;
-	  creator->instance( v );
-	}
-      else 
-	std::cerr << "Warning!!!! No \"sceneParameters\" creator callback provided!" << std::endl;
+      if (creator) {
+        creator->m_otype = SceneElementCreator::SCENEPROPS;
+        creator->instance(v);
+      } else
+        std::cerr
+          << "Warning!!!! No \"sceneParameters\" creator callback provided!"
+          << std::endl;
     }
 
     if (v.first == "camera") {
       creator = m_elemCallbackMap["camera"];
-      if (creator)
-	{
-	  creator->m_otype = SceneElementCreator::CAMERA;
-	  creator->instance( v );
-	}
-      else 
-	std::cerr << "Warning!!!! No camera creator callback provided!" << std::endl;
+      if (creator) {
+        creator->m_otype = SceneElementCreator::CAMERA;
+        creator->instance(v);
+      } else
+        std::cerr << "Warning!!!! No camera creator callback provided!"
+                  << std::endl;
     }
 
     if (v.first == "transform") {
       creator = m_elemCallbackMap["transform"];
-      if (creator)
-	{
-	  creator->m_otype = SceneElementCreator::TRANSFORM;
-	  creator->instance( v );
-	}
-      else 
-	std::cerr << "Warning!!!! No transform creator callback provided!" << std::endl;
+      if (creator) {
+        creator->m_otype = SceneElementCreator::TRANSFORM;
+        creator->instance(v);
+      } else
+        std::cerr << "Warning!!!! No transform creator callback provided!"
+                  << std::endl;
     }
 
     if (v.first == "light") {
       creator = m_elemCallbackMap["light"];
-      if (creator)
-	{
-	  creator->m_otype = SceneElementCreator::LIGHT;
-	  creator->instance( v );
-	}
-      else 
-	std::cerr << "Warning!!!! No light creator callback provided!" << std::endl;
+      if (creator) {
+        creator->m_otype = SceneElementCreator::LIGHT;
+        creator->instance(v);
+      } else
+        std::cerr << "Warning!!!! No light creator callback provided!"
+                  << std::endl;
     }
 
     if (v.first == "shader") {
       creator = m_elemCallbackMap["shader"];
-      if (creator)
-	{
-	  creator->m_otype = SceneElementCreator::SHADER;
-	  creator->instance( v );
-	}
-      else 
-	std::cerr << "Warning!!!! No shader creator callback provided!" << std::endl;
+      if (creator) {
+        creator->m_otype = SceneElementCreator::SHADER;
+        creator->instance(v);
+      } else
+        std::cerr << "Warning!!!! No shader creator callback provided!"
+                  << std::endl;
     }
-	
+
     if (v.first == "texture") {
       creator = m_elemCallbackMap["texture"];
-      if (creator)
-	{
-	  creator->m_otype = SceneElementCreator::TEXTURE;
-	  creator->instance( v );
-	}
-      else 
-	std::cerr << "Warning!!!! No texture creator callback provided!" << std::endl;
+      if (creator) {
+        creator->m_otype = SceneElementCreator::TEXTURE;
+        creator->instance(v);
+      } else
+        std::cerr << "Warning!!!! No texture creator callback provided!"
+                  << std::endl;
     }
 
     if (v.first == "shape") {
       creator = m_elemCallbackMap["shape"];
-      if (creator)
-	{
-	  creator->m_otype = SceneElementCreator::SHAPE;
-	  creator->instance( v );
-	}
-      else 
-	std::cerr << "Warning!!!! No shape creator callback provided!" << std::endl;
+      if (creator) {
+        creator->m_otype = SceneElementCreator::SHAPE;
+        creator->instance(v);
+      } else
+        std::cerr << "Warning!!!! No shape creator callback provided!"
+                  << std::endl;
     }
 
     if (v.first == "instance") {
       creator = m_elemCallbackMap["instance"];
-      if (creator)
-	{
-	  creator->m_otype = SceneElementCreator::INSTANCE;
-	  creator->instance( v );
-	}
-      else 
-	std::cerr << "Warning!!!! No instance creator callback provided!" << std::endl;
+      if (creator) {
+        creator->m_otype = SceneElementCreator::INSTANCE;
+        creator->instance(v);
+      } else
+        std::cerr << "Warning!!!! No instance creator callback provided!"
+                  << std::endl;
     }
   }
 }
 
-void XMLSceneParser::f_cleanup()
+void
+XMLSceneParser::f_cleanup()
 {
 }
 
@@ -529,7 +527,9 @@ void XMLSceneParser::f_printNodeMapData(const std::map<std::string, SceneDataCon
 }
 #endif
 
-void XMLSceneParser::registerCallback(const std::string &elementName, SceneElementCreator *secPtr)
+void
+XMLSceneParser::registerCallback(const std::string& elementName,
+                                 SceneElementCreator* secPtr)
 {
   m_elemCallbackMap[elementName] = secPtr;
 }

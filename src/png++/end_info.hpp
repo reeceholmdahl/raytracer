@@ -33,41 +33,33 @@
 
 #include "info_base.hpp"
 
-namespace png
+namespace png {
+
+/**
+ * \brief Internal class to hold PNG ending %info.
+ *
+ * \see info, info_base
+ */
+class end_info : public info_base
 {
+public:
+  end_info(io_base& io, png_struct* png)
+    : info_base(io, png)
+  {
+  }
 
-    /**
-     * \brief Internal class to hold PNG ending %info.
-     *
-     * \see info, info_base
-     */
-    class end_info
-        : public info_base
-    {
-    public:
-        end_info(io_base& io, png_struct* png)
-            : info_base(io, png)
-        {
-        }
+  void destroy()
+  {
+    assert(m_info);
+    png_destroy_info_struct(m_png, &m_info);
+  }
 
-        void destroy()
-        {
-            assert(m_info);
-            png_destroy_info_struct(m_png, & m_info);
-        }
+  void read() { png_read_end(m_png, m_info); }
 
-        void read()
-        {
-            png_read_end(m_png, m_info);
-        }
-        
-        void write() const
-        {
-            png_write_end(m_png, m_info);
-        }
+  void write() const { png_write_end(m_png, m_info); }
 
-        // TODO: add methods to read/write text comments etc.
-    };
+  // TODO: add methods to read/write text comments etc.
+};
 
 } // namespace png
 

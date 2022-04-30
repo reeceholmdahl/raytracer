@@ -34,56 +34,59 @@
 #include "types.hpp"
 #include "pixel_traits.hpp"
 
-namespace png
+namespace png {
+
+/**
+ * \brief RGB pixel type.
+ */
+template <typename T>
+struct basic_rgb_pixel
 {
+  /**
+   * \brief Default constructor.  Initializes all components
+   * with zeros.
+   */
+  basic_rgb_pixel()
+    : red(0)
+    , green(0)
+    , blue(0)
+  {
+  }
 
-    /**
-     * \brief RGB pixel type.
-     */
-    template< typename T >
-    struct basic_rgb_pixel
-    {
-        /**
-         * \brief Default constructor.  Initializes all components
-         * with zeros.
-         */
-        basic_rgb_pixel()
-            : red(0), green(0), blue(0)
-        {
-        }
+  /**
+   * \brief Constructs rgb_pixel object from \a red, \a green
+   * and \a blue components passed as parameters.
+   */
+  basic_rgb_pixel(T red, T green, T blue)
+    : red(red)
+    , green(green)
+    , blue(blue)
+  {
+  }
 
-        /**
-         * \brief Constructs rgb_pixel object from \a red, \a green
-         * and \a blue components passed as parameters.
-         */
-        basic_rgb_pixel(T red, T green, T blue)
-            : red(red), green(green), blue(blue)
-        {
-        }
+  T red;
+  T green;
+  T blue;
+};
 
-        T red;
-        T green;
-        T blue;
-    };
+/**
+ * The 8-bit RGB pixel type.
+ */
+typedef basic_rgb_pixel<byte> rgb_pixel;
 
-    /**
-     * The 8-bit RGB pixel type.
-     */
-    typedef basic_rgb_pixel< byte > rgb_pixel;
+/**
+ * The 16-bit RGB pixel type.
+ */
+typedef basic_rgb_pixel<uint_16> rgb_pixel_16;
 
-    /**
-     * The 16-bit RGB pixel type.
-     */
-    typedef basic_rgb_pixel< uint_16 > rgb_pixel_16;
-
-    /**
-     * \brief Pixel traits specialization for basic_rgb_pixel.
-     */
-    template< typename T >
-    struct pixel_traits< basic_rgb_pixel< T > >
-        : basic_pixel_traits< basic_rgb_pixel< T >, T, color_type_rgb >
-    {
-    };
+/**
+ * \brief Pixel traits specialization for basic_rgb_pixel.
+ */
+template <typename T>
+struct pixel_traits<basic_rgb_pixel<T>>
+  : basic_pixel_traits<basic_rgb_pixel<T>, T, color_type_rgb>
+{
+};
 
 } // namespace png
 

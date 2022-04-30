@@ -39,132 +39,144 @@
 #include "index_pixel.hpp"
 #include "io_base.hpp"
 
-namespace png
+namespace png {
+
+namespace detail {
+
+template <typename pixel>
+struct wrong_color_space
 {
+  inline static char const* error_msg();
+};
 
-    namespace detail
-    {
+template <>
+inline char const*
+wrong_color_space<rgb_pixel>::error_msg()
+{
+  return "8-bit RGB color space required";
+}
 
-        template< typename pixel >
-        struct wrong_color_space
-        {
-            inline static char const* error_msg();
-        };
+template <>
+inline char const*
+wrong_color_space<rgb_pixel_16>::error_msg()
+{
+  return "16-bit RGB color space required";
+}
 
-        template<> inline char const*
-        wrong_color_space< rgb_pixel >::error_msg()
-        {
-            return "8-bit RGB color space required";
-        }
+template <>
+inline char const*
+wrong_color_space<rgba_pixel>::error_msg()
+{
+  return "8-bit RGBA color space required";
+}
 
-        template<> inline char const*
-        wrong_color_space< rgb_pixel_16 >::error_msg()
-        {
-            return "16-bit RGB color space required";
-        }
+template <>
+inline char const*
+wrong_color_space<rgba_pixel_16>::error_msg()
+{
+  return "16-bit RGBA color space required";
+}
 
-        template<> inline char const*
-        wrong_color_space< rgba_pixel >::error_msg()
-        {
-            return "8-bit RGBA color space required";
-        }
+template <>
+inline char const*
+wrong_color_space<gray_pixel>::error_msg()
+{
+  return "8-bit Grayscale color space required";
+}
 
-        template<> inline char const*
-        wrong_color_space< rgba_pixel_16 >::error_msg()
-        {
-            return "16-bit RGBA color space required";
-        }
+template <>
+inline char const*
+wrong_color_space<gray_pixel_1>::error_msg()
+{
+  return "1-bit Grayscale color space required";
+}
 
-        template<> inline char const*
-        wrong_color_space< gray_pixel >::error_msg()
-        {
-            return "8-bit Grayscale color space required";
-        }
+template <>
+inline char const*
+wrong_color_space<gray_pixel_2>::error_msg()
+{
+  return "2-bit Grayscale color space required";
+}
 
-        template<> inline char const*
-        wrong_color_space< gray_pixel_1 >::error_msg()
-        {
-            return "1-bit Grayscale color space required";
-        }
+template <>
+inline char const*
+wrong_color_space<gray_pixel_4>::error_msg()
+{
+  return "4-bit Grayscale color space required";
+}
 
-        template<> inline char const*
-        wrong_color_space< gray_pixel_2 >::error_msg()
-        {
-            return "2-bit Grayscale color space required";
-        }
+template <>
+inline char const*
+wrong_color_space<gray_pixel_16>::error_msg()
+{
+  return "16-bit Grayscale color space required";
+}
 
-        template<> inline char const*
-        wrong_color_space< gray_pixel_4 >::error_msg()
-        {
-            return "4-bit Grayscale color space required";
-        }
+template <>
+inline char const*
+wrong_color_space<ga_pixel>::error_msg()
+{
+  return "8-bit Gray+Alpha color space required";
+}
 
-        template<> inline char const*
-        wrong_color_space< gray_pixel_16 >::error_msg()
-        {
-            return "16-bit Grayscale color space required";
-        }
+template <>
+inline char const*
+wrong_color_space<ga_pixel_16>::error_msg()
+{
+  return "16-bit Gray+Alpha color space required";
+}
 
-        template<> inline char const*
-        wrong_color_space< ga_pixel >::error_msg()
-        {
-            return "8-bit Gray+Alpha color space required";
-        }
+template <>
+inline char const*
+wrong_color_space<index_pixel>::error_msg()
+{
+  return "8-bit Colormap color space required";
+}
 
-        template<> inline char const*
-        wrong_color_space< ga_pixel_16 >::error_msg()
-        {
-            return "16-bit Gray+Alpha color space required";
-        }
+template <>
+inline char const*
+wrong_color_space<index_pixel_1>::error_msg()
+{
+  return "1-bit Colormap color space required";
+}
 
-        template<> inline char const*
-        wrong_color_space< index_pixel >::error_msg()
-        {
-            return "8-bit Colormap color space required";
-        }
+template <>
+inline char const*
+wrong_color_space<index_pixel_2>::error_msg()
+{
+  return "2-bit Colormap color space required";
+}
 
-        template<> inline char const*
-        wrong_color_space< index_pixel_1 >::error_msg()
-        {
-            return "1-bit Colormap color space required";
-        }
+template <>
+inline char const*
+wrong_color_space<index_pixel_4>::error_msg()
+{
+  return "4-bit Colormap color space required";
+}
 
-        template<> inline char const*
-        wrong_color_space< index_pixel_2 >::error_msg()
-        {
-            return "2-bit Colormap color space required";
-        }
+} // namespace detail
 
-        template<> inline char const*
-        wrong_color_space< index_pixel_4 >::error_msg()
-        {
-            return "4-bit Colormap color space required";
-        }
+/**
+ * \brief IO transformation class template.  Enforces image color space.
+ *
+ * This IO transformation class template used to enforce source image
+ * color space.
+ *
+ * \see image, image::read
+ */
+template <typename pixel>
+struct require_color_space
+{
+  typedef pixel_traits<pixel> traits;
 
-    } // namespace detail
-
-    /**
-     * \brief IO transformation class template.  Enforces image color space.
-     *
-     * This IO transformation class template used to enforce source image
-     * color space.
-     *
-     * \see image, image::read
-     */
-    template< typename pixel >
-    struct require_color_space
-    {
-        typedef pixel_traits< pixel > traits;
-
-        void operator()(io_base& io) const
-        {
-            if (io.get_color_type() != traits::get_color_type()
-                || io.get_bit_depth() != traits::get_bit_depth())
-            {
-                throw error(detail::wrong_color_space< pixel >::error_msg());
-            }
-        }
-    };
+  void operator()(io_base& io) const
+  {
+    if (io.get_color_type() != traits::get_color_type() ||
+        io.get_bit_depth() != traits::get_bit_depth()) {
+      throw error(detail::wrong_color_space<pixel>::error_msg());
+    }
+  }
+};
 
 } // namespace png
 

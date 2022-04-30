@@ -17,7 +17,9 @@ using namespace renderer;
 
 namespace fs = std::filesystem;
 
-int main(int argc, char *argv[]) {
+int
+main(int argc, char* argv[])
+{
   sivelab::GraphicsArgs args;
   args.process(argc, argv);
 
@@ -31,8 +33,8 @@ int main(int argc, char *argv[]) {
   Triangle tri;
   tri.shaderPtr = new DiffuseShader();
 
-  Camera *persp = new PerspectiveCamera();
-  Camera *ortho = new OrthographicCamera();
+  Camera* persp = new PerspectiveCamera();
+  Camera* ortho = new OrthographicCamera();
 
   persp->setImagePixels(nx, ny);
   ortho->setImagePixels(nx, ny);
@@ -61,9 +63,9 @@ int main(int argc, char *argv[]) {
   }
 
   fbPersp.exportAsPNG(
-      (outdir / "test_DefaultTrianglePerspective.test.png").string());
+    (outdir / "test_DefaultTrianglePerspective.test.png").string());
   fbOrtho.exportAsPNG(
-      (outdir / "test_DefaultTriangleOrthographic.test.png").string());
+    (outdir / "test_DefaultTriangleOrthographic.test.png").string());
 
   return 0;
 }

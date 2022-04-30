@@ -20,7 +20,9 @@ using namespace renderer;
 
 namespace fs = std::filesystem;
 
-int main(int argc, char *argv[]) {
+int
+main(int argc, char* argv[])
+{
   sivelab::GraphicsArgs args;
   args.process(argc, argv);
 
@@ -30,8 +32,8 @@ int main(int argc, char *argv[]) {
 
   Framebuffer fb(nx, ny);
 
-  std::vector<Shape *> shapes;
-  std::vector<Light *> lights;
+  std::vector<Shape*> shapes;
+  std::vector<Light*> lights;
 
   // shapes.push_back(new Triangle(Vec3d(0.25, 0, -2), Vec3d(0, 0.1, -2.1),
   // Vec3d(-0.1, -0.1, -2)));
@@ -42,18 +44,18 @@ int main(int argc, char *argv[]) {
   // lights.push_back(new PointLight(Vec3d(1, 1, -1), Vec3f(1, 1, 1)));
   lights.push_back(new PointLight(Vec3d(0, 10, 0), Vec3f(1, 1, 1)));
 
-  Camera *cam;
+  Camera* cam;
   // cam = new PerspectiveCamera();
   cam = new PerspectiveCamera(Vec3d(), Vec3d(0, 0, -1));
   cam->setImagePixels(nx, ny);
 
-  Shader *shader = new LambertShader(Vec3f(0, 0, 1));
+  Shader* shader = new LambertShader(Vec3f(0, 0, 1));
   for (size_t i = 0; i < nx; ++i) {
     for (size_t j = 0; j < ny; ++j) {
       auto r(cam->generateRay(i, j));
 
       HitStruct hit(1, INFINITY, &lights);
-      for (Shape *shape : shapes) {
+      for (Shape* shape : shapes) {
         shape->shaderPtr = shader;
 
         auto testHit = hit;

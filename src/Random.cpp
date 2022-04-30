@@ -12,7 +12,8 @@
 
 using namespace sivelab;
 
-void Random::init(long s)
+void
+Random::init(long s)
 {
   m_prng.seed(s);
 
@@ -33,30 +34,37 @@ void Random::init(long s)
 }
 
 Random::Random()
-  : m_prng( 0 ), uniform_dist(0.0, 1.0), normal_dist(0.0, 1.0)
+  : m_prng(0)
+  , uniform_dist(0.0, 1.0)
+  , normal_dist(0.0, 1.0)
 {
 #ifndef WIN32
-  init( time(0) % getpid() );
+  init(time(0) % getpid());
 #endif
 }
 
 Random::Random(long s)
-  : m_prng( s ), uniform_dist(0.0, 1.0), normal_dist(0.0, 1.0)
+  : m_prng(s)
+  , uniform_dist(0.0, 1.0)
+  , normal_dist(0.0, 1.0)
 {
   init(s);
 }
 
-void Random::setSeed(long s)
+void
+Random::setSeed(long s)
 {
   init(s);
 }
 
-double Random::uniform()
+double
+Random::uniform()
 {
   return randVal();
 }
 
-double Random::normal()
+double
+Random::normal()
 {
   return normal_dist(m_prng);
 }
@@ -65,36 +73,33 @@ double Random::normal()
 // distribution with mean 0 and standard deviation of 1.  This is
 // accomplished by using the Box-Muller algorithm for transformation
 // between different distributions.
-double Random::boxMuller_normal()
+double
+Random::boxMuller_normal()
 {
   double rsq, v1, v2;
-  
-  if (m_normal_value == false)
-    {
-      do 
-	{
-	  v1 = 2.0 * randVal() - 1.0;
-	  v2 = 2.0 * randVal() - 1.0;
-	  rsq = v1*v1 + v2*v2;
-	} while (rsq >= 1.0);
-      
-      rsq = sqrt( (-2.0 * log(rsq) ) / rsq );
-      
-      m_remaining_value = v2 * rsq;
-      m_normal_value = true;
 
-      return v1*rsq;
-    }
-  else
-    {
-      m_normal_value = false;
-      return m_remaining_value;
-    }
+  if (m_normal_value == false) {
+    do {
+      v1 = 2.0 * randVal() - 1.0;
+      v2 = 2.0 * randVal() - 1.0;
+      rsq = v1 * v1 + v2 * v2;
+    } while (rsq >= 1.0);
+
+    rsq = sqrt((-2.0 * log(rsq)) / rsq);
+
+    m_remaining_value = v2 * rsq;
+    m_normal_value = true;
+
+    return v1 * rsq;
+  } else {
+    m_normal_value = false;
+    return m_remaining_value;
+  }
 }
- 
-double Random::lcg()
+
+double
+Random::lcg()
 {
   m_lcg_x = (m_lcg_a * m_lcg_x + m_lcg_c) % m_lcg_m;
   return m_lcg_x / (long double)std::numeric_limits<unsigned long>::max();
 }
-

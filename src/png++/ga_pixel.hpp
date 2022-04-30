@@ -36,50 +36,50 @@
 #include "types.hpp"
 #include "pixel_traits.hpp"
 
-namespace png
+namespace png {
+
+/**
+ * \brief Basic Gray+Alpha pixel type.
+ */
+template <typename T>
+struct basic_ga_pixel
 {
+  typedef pixel_traits<basic_ga_pixel<T>> traits;
 
-    /**
-     * \brief Basic Gray+Alpha pixel type.
-     */
-    template< typename T >
-    struct basic_ga_pixel
-    {
-        typedef pixel_traits< basic_ga_pixel< T > > traits;
+  /**
+   * \brief Constructs basic_ga_pixel object from \a value and
+   * \a alpha components passed as parameters.  Alpha defaults
+   * to full opacity.
+   */
+  basic_ga_pixel(T value = 0, T alpha = traits::get_alpha_filler())
+    : value(value)
+    , alpha(alpha)
+  {
+  }
 
-        /**
-         * \brief Constructs basic_ga_pixel object from \a value and
-         * \a alpha components passed as parameters.  Alpha defaults
-         * to full opacity.
-         */
-        basic_ga_pixel(T value = 0, T alpha = traits::get_alpha_filler())
-            : value(value), alpha(alpha)
-        {
-        }
+  T value;
+  T alpha;
+};
 
-        T value;
-        T alpha;
-    };
+/**
+ * \brief The 8-bit Gray+Alpha pixel type.
+ */
+typedef basic_ga_pixel<byte> ga_pixel;
 
-    /**
-     * \brief The 8-bit Gray+Alpha pixel type.
-     */
-    typedef basic_ga_pixel< byte > ga_pixel;
+/**
+ * \brief The 16-bit Gray+Alpha pixel type.
+ */
+typedef basic_ga_pixel<uint_16> ga_pixel_16;
 
-    /**
-     * \brief The 16-bit Gray+Alpha pixel type.
-     */
-    typedef basic_ga_pixel< uint_16 > ga_pixel_16;
-
-    /**
-     * \brief Pixel traits specialization for basic_ga_pixel.
-     */
-    template< typename T >
-    struct pixel_traits< basic_ga_pixel< T > >
-        : basic_pixel_traits< basic_ga_pixel< T >, T, color_type_ga >,
-          basic_alpha_pixel_traits< T >
-    {
-    };
+/**
+ * \brief Pixel traits specialization for basic_ga_pixel.
+ */
+template <typename T>
+struct pixel_traits<basic_ga_pixel<T>>
+  : basic_pixel_traits<basic_ga_pixel<T>, T, color_type_ga>,
+    basic_alpha_pixel_traits<T>
+{
+};
 
 } // namespace png
 

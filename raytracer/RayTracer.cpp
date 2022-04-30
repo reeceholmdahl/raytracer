@@ -12,7 +12,9 @@ using namespace renderer;
 namespace fs = std::filesystem;
 
 namespace renderer {
-int main(int argc, char *argv[]) {
+int
+main(int argc, char* argv[])
+{
   size_t width, height, windowWidth, windowHeight;
   fs::path scenePath, outputPath;
 
@@ -33,9 +35,11 @@ int main(int argc, char *argv[]) {
   return 0;
 }
 
-void loadArguments(int argc, char *argv[], size_t &width, size_t &height,
-                   size_t &windowWidth, size_t &windowHeight,
-                   fs::path &scenePath, fs::path &outputPath) {
+void
+loadArguments(int argc, char* argv[], size_t& width, size_t& height,
+              size_t& windowWidth, size_t& windowHeight, fs::path& scenePath,
+              fs::path& outputPath)
+{
   sivelab::GraphicsArgs args;
   args.process(argc, argv);
 
@@ -56,7 +60,9 @@ void loadArguments(int argc, char *argv[], size_t &width, size_t &height,
 
 // init - app and gui : void
 // builds fields for camera, framebuffer, sets up environment
-void init(const fs::path &outputPath) {
+void
+init(const fs::path& outputPath)
+{
   auto outdir(outputPath.parent_path());
   if (!fs::exists(outdir)) {
     std::cout << "Creating ouput directory: " << outdir.string() << std::endl;
@@ -71,17 +77,19 @@ void init(const fs::path &outputPath) {
 
 // renderScene - app and gui : Framebuffer
 // render scene using built Scene and selected camera to draw Framebuffer
-void renderScene(Scene &scene, Framebuffer &fb, const int camera) {
+void
+renderScene(Scene& scene, Framebuffer& fb, const int camera)
+{
   // Camera index is in range
   assert(camera >= 0 && camera < scene.cameras.size());
 
-  Camera *cam = scene.cameras[camera];
+  Camera* cam = scene.cameras[camera];
 
   for (size_t i(0); i < fb.width(); ++i) {
     for (size_t j(0); j < fb.height(); ++j) {
       auto ray = cam->generateRay(i, j);
       HitStruct hit(1, INFINITY, &scene.lights);
-      for (Shape *shape : scene.shapes) {
+      for (Shape* shape : scene.shapes) {
         auto testHit = hit;
         if (shape->closestHit(ray, testHit)) {
           hit = testHit;
@@ -101,7 +109,9 @@ void renderScene(Scene &scene, Framebuffer &fb, const int camera) {
 // exportAsPNG - app and gui (optional) : void
 // use drawn Framebuffer(s) to export as png (if app export all cameras at once,
 // if gui export currently viewing one)
-void exportAsPNG(const fs::path &outputPath, const Framebuffer &fb) {
+void
+exportAsPNG(const fs::path& outputPath, const Framebuffer& fb)
+{
   // for (int i(0); i < fbs.size(); ++i)
   // {
   //     auto outdir(outputPath.parent_path());

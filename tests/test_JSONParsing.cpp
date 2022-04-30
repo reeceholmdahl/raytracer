@@ -16,7 +16,9 @@ namespace fs = std::filesystem;
 
 using renderer::Framebuffer;
 
-int main(int argc, char *argv[]) {
+int
+main(int argc, char* argv[])
+{
   sivelab::GraphicsArgs args;
   args.process(argc, argv);
 
@@ -33,7 +35,7 @@ int main(int argc, char *argv[]) {
 
   Scene scene(nx, ny, toScene);
 
-  std::vector<Framebuffer *> fbs(scene.cameras.size());
+  std::vector<Framebuffer*> fbs(scene.cameras.size());
   for (int i(0); i < scene.cameras.size(); ++i) {
     fbs[i] = new Framebuffer(scene.pixelsX, scene.pixelsY);
   }
@@ -45,7 +47,7 @@ int main(int argc, char *argv[]) {
         auto fb = fbs[c];
         auto ray = cam->generateRay(i, j);
         HitStruct hit(1, INFINITY, &scene.lights);
-        for (Shape *shape : scene.shapes) {
+        for (Shape* shape : scene.shapes) {
           auto testHit = hit;
           if (shape->closestHit(ray, testHit)) {
             hit = testHit;
@@ -65,7 +67,7 @@ int main(int argc, char *argv[]) {
   for (int i(0); i < fbs.size(); ++i) {
     auto fb = fbs[i];
     fb->exportAsPNG(
-        (outdir / (fileName + std::to_string(i + 1) + ".test.png")).string());
+      (outdir / (fileName + std::to_string(i + 1) + ".test.png")).string());
   }
 
   return 0;

@@ -35,42 +35,35 @@
 #include "error.hpp"
 #include "types.hpp"
 
-namespace png
+namespace png {
+
+class io_base;
+
+/**
+ * \brief Internal class to hold PNG info or end_info.
+ */
+class info_base
 {
+  info_base(info_base const&);
+  info_base& operator=(info_base const&);
 
-    class io_base;
+public:
+  info_base(io_base& io, png_struct* png)
+    : m_io(io)
+    , m_png(png)
+    , m_info(png_create_info_struct(m_png))
+  {
+  }
 
-    /**
-     * \brief Internal class to hold PNG info or end_info.
-     */
-    class info_base
-    {
-        info_base(info_base const&);
-        info_base& operator=(info_base const&);
+  png_info* get_png_info() const { return m_info; }
 
-    public:
-        info_base(io_base& io, png_struct* png)
-            : m_io(io),
-              m_png(png),
-              m_info(png_create_info_struct(m_png))
-        {
-        }
+  png_info** get_png_info_ptr() { return &m_info; }
 
-        png_info* get_png_info() const
-        {
-            return m_info;
-        }
-
-        png_info** get_png_info_ptr()
-        {
-            return & m_info;
-        }
-
-    protected:
-        io_base& m_io;
-        png_struct* m_png;
-        png_info* m_info;
-    };
+protected:
+  io_base& m_io;
+  png_struct* m_png;
+  png_info* m_info;
+};
 
 } // namespace png
 
