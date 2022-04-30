@@ -1,7 +1,6 @@
 #include <iostream>
 #include <filesystem>
 
-#include <boost/progress.hpp>
 #include "handleGraphicsArgs.h"
 
 #include "Vector3.hpp"
@@ -20,9 +19,6 @@ main(int argc, char* argv[])
   // Used cmdline arguments
   const size_t nx(args.width), ny(args.height);
   const fs::path outdir(fs::path(args.outputFileName).parent_path());
-
-  boost::progress_timer ptimer;
-  double startTime = ptimer.elapsed();
 
   // Create Framebuffers to hold the 2D data for our scenes
   Framebuffer fb1(12, 12), fb2(24, 36), fb3(43, 19), fb4(nx, ny), fb5(nx, ny),
@@ -108,7 +104,4 @@ main(int argc, char* argv[])
   fb7.exportAsPNG((outdir / "test_Framebuffer7.test.png").string());
   fb8.exportAsPNG((outdir / "test_Framebuffer8.test.png").string());
   fb9.exportAsPNG((outdir / "test_Framebuffer9.test.png").string());
-
-  double endTime = ptimer.elapsed();
-  std::cout << "Rendering time: " << endTime - startTime << std::endl;
 }

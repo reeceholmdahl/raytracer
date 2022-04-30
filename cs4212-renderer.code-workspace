@@ -96,7 +96,31 @@
 			"valarray": "cpp",
 			"cassert": "cpp",
 			"*.tcc": "cpp",
-			"filesystem": "cpp"
+			"filesystem": "cpp",
+			"csetjmp": "cpp",
+			"csignal": "cpp",
+			"any": "cpp",
+			"barrier": "cpp",
+			"cfenv": "cpp",
+			"cinttypes": "cpp",
+			"codecvt": "cpp",
+			"condition_variable": "cpp",
+			"coroutine": "cpp",
+			"execution": "cpp",
+			"future": "cpp",
+			"latch": "cpp",
+			"memory_resource": "cpp",
+			"numbers": "cpp",
+			"queue": "cpp",
+			"ranges": "cpp",
+			"regex": "cpp",
+			"scoped_allocator": "cpp",
+			"semaphore": "cpp",
+			"shared_mutex": "cpp",
+			"source_location": "cpp",
+			"span": "cpp",
+			"syncstream": "cpp",
+			"unordered_set": "cpp"
 		},
 		"editor.cursorBlinking": "phase",
 		"editor.cursorSmoothCaretAnimation": true,
@@ -120,7 +144,7 @@
 			{
 				"label": "Setup CMake",
 				"type": "shell",
-				"command": "cd ${workspaceFolder}\\build; rm -r *; cmake -DCMAKE_PREFIX_PATH=\"C:/CS4212Libs\" -DCMAKE_INSTALL_PREFIX=\"C:/CS4212Libs\" -DBOOST_ROOT=\"C:/Boost\" ..; cd ${workspaceFolder}", // -DBOOST_DIR=\"C:/local/boost_1_78_0\"
+				"command": "cd ${workspaceFolder}\\build; rm -r *; cmake -DCMAKE_PREFIX_PATH=\"C:/CS4212Libs\" -DCMAKE_INSTALL_PREFIX=\"C:/CS4212Libs\" ..; cd ${workspaceFolder}", // -DBOOST_DIR=\"C:/local/boost_1_78_0\"
 				"problemMatcher": []
 			},
 			{

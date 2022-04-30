@@ -1,4 +1,3 @@
-include_directories(${CMAKE_SOURCE_DIR}/src)
 
 set(RENDERER_SUBDIRS
     math
@@ -10,6 +9,7 @@ set(RENDERER_SUBDIRS
 
 add_library(renderer)
 
+target_include_directories(renderer PRIVATE ${CMAKE_SOURCE_DIR}/src)
 target_include_directories(renderer PRIVATE ${CMAKE_SOURCE_DIR}/renderer)
 
 target_sources(renderer
@@ -25,8 +25,8 @@ foreach(subdir ${RENDERER_SUBDIRS})
     add_subdirectory(${subdir})
 endforeach(subdir)
 
+target_link_libraries(renderer sive-util)
 target_link_libraries(renderer ${PNG_LIBRARY})
 target_link_libraries(renderer ${ZLIB_LIBRARY})
-target_link_libraries(renderer sive-util)
 
-target_compile_options(renderer PRIVATE "")
+#target_compile_options(renderer PRIVATE "")

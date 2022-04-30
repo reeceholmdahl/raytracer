@@ -3,10 +3,12 @@
         {
             "name": "Win32",
             "includePath": [
-                "C:\\CS4212Libs\\include\\**",
-                "C:\\local\\boost_1_78_0\\boost\\**",
+                "C:/CS4212Libs/include",
                 "${workspaceFolder}/json-develop/single_include",
-                "${workspaceFolder}/glm-0.9.9.9/glm/**"
+                "${workspaceFolder}/glm-0.9.9.9/",
+                "C:/Boost/boost_1_78_0",
+                "${workspaceFolder}/src",
+                "${workspaceFolder}/renderer/**"
             ],
             "defines": [
                 "_DEBUG",
@@ -18,7 +20,7 @@
             "cStandard": "c17",
             "cppStandard": "c++17",
             "intelliSenseMode": "windows-msvc-x64",
-            "configurationProvider": "ms-vscode.cmake-tools"
+            "configurationProvider": "ms-vscode.cpp-tools"
         }
     ],
     "version": 4

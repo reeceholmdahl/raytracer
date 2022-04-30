@@ -3,6 +3,7 @@
 
 #include "Vector3.hpp"
 #include "HitStruct.hpp"
+#include "Constants.hpp"
 
 class DiffuseShader : public Shader
 {

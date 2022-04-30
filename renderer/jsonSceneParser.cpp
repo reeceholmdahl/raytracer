@@ -7,8 +7,6 @@
 #include "glm/glm.hpp"
 #include "glm/gtx/string_cast.hpp"
 
-#include <boost/math/constants/constants.hpp>
-
 #include "Camera.hpp"
 #include "PerspectiveCamera.hpp"
 #include "OrthographicCamera.hpp"
@@ -25,6 +23,7 @@
 #include "Box.hpp"
 #include "Light.hpp"
 #include "PointLight.hpp"
+#include "Constants.hpp"
 
 #include <nlohmann/json.hpp>
 
@@ -45,18 +44,15 @@ extractRotation(json& rotInfo)
   std::string axis = rotInfo["axis"];
 
   if (axis == "X") {
-    tmpM = glm::rotate(glm::mat4(1.0f),
-                       rot * boost::math::constants::pi<float>() / 180.0f,
+    tmpM = glm::rotate(glm::mat4(1.0f), rot * renderer::constants::PIF / 180.0f,
                        glm::vec3(1.0f, 0.0f, 0.0f));
     ;
   } else if (axis == "Y") {
-    tmpM = glm::rotate(glm::mat4(1.0f),
-                       rot * boost::math::constants::pi<float>() / 180.0f,
+    tmpM = glm::rotate(glm::mat4(1.0f), rot * renderer::constants::PIF / 180.0f,
                        glm::vec3(0.0f, 1.0f, 0.0f));
     ;
   } else if (axis == "Z") {
-    tmpM = glm::rotate(glm::mat4(1.0f),
-                       rot * boost::math::constants::pi<float>() / 180.0f,
+    tmpM = glm::rotate(glm::mat4(1.0f), rot * renderer::constants::PIF / 180.0f,
                        glm::vec3(0.0f, 0.0f, 1.0f));
     ;
   }

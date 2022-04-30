@@ -5,6 +5,8 @@
 
 namespace renderer {
 namespace constants {
+const double PI(3.141592653589793238463);
+const float PIF(PI);
 const size_t DEFAULT_WIDTH(100);
 const size_t DEFAULT_HEIGHT(100);
 const double DEFAULT_IMAGE_WIDTH(0.5);

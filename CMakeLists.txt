@@ -22,11 +22,6 @@ if(ENABLE_CLANG_TIDY)
   endif()
 endif()
 
-set(CTEST_OUTPUT_DIR "${CMAKE_SOURCE_DIR}/out")
-set(CTEST_INPUT_DIR "${CMAKE_SOURCE_DIR}/SceneData")
-set(CTEST_WINDOW_WIDTH 500)
-set(CTEST_WINDOW_HEIGHT 500)
-
 # ######################################################################################################################
 # Apple from NVIDIA OptiX CMake/Macros.cmake
 # ######################################################################################################################
@@ -102,11 +97,13 @@ set(JSON_BuildTests
 # in other CMake projects anyways.
 add_subdirectory(json-develop)
 
+include_directories(json-develop/include)
+
 # target_link_libraries(foo PRIVATE nlohmann_json::nlohmann_json)
 
 # Add the path to the OptiX headers to our include paths.
-include_directories(# "${OptiX_INCLUDE}"
-                    "json-develop/include")
+#include_directories(# "${OptiX_INCLUDE}"
+#                    "json-develop/include")
 
 # --------------------------------------------------------------------
 # OpenGL Related Components
@@ -149,7 +146,7 @@ if(WIN32)
 endif(WIN32)
 
 find_package(Boost
-  1.78.0 EXACT
+  1.72.0 EXACT
   REQUIRED
   COMPONENTS
     date_time
@@ -164,9 +161,21 @@ if(Boost_FOUND)
   message(STATUS "Boost Libs: ${Boost_LIBRARIES}")
 endif()
 
+# ----------------------------------------------------------
+# Renderer Constants
+#
+# This is where the stuff goes
+# ----------------------------------------------------------
+
+set(RENDERER_TESTING OFF)
+set(CTEST_OUTPUT_DIR "${CMAKE_SOURCE_DIR}/out")
+set(CTEST_INPUT_DIR "${CMAKE_SOURCE_DIR}/SceneData")
+set(CTEST_WINDOW_WIDTH 500)
+set(CTEST_WINDOW_HEIGHT 500)
+
 # If you want, we can also compile the tests directory that are essentially examples for how to use some of the classes
 # and code.
-add_subdirectory(examples)
+#add_subdirectory(examples)
 
 # Add the src directory to build the libsive-util.a library.
 add_subdirectory(src)
@@ -200,6 +209,8 @@ add_subdirectory(raytracer)
 # to perform the unit tests. See the CMakeLists.txt file in the utests directory for more details. Also, see the unit
 # test .cpp files in the utests directory for examples on using Boost's unit test system.
 #
-enable_testing()
-add_subdirectory(utests)
-add_subdirectory(tests)
+if(RENDERER_TESTING)
+  enable_testing()
+  add_subdirectory(utests)
+  add_subdirectory(tests)
+endif(RENDERER_TESTING)

@@ -11,7 +11,6 @@
 using namespace renderer;
 namespace fs = std::filesystem;
 
-namespace renderer {
 int
 main(int argc, char* argv[])
 {
@@ -34,6 +33,8 @@ main(int argc, char* argv[])
 
   return 0;
 }
+
+namespace renderer {
 
 void
 loadArguments(int argc, char* argv[], size_t& width, size_t& height,
