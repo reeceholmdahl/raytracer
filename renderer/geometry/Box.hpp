@@ -11,18 +11,18 @@
 class Box : public Shape
 {
 public:
-    Box();
-    Box(const Vec3d &min, const Vec3d &max);
-    virtual ~Box() {}
+  Box();
+  Box(const Vec3d& min, const Vec3d& max);
+  virtual ~Box() {}
 
-    virtual bool closestHit(const Ray &r, HitStruct &hit) const;
-    virtual const BBox &bbox() const;
-    virtual const Vec3d &centroid() const;
+  virtual bool closestHit(const Ray& r, HitStruct& hit) const;
+  virtual const BBox& bbox() const;
+  virtual const Vec3d& centroid() const;
 
 private:
-    Vec3d m_min, m_max;
-    std::vector<Triangle> tris;
-    BBox m_bbox;
+  Vec3d m_min, m_max;
+  std::vector<Triangle> tris;
+  BBox m_bbox;
 };
 
 #endif

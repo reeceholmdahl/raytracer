@@ -1,19 +1,18 @@
 #ifndef _RENDERER_APP_REECE_
 #define _RENDERER_APP_REECE_
 
+#include <filesystem>
 #include <string>
 #include <vector>
-
-#include <boost/filesystem.hpp>
 
 #include "Scene.hpp"
 #include "Framebuffer.hpp"
 
-namespace fs = boost::filesystem;
+namespace fs = std::filesystem;
 
 namespace renderer
 {
-    void getArguments(int argc, char *argv[], size_t &width, size_t &height, size_t &windowWidth, size_t &windowHeight, fs::path &sceneFile, fs::path &outputPath);
+    void loadArguments(int argc, char *argv[], size_t &width, size_t &height, size_t &windowWidth, size_t &windowHeight, fs::path &sceneFile, fs::path &outputPath);
 
     void init(const fs::path &outputPath);
 

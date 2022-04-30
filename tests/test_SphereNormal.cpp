@@ -1,6 +1,5 @@
 #include <iostream>
-
-#include "boost/filesystem.hpp"
+#include <filesystem>
 
 #include "Camera.hpp"
 #include "PerspectiveCamera.hpp"
@@ -14,10 +13,9 @@
 
 using namespace renderer;
 
-namespace fs = boost::filesystem;
+namespace fs = std::filesystem;
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
   sivelab::GraphicsArgs args;
   args.process(argc, argv);
 
@@ -28,23 +26,20 @@ int main(int argc, char *argv[])
   Framebuffer fb(nx, ny);
 
   Sphere sph;
-  sph.setShader(new NormalShader());
+  sph.shaderPtr = new NormalShader();
 
   Camera *cam = new PerspectiveCamera();
 
   cam->setImagePixels(nx, ny);
 
-  for (size_t i(0); i < nx; ++i)
-  {
-    for (size_t j(0); j < ny; ++j)
-    {
+  for (size_t i(0); i < nx; ++i) {
+    for (size_t j(0); j < ny; ++j) {
       auto r(cam->generateRay(i, j));
 
       HitStruct hit;
 
       Vec3f color(0.1, 0.1, 0.1);
-      if (sph.closestHit(r, hit))
-      {
+      if (sph.closestHit(r, hit)) {
         color = hit.shaderPtr->apply(hit);
       }
 

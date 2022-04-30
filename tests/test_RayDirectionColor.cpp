@@ -1,7 +1,6 @@
 #include <iostream>
+#include <filesystem>
 #include <vector>
-
-#include <boost/filesystem.hpp>
 
 #include "Vector3.hpp"
 #include "CoordSys.hpp"
@@ -11,7 +10,7 @@
 
 using namespace renderer;
 
-namespace fs = boost::filesystem;
+namespace fs = std::filesystem;
 
 int main(int argc, char *argv[])
 {

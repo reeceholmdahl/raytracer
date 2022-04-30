@@ -1,7 +1,6 @@
 #include <iostream>
+#include <filesystem>
 #include <vector>
-
-#include <boost/filesystem.hpp>
 
 #include "Camera.hpp"
 #include "PerspectiveCamera.hpp"
@@ -19,10 +18,9 @@
 
 using namespace renderer;
 
-namespace fs = boost::filesystem;
+namespace fs = std::filesystem;
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
   sivelab::GraphicsArgs args;
   args.process(argc, argv);
 
@@ -35,7 +33,8 @@ int main(int argc, char *argv[])
   std::vector<Shape *> shapes;
   std::vector<Light *> lights;
 
-  // shapes.push_back(new Triangle(Vec3d(0.25, 0, -2), Vec3d(0, 0.1, -2.1), Vec3d(-0.1, -0.1, -2)));
+  // shapes.push_back(new Triangle(Vec3d(0.25, 0, -2), Vec3d(0, 0.1, -2.1),
+  // Vec3d(-0.1, -0.1, -2)));
   // shapes.push_back(new Sphere(Vec3d(-0.15, -0.15, -2), 0.25));
   // shapes.push_back(new Sphere(Vec3d(0.5, 0, -4.5), 0.33));
   shapes.push_back(new Sphere(Vec3d(0, 0, -5), 1));
@@ -49,27 +48,22 @@ int main(int argc, char *argv[])
   cam->setImagePixels(nx, ny);
 
   Shader *shader = new LambertShader(Vec3f(0, 0, 1));
-  for (size_t i = 0; i < nx; ++i)
-  {
-    for (size_t j = 0; j < ny; ++j)
-    {
+  for (size_t i = 0; i < nx; ++i) {
+    for (size_t j = 0; j < ny; ++j) {
       auto r(cam->generateRay(i, j));
 
       HitStruct hit(1, INFINITY, &lights);
-      for (Shape *shape : shapes)
-      {
-        shape->setShader(shader);
+      for (Shape *shape : shapes) {
+        shape->shaderPtr = shader;
 
         auto testHit = hit;
-        if (shape->closestHit(r, testHit))
-        {
+        if (shape->closestHit(r, testHit)) {
           hit = testHit;
         }
       }
 
       Vec3f color(0.1, 0.1, 0.1);
-      if (hit.t != INFINITY && hit.shaderPtr)
-      {
+      if (hit.t != INFINITY && hit.shaderPtr) {
         color = hit.shaderPtr->apply(hit);
       }
 
@@ -101,8 +95,10 @@ int main(int argc, char *argv[])
       //   // lambertian shading
       //   color *= (light.intensity() * std::max(0.0, normal.dot(hitToLight)));
 
-      //   // color.set(hitToLight[0] + 1, hitToLight[1] + 1, hitToLight[2] + 1);
-      //   // color.set(hitToLight.dot(normal) + 1, hitToLight.dot(normal) + 1, hitToLight.dot(normal) + 1);
+      //   // color.set(hitToLight[0] + 1, hitToLight[1] + 1, hitToLight[2] +
+      //   1);
+      //   // color.set(hitToLight.dot(normal) + 1, hitToLight.dot(normal) + 1,
+      //   hitToLight.dot(normal) + 1);
       //   // color = hitToLight;
       //   // color += Vec3f(1.0, 1.0, 1.0);
 
@@ -111,7 +107,8 @@ int main(int argc, char *argv[])
       //   // color += Vec3f(1.0, 1.0, 1.0);
       //   // color /= 2;
 
-      //   // std::cout << i << "x " << j << "y | l: " << hitToLight << " n: " << normal << std::endl;
+      //   // std::cout << i << "x " << j << "y | l: " << hitToLight << " n: "
+      //   << normal << std::endl;
       // }
       // else if (hitTri)
       // {

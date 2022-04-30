@@ -7,8 +7,8 @@ class Ray
 {
 public:
   Ray() = default;
-  Ray(const Ray &r);
-  Ray(const Vec3d &origin, const Vec3d &direction);
+  Ray(const Ray& r);
+  Ray(const Vec3d& origin, const Vec3d& direction);
 
   Vec3d origin() const;
   Vec3d direction() const;

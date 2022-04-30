@@ -3,9 +3,10 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**",
-                "C:\\CS4212Libs\\include",
-                "C:\\local\\boost_1_72_0"
+                "C:\\CS4212Libs\\include\\**",
+                "C:\\local\\boost_1_78_0\\boost\\**",
+                "${workspaceFolder}/json-develop/single_include",
+                "${workspaceFolder}/glm-0.9.9.9/glm/**"
             ],
             "defines": [
                 "_DEBUG",

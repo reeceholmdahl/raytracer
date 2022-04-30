@@ -1,8 +1,7 @@
 #include <iostream>
+#include <filesystem>
 
 #include <boost/progress.hpp>
-#include <boost/filesystem.hpp>
-
 #include "handleGraphicsArgs.h"
 
 #include "Vector3.hpp"
@@ -10,7 +9,7 @@
 
 using namespace renderer;
 
-namespace fs = boost::filesystem;
+namespace fs = std::filesystem;
 
 int main(int argc, char *argv[])
 {

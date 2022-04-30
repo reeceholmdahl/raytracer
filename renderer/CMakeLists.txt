@@ -29,4 +29,4 @@ target_link_libraries(renderer ${PNG_LIBRARY})
 target_link_libraries(renderer ${ZLIB_LIBRARY})
 target_link_libraries(renderer sive-util)
 
-#target_compile_options(renderer PRIVATE -Werror -Wall -Wextra)
+target_compile_options(renderer PRIVATE "")

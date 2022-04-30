@@ -9,20 +9,16 @@
 class Shape
 {
 public:
-  Shape(Shader *shaderPtr = nullptr);
+  // TODO move default shader to constants
+  Shape() {}
   virtual ~Shape() {}
 
-  virtual bool closestHit(const Ray &r, HitStruct &hit) const = 0;
-  virtual const BBox &bbox() const = 0;
-  virtual const Vec3d &centroid() const = 0;
+  virtual bool closestHit(const Ray& r, HitStruct& hit) const = 0;
+  virtual const BBox& bbox() const = 0;
+  virtual const Vec3d& centroid() const = 0;
 
-  // virtual Vec3d normal(const Vec3d &position) const = 0;
-
-  void setShader(Shader *shaderPtr);
-  Shader *getShader() const;
-
-protected:
-  Shader *m_shaderPtr;
+  Shader* shaderPtr = nullptr;
+  std::string name = "Unnamed";
 };
 
 #endif

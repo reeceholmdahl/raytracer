@@ -1,11 +1,12 @@
 #include "Shader.hpp"
 
-Shader::Shader(const Vec3f &ambient)
-    : m_ambient(ambient)
+Shader::Shader(const Vec3f& ambient)
+  : m_ambient(ambient)
 {
 }
 
-const Vec3f &Shader::ambient() const
+const Vec3f&
+Shader::ambient() const
 {
-    return m_ambient;
+  return m_ambient;
 }

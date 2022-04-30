@@ -7,13 +7,13 @@
 class DiffuseShader : public Shader
 {
 public:
-    DiffuseShader(const Vec3f &color = renderer::constants::DEFAULT_DIFFUSE);
-    virtual ~DiffuseShader() {}
+  DiffuseShader(const Vec3f& color = renderer::constants::DEFAULT_DIFFUSE);
+  virtual ~DiffuseShader() {}
 
-    virtual Vec3f apply(const HitStruct &h) const;
+  virtual Vec3f apply(const HitStruct& h) const;
 
 private:
-    Vec3f m_color;
+  Vec3f m_color;
 };
 
 #endif

@@ -3,12 +3,12 @@
 #include "CoordSys.hpp"
 
 CoordSys::CoordSys()
-    : CoordSys(Vec3d(), Vec3d(0, 0, -1))
+  : CoordSys(Vec3d(), Vec3d(0, 0, -1))
 {
 }
 
-CoordSys::CoordSys(const Vec3d &position, const Vec3d &viewDir)
-    : m_position(position)
+CoordSys::CoordSys(const Vec3d& position, const Vec3d& viewDir)
+  : m_position(position)
 {
   // m_u = v.cross(w);
 
@@ -18,16 +18,11 @@ CoordSys::CoordSys(const Vec3d &position, const Vec3d &viewDir)
   auto y = std::abs(m_w[1]);
   auto z = std::abs(m_w[2]);
 
-  if (z <= x && z <= y)
-  {
+  if (z <= x && z <= y) {
     temp[2] = 1;
-  }
-  else if (y <= x)
-  {
+  } else if (y <= x) {
     temp[1] = 1;
-  }
-  else
-  {
+  } else {
     temp[0] = 1;
   }
 
@@ -76,33 +71,39 @@ CoordSys::CoordSys(const Vec3d &position, const Vec3d &viewDir)
   assert(m_w.magnitude() == 1.0);
 }
 
-Vec3d CoordSys::toLocal(const Vec3d &global) const
+Vec3d
+CoordSys::toLocal(const Vec3d& global) const
 {
   Vec3d temp(global - m_position);
   return Vec3d(temp.dot(m_u), temp.dot(m_v), temp.dot(m_w));
 }
 
-Vec3d CoordSys::toGlobal(const Vec3d &local) const
+Vec3d
+CoordSys::toGlobal(const Vec3d& local) const
 {
   return Vec3d(local.dot(m_u), local.dot(m_v), local.dot(m_w)) + m_position;
 }
 
-Vec3d CoordSys::position() const
+Vec3d
+CoordSys::position() const
 {
   return m_position;
 }
 
-Vec3d CoordSys::u() const
+Vec3d
+CoordSys::u() const
 {
   return m_u;
 }
 
-Vec3d CoordSys::v() const
+Vec3d
+CoordSys::v() const
 {
   return m_v;
 }
 
-Vec3d CoordSys::w() const
+Vec3d
+CoordSys::w() const
 {
   return m_w;
 }

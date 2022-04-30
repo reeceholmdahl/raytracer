@@ -1,9 +1,14 @@
 cmake_minimum_required(VERSION 3.13)
 
+set(CMAKE_TRY_COMPILE_TARGET_TYPE "STATIC_LIBRARY")
+
 project(CSGraphicsStarterCode, CXX)
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/Modules" ${CMAKE_MODULE_PATH})
 
+find_package(Threads)
+
+option(CMAKE_USE_WIN32_THREADS_INIT "using WIN32 threads" ON)
 option(ENABLE_CPPCHECK "Enable static analysis with cppcheck" OFF)
 option(ENABLE_CLANG_TIDY "Enable static analysis with clang-tidy" OFF)
 
@@ -41,9 +46,10 @@ macro(APPEND_TO_STRING STR VAL)
   endif()
 endmacro(APPEND_TO_STRING)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 
 # ######################################################################################################################
 # Apple from NVIDIA OptiX CMake/ConfigCompilerFlags.cmake
@@ -131,31 +137,32 @@ include_directories(${CMAKE_SOURCE_DIR}/glm-0.9.9.9)
 # This section tests for Boost support on the system. Boost is required as it is used heavily with this code. Boost also
 # allows the code to be nicely portable across Operating Systems.
 # ----------------------------------------------------------
-# SET (Boost_MULTITHREADED TRUE)
+set(Boost_MULTITHREADED ON)
+set(Boost_USE_STATIC_RUNTIME OFF)
 
-# If you want to get more info on what the Find Boost macro is doing... SET(Boost_DEBUG 1)
+# If you want to get more info on what the Find Boost macro is doing... 
+#SET(Boost_DEBUG 1)
 
 # Necessary to get Win32 version to work, plus, not a bad idea to link statically for our purposes.
 if(WIN32)
   set(Boost_USE_STATIC_LIBS TRUE)
 endif(WIN32)
 
-find_package(
-  Boost REQUIRED
-  COMPONENTS date_time
-             program_options
-             filesystem
-             system
-             thread
-             unit_test_framework
-             chrono
-             timer)
-if(${Boost_FOUND})
+find_package(Boost
+  1.78.0 EXACT
+  REQUIRED
+  COMPONENTS
+    date_time
+    program_options
+    system
+    thread
+    unit_test_framework
+    chrono
+    timer)
+if(Boost_FOUND)
   include_directories(${Boost_INCLUDE_DIR})
   message(STATUS "Boost Libs: ${Boost_LIBRARIES}")
 endif()
-
-#set(CMAKE_CXX_FLAGS "")
 
 # If you want, we can also compile the tests directory that are essentially examples for how to use some of the classes
 # and code.

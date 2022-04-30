@@ -6,8 +6,9 @@
 #include "Vector3.hpp"
 
 template <typename real_type>
-Vector3<real_type>::Vector3(const real_type x, const real_type y, const real_type z)
-    : data(3)
+Vector3<real_type>::Vector3(const real_type x, const real_type y,
+                            const real_type z)
+  : data(3)
 {
   data[0] = x;
   data[1] = y;
@@ -15,8 +16,8 @@ Vector3<real_type>::Vector3(const real_type x, const real_type y, const real_typ
 }
 
 template <typename real_type>
-Vector3<real_type>::Vector3(const std::string &str)
-    : data(3)
+Vector3<real_type>::Vector3(const std::string& str)
+  : data(3)
 {
   // Vector3<real_type> v;
   // v = str;
@@ -34,7 +35,8 @@ Vector3<real_type>::Vector3(const std::string &str)
 // }
 
 template <typename real_type>
-void Vector3<real_type>::set(const real_type x, const real_type y, const real_type z)
+void
+Vector3<real_type>::set(const real_type x, const real_type y, const real_type z)
 {
   data[0] = x;
   data[1] = y;
@@ -42,19 +44,22 @@ void Vector3<real_type>::set(const real_type x, const real_type y, const real_ty
 }
 
 template <typename real_type>
-const double Vector3<real_type>::magnitude() const
+const double
+Vector3<real_type>::magnitude() const
 {
   return std::sqrt(dot(*this));
 }
 
 template <typename real_type>
-const double Vector3<real_type>::angle(const Vector3 &v) const
+const double
+Vector3<real_type>::angle(const Vector3& v) const
 {
   return std::acos(dot(v) / (magnitude() * v.magnitude()));
 }
 
 template <typename real_type>
-Vector3<real_type> Vector3<real_type>::unitize() const
+Vector3<real_type>
+Vector3<real_type>::unitize() const
 {
   return Vector3<real_type>(*this) /= magnitude();
 }
@@ -66,12 +71,12 @@ Vector3<real_type> Vector3<real_type>::unitize() const
 // }
 
 template <typename real_type>
-Vector3<real_type> Vector3<real_type>::cross(const Vector3 &rhs) const
+Vector3<real_type>
+Vector3<real_type>::cross(const Vector3& rhs) const
 {
-  return Vector3<real_type>(
-      data[1] * rhs[2] - data[2] * rhs[1],
-      data[2] * rhs[0] - data[0] * rhs[2],
-      data[0] * rhs[1] - data[1] * rhs[0]);
+  return Vector3<real_type>(data[1] * rhs[2] - data[2] * rhs[1],
+                            data[2] * rhs[0] - data[0] * rhs[2],
+                            data[0] * rhs[1] - data[1] * rhs[0]);
 }
 
 // template<typename real_type>
@@ -89,7 +94,7 @@ Vector3<real_type> Vector3<real_type>::cross(const Vector3 &rhs) const
 // }
 
 template <typename real_type>
-Vector3<real_type> &Vector3<real_type>::operator=(const std::string &str)
+Vector3<real_type>& Vector3<real_type>::operator=(const std::string& str)
 {
   std::stringstream sstream(str);
   // std::cout << "Supplied: " << str << std::endl;
@@ -103,13 +108,13 @@ Vector3<real_type> &Vector3<real_type>::operator=(const std::string &str)
 }
 
 template <typename real_type>
-Vector3<real_type> Vector3<real_type>::operator+(const Vector3 &rhs) const
+Vector3<real_type> Vector3<real_type>::operator+(const Vector3& rhs) const
 {
   return Vector3<real_type>(*this) += rhs;
 }
 
 template <typename real_type>
-Vector3<real_type> &Vector3<real_type>::operator+=(const Vector3 &rhs)
+Vector3<real_type>& Vector3<real_type>::operator+=(const Vector3& rhs)
 {
   data[0] += rhs[0];
   data[1] += rhs[1];
@@ -118,13 +123,13 @@ Vector3<real_type> &Vector3<real_type>::operator+=(const Vector3 &rhs)
 }
 
 template <typename real_type>
-Vector3<real_type> Vector3<real_type>::operator-(const Vector3 &rhs) const
+Vector3<real_type> Vector3<real_type>::operator-(const Vector3& rhs) const
 {
   return Vector3<real_type>(*this) -= rhs;
 }
 
 template <typename real_type>
-Vector3<real_type> &Vector3<real_type>::operator-=(const Vector3 &rhs)
+Vector3<real_type>& Vector3<real_type>::operator-=(const Vector3& rhs)
 {
   data[0] -= rhs[0];
   data[1] -= rhs[1];
@@ -139,7 +144,7 @@ Vector3<real_type> Vector3<real_type>::operator-() const
 }
 
 template <typename real_type>
-Vector3<real_type> Vector3<real_type>::operator*(const Vector3 &rhs) const
+Vector3<real_type> Vector3<real_type>::operator*(const Vector3& rhs) const
 {
   return Vector3<real_type>(*this) *= rhs;
 }
@@ -151,7 +156,7 @@ Vector3<real_type> Vector3<real_type>::operator*(const double s) const
 }
 
 template <typename real_type>
-Vector3<real_type> &Vector3<real_type>::operator*=(const double s)
+Vector3<real_type>& Vector3<real_type>::operator*=(const double s)
 {
   data[0] *= s;
   data[1] *= s;
@@ -160,7 +165,7 @@ Vector3<real_type> &Vector3<real_type>::operator*=(const double s)
 }
 
 template <typename real_type>
-Vector3<real_type> &Vector3<real_type>::operator*=(const Vector3 &rhs)
+Vector3<real_type>& Vector3<real_type>::operator*=(const Vector3& rhs)
 {
   data[0] *= rhs[0];
   data[1] *= rhs[1];
@@ -175,20 +180,20 @@ Vector3<real_type> Vector3<real_type>::operator/(const double s) const
 }
 
 template <typename real_type>
-Vector3<real_type> &Vector3<real_type>::operator/=(const double s)
+Vector3<real_type>& Vector3<real_type>::operator/=(const double s)
 {
-  return *this *= (1 / s);
+  return * this *= (1 / s);
 }
 
 template <typename real_type>
-std::ostream &operator<<(std::ostream &os, const Vector3<real_type> &v)
+std::ostream& operator<<(std::ostream& os, const Vector3<real_type>& v)
 {
   os << "< " << v[0] << " " << v[1] << " " << v[2] << " >";
   return os;
 }
 
 template <typename real_type>
-std::istream &operator>>(std::istream &is, Vector3<real_type> &v)
+std::istream& operator>>(std::istream& is, Vector3<real_type>& v)
 {
   real_type x = 0.0, y = 0.0, z = 0.0;
   is >> x >> y >> z;

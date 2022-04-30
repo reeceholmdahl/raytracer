@@ -9,14 +9,14 @@ class Sphere : public Shape
 {
 public:
   Sphere();
-  Sphere(const Vec3d &position, const double radius);
+  Sphere(const Vec3d& position, const double radius);
   virtual ~Sphere() {}
 
-  virtual bool closestHit(const Ray &r, HitStruct &hit) const;
-  virtual const BBox &bbox() const;
-  virtual const Vec3d &centroid() const;
+  virtual bool closestHit(const Ray& r, HitStruct& hit) const;
+  virtual const BBox& bbox() const;
+  virtual const Vec3d& centroid() const;
 
-  Vec3d normal(const Vec3d &position) const;
+  Vec3d normal(const Vec3d& position) const;
 
 private:
   Vec3d m_position;

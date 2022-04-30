@@ -12,31 +12,30 @@
 class HitStruct
 {
 public:
-    double t = INFINITY;
-    double tmin;
-    double tmax;
+  double t = INFINITY;
+  double tmin;
+  double tmax;
 
-    // could be a reference
-    Ray ray;
-    Vec3d normal;
-    Shader *shaderPtr;
-    const Shape *shape;
+  // could be a reference
+  Ray ray;
+  Vec3d normal;
+  Shader* shaderPtr;
+  const Shape* shape;
 
-    // TODO this could be made more efficient
-    std::vector<Light *> *lights;
+  // TODO this could be made more efficient
+  std::vector<Light*>* lights;
 
-    HitStruct(const double tmin = 1, const double tmax = INFINITY, std::vector<Light *> *lights = nullptr) : tmin(tmin), tmax(tmax), lights(lights)
-    {
-    }
+  HitStruct(const double tmin = 1, const double tmax = INFINITY,
+            std::vector<Light*>* lights = nullptr)
+    : tmin(tmin)
+    , tmax(tmax)
+    , lights(lights)
+  {
+  }
 
-    ~HitStruct()
-    {
-    }
+  ~HitStruct() {}
 
-    Vec3d hitPoint() const
-    {
-        return ray.point(t);
-    }
+  Vec3d hitPoint() const { return ray.point(t); }
 };
 
 #endif

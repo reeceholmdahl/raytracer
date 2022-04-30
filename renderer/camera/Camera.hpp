@@ -14,10 +14,10 @@ class Camera
 public:
   Camera();
   Camera(
-      const Vec3d &position = renderer::constants::DEFAULT_CAMERA_POS,
-      const Vec3d &viewDir = renderer::constants::DEFAULT_VIEW_DIR,
-      const double imagePlaneWidth = renderer::constants::DEFAULT_IMAGE_WIDTH,
-      const double aspectRatio = renderer::constants::DEFAULT_ASPECT_RATIO);
+    const Vec3d& position = renderer::constants::DEFAULT_CAMERA_POS,
+    const Vec3d& viewDir = renderer::constants::DEFAULT_VIEW_DIR,
+    const double imagePlaneWidth = renderer::constants::DEFAULT_IMAGE_WIDTH,
+    const double aspectRatio = renderer::constants::DEFAULT_ASPECT_RATIO);
 
   virtual ~Camera() {}
 

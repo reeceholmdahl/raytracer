@@ -8,14 +8,14 @@ class Triangle : public Shape
 {
 public:
   Triangle();
-  Triangle(const Vec3d &a, const Vec3d &b, const Vec3d &c);
+  Triangle(const Vec3d& a, const Vec3d& b, const Vec3d& c);
   virtual ~Triangle() {}
 
-  virtual bool closestHit(const Ray &r, HitStruct &hit) const;
-  virtual const BBox &bbox() const;
-  virtual const Vec3d &centroid() const;
+  virtual bool closestHit(const Ray& r, HitStruct& hit) const;
+  virtual const BBox& bbox() const;
+  virtual const Vec3d& centroid() const;
 
-  const Vec3d &normal(const Vec3d &position) const;
+  const Vec3d& normal() const;
 
 private:
   Vec3d m_a, m_b, m_c, m_normal;

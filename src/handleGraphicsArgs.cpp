@@ -2,7 +2,8 @@
  *  handleGraphicsArgs.cpp
  *
  *  Created by Pete Willemsen on 10/6/09.
- *  Copyright 2009 Department of Computer Science, University of Minnesota-Duluth. All rights reserved.
+ *  Copyright 2009 Department of Computer Science, University of
+ * Minnesota-Duluth. All rights reserved.
  *
  * This file is part of libSIVELab (libsivelab).
  *
@@ -25,52 +26,60 @@
 using namespace sivelab;
 
 GraphicsArgs::GraphicsArgs()
-    : verbose(false), width(100), height(100),
-      aspectRatio(1.0), useShadow(true), bgColor(0.0, 0.0, 0.0),
+    : verbose(false),
+      width(100),
+      height(100),
+      aspectRatio(1.0),
+      useShadow(true),
+      bgColor(0.0, 0.0, 0.0),
       useDepthOfField(false),
       depthOfFieldDistance(0),
-      numCpus(1), rpp(1),
+      numCpus(1),
+      rpp(1),
       recursionDepth(4),
       splitMethod("objectMedian"),
-      inputFileName(""), outputFileName("")
-{
+      inputFileName(""),
+      outputFileName("") {
   reg("help", "help/usage information", ArgumentParsing::NONE, '?');
   reg("verbose", "turn on verbose output", ArgumentParsing::NONE, 'v');
   reg("inputfile", "input file name to use", ArgumentParsing::STRING, 'i');
   reg("outputfile", "output file name to use", ArgumentParsing::STRING, 'o');
   reg("numcpus", "num of cores to use", ArgumentParsing::INT, 'n');
-  reg("width", "width of output image (default is 100)", ArgumentParsing::INT, 'w');
-  reg("height", "height of output image (default is 100)", ArgumentParsing::INT, 'h');
-  reg("aspect", "aspect ratio in width/height of image (default is 1)", ArgumentParsing::FLOAT, 'a');
-  reg("depth", "depth of field focus distance (default is 0.0 or OFF)", ArgumentParsing::FLOAT, 'd');
+  reg("width", "width of output image (default is 100)", ArgumentParsing::INT,
+      'w');
+  reg("height", "height of output image (default is 100)", ArgumentParsing::INT,
+      'h');
+  reg("aspect", "aspect ratio in width/height of image (default is 1)",
+      ArgumentParsing::FLOAT, 'a');
+  reg("depth", "depth of field focus distance (default is 0.0 or OFF)",
+      ArgumentParsing::FLOAT, 'd');
   reg("rpp", "rays per pixel (default is 1)", ArgumentParsing::INT, 'r');
-  reg("recursionDepth", "recursion depth (default is 4)", ArgumentParsing::INT, 'k');
-  reg("split", "split method for bvh construction (default is objectMedian)", ArgumentParsing::STRING, 's');
-  reg("winwidth", "width of window (if using preview)", ArgumentParsing::INT, 'x');
-  reg("winheight", "height of window (if using preview)", ArgumentParsing::INT, 'y');
+  reg("recursionDepth", "recursion depth (default is 4)", ArgumentParsing::INT,
+      'k');
+  reg("split", "split method for bvh construction (default is objectMedian)",
+      ArgumentParsing::STRING, 's');
+  reg("winwidth", "width of window (if using preview)", ArgumentParsing::INT,
+      'x');
+  reg("winheight", "height of window (if using preview)", ArgumentParsing::INT,
+      'y');
 }
 
-void GraphicsArgs::process(int argc, char *argv[])
-{
+void GraphicsArgs::process(int argc, char *argv[]) {
   processCommandLineArgs(argc, argv);
 
-  if (isSet("help"))
-  {
+  if (isSet("help")) {
     printUsage();
     exit(EXIT_SUCCESS);
   }
 
   verbose = isSet("verbose");
-  if (verbose)
-    std::cout << "Verbose Output: ON" << std::endl;
+  if (verbose) std::cout << "Verbose Output: ON" << std::endl;
 
   isSet("width", width);
-  if (verbose)
-    std::cout << "Setting width to " << width << std::endl;
+  if (verbose) std::cout << "Setting width to " << width << std::endl;
 
   isSet("height", height);
-  if (verbose)
-    std::cout << "Setting height to " << height << std::endl;
+  if (verbose) std::cout << "Setting height to " << height << std::endl;
 
   isSet("winwidth", windowWidth);
   if (verbose)
@@ -81,26 +90,24 @@ void GraphicsArgs::process(int argc, char *argv[])
     std::cout << "Setting Windo Height to " << windowHeight << std::endl;
 
   // recalculate aspect ratio in lieu of aspectRatio being set
-  aspectRatio = width / (float)height; // as in W to H as in 16:9
+  aspectRatio = width / (float)height;  // as in W to H as in 16:9
 
   isSet("aspect", aspectRatio);
   if (verbose)
     std::cout << "Setting aspect ratio to " << aspectRatio << std::endl;
 
-  if (isSet("depth", depthOfFieldDistance))
-  {
+  if (isSet("depth", depthOfFieldDistance)) {
     useDepthOfField = true;
     if (verbose)
-      std::cout << "Setting depth of field distance to " << depthOfFieldDistance << std::endl;
+      std::cout << "Setting depth of field distance to " << depthOfFieldDistance
+                << std::endl;
   }
 
   isSet("numcpus", numCpus);
-  if (verbose)
-    std::cout << "Setting num cpus to " << numCpus << std::endl;
+  if (verbose) std::cout << "Setting num cpus to " << numCpus << std::endl;
 
   isSet("rpp", rpp);
-  if (verbose)
-    std::cout << "Setting rays per pixel to " << rpp << std::endl;
+  if (verbose) std::cout << "Setting rays per pixel to " << rpp << std::endl;
 
   isSet("recursionDepth", recursionDepth);
   if (verbose)
