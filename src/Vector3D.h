@@ -54,7 +54,7 @@ public:
   Vector3D() { data[0] = data[1] = data[2] = 0; }
 
   //! Copy constructor for the Vector3D class. Copies values from reference
-  Vector3D(const Vector3D &v)
+  Vector3D(const Vector3D& v)
   {
     data[0] = v.data[0];
     data[1] = v.data[1];
@@ -86,7 +86,7 @@ public:
   //!
   /** Allows the setting of vector values through the operator[]
    */
-  double &operator[](const int i)
+  double& operator[](const int i)
   {
     // do a sanity check to make sure indices are OK!
     assert(i >= 0 && i < 3);
@@ -106,7 +106,7 @@ public:
   //!
   /** Given a vectors, sets the components of the lhs vector.
    */
-  void set(const Vector3D &v)
+  void set(const Vector3D& v)
   {
     data[0] = v[0];
     data[1] = v[1];
@@ -129,7 +129,7 @@ public:
   //! Compute the dot product between two vectors.
   /**
    */
-  double dot(const Vector3D &v) const
+  double dot(const Vector3D& v) const
   {
     return data[0] * v[0] + data[1] * v[1] + data[2] * v[2];
   }
@@ -137,11 +137,11 @@ public:
   //! Compute the cross product between two vectors.
   /**
    */
-  Vector3D cross(const Vector3D &v) const
+  Vector3D cross(const Vector3D& v) const
   {
     return Vector3D(data[1] * v[2] - data[2] * v[1],
-      data[2] * v[0] - data[0] * v[2],
-      data[0] * v[1] - data[1] * v[0]);
+                    data[2] * v[0] - data[0] * v[2],
+                    data[0] * v[1] - data[1] * v[0]);
   }
 
   Vector3D clamp(double min, double max)
@@ -166,7 +166,7 @@ public:
   }
 
   // Assignment operator for input a string of form "x y z"
-  Vector3D &operator=(const std::string &rhs)
+  Vector3D& operator=(const std::string& rhs)
   {
     std::stringstream ss;
     ss.str(rhs);
@@ -178,7 +178,7 @@ public:
   /** @param
    * @return a reference to the Vector3D to allow chaining of operations.
    */
-  Vector3D &operator=(const Vector3D &rhs)
+  Vector3D& operator=(const Vector3D& rhs)
   {
     // v1 = v2 --> same as v1.operator=(v2);
     data[0] = rhs.data[0];
@@ -188,7 +188,7 @@ public:
   }
 
   //!
-  Vector3D &operator+=(const Vector3D &rhs)
+  Vector3D& operator+=(const Vector3D& rhs)
   {
     data[0] += rhs.data[0];
     data[1] += rhs.data[1];
@@ -196,7 +196,7 @@ public:
     return *this;
   }
 
-  Vector3D &operator-=(const Vector3D &rhs)
+  Vector3D& operator-=(const Vector3D& rhs)
   {
     data[0] -= rhs.data[0];
     data[1] -= rhs.data[1];
@@ -210,7 +210,7 @@ public:
     ..
     c *= 2; // make it twice the size
    */
-  Vector3D &operator*=(const double c)
+  Vector3D& operator*=(const double c)
   {
     data[0] *= c;
     data[1] *= c;
@@ -218,7 +218,7 @@ public:
     return *this;
   }
 
-  Vector3D &operator/=(const double c)
+  Vector3D& operator/=(const double c)
   {
     data[0] /= c;
     data[1] /= c;
@@ -227,26 +227,26 @@ public:
   }
 
 private:
-  friend std::ostream &operator<<(std::ostream &os, const Vector3D &v);
-  friend std::istream &operator>>(std::istream &is, Vector3D &v);
+  friend std::ostream& operator<<(std::ostream& os, const Vector3D& v);
+  friend std::istream& operator>>(std::istream& is, Vector3D& v);
 
   // can be friend functions too
-  friend const Vector3D operator*(const Vector3D &lhs, const double rhs);
+  friend const Vector3D operator*(const Vector3D& lhs, const double rhs);
 
   double data[3];
   // std::vector<double> data; -->  make sure you have allocated
   // space...
 };
 
-const Vector3D operator+(const Vector3D &lhs, const Vector3D &rhs);
-const Vector3D operator-(const Vector3D &lhs, const Vector3D &rhs);
+const Vector3D operator+(const Vector3D& lhs, const Vector3D& rhs);
+const Vector3D operator-(const Vector3D& lhs, const Vector3D& rhs);
 
-const Vector3D operator*(const double rhs, const Vector3D &lhs);
-const Vector3D operator/(const Vector3D &lhs, const double rhs);
+const Vector3D operator*(const double rhs, const Vector3D& lhs);
+const Vector3D operator/(const Vector3D& lhs, const double rhs);
 
 // good for component wise multiplication of color values
-const Vector3D operator*(const Vector3D &lhs, const Vector3D &rhs);
+const Vector3D operator*(const Vector3D& lhs, const Vector3D& rhs);
 
-}// namespace sivelab
+} // namespace sivelab
 
-#endif// __CS5721_GRAPHICSLIB_VECTOR3__
+#endif // __CS5721_GRAPHICSLIB_VECTOR3__

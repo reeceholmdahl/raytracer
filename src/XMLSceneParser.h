@@ -16,27 +16,26 @@
 
 #include "SceneDataContainer.h"
 
-namespace sivelab
+namespace sivelab {
+
+class XMLSceneParser
 {
+public:
+  XMLSceneParser();
+  XMLSceneParser(const std::string& filename);
+  ~XMLSceneParser();
 
-  class XMLSceneParser 
-  {
-  public:
-    XMLSceneParser();
-    XMLSceneParser(const std::string &filename);
-    ~XMLSceneParser();
+  void parseFile(const std::string& filename);
 
-    void parseFile(const std::string &filename);
+  // registration functors
+  void registerCallback(const std::string& elementName,
+                        SceneElementCreator* secPtr);
 
-    // registration functors
-    void registerCallback(const std::string &elementName, SceneElementCreator *secPtr);
+  // can I provide the parser with the correct factories?
 
-
-      // can I provide the parser with the correct factories?      
-
-  private:
-    void f_parse();
-    void f_cleanup();
+private:
+  void f_parse();
+  void f_cleanup();
 
 #if 0
     void f_printNodeMapData(const std::map<std::string, SceneDataContainer>& nodeMap, const std::string &name) const;
@@ -62,12 +61,11 @@ namespace sivelab
     void parseShape(xmlNode *nPtr, std::map<std::string, SceneDataContainer> &nodeData);
 #endif
 
-    ptree m_ptree;
-    std::string m_currFileName;
+  ptree m_ptree;
+  std::string m_currFileName;
 
-    std::map<std::string, SceneElementCreator *> m_elemCallbackMap;
-  };
-
+  std::map<std::string, SceneElementCreator*> m_elemCallbackMap;
+};
 }
 
 #endif //  __SIVELAB_XML_SCENE_PARSER_H__ 1

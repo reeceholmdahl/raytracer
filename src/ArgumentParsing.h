@@ -2,7 +2,8 @@
  *  ArgumentParsing.h
  *
  *  Created by Pete Willemsen on 10/6/09.
- *  Copyright 2009 Department of Computer Science, University of Minnesota-Duluth. All rights reserved.
+ *  Copyright 2009 Department of Computer Science, University of
+ * Minnesota-Duluth. All rights reserved.
  *
  * This file is part of libSIVELab library (libsivelab).
  *
@@ -35,7 +36,8 @@ namespace sivelab {
 class ArgumentParsing
 {
 public:
-  enum ArgTypes {
+  enum ArgTypes
+  {
     NONE,
     INT,
     FLOAT,
@@ -46,22 +48,26 @@ public:
   ArgumentParsing();
   virtual ~ArgumentParsing() = default;
 
-  void reg(const std::string &argName, const std::string &description, ArgTypes t, char shortArgName = 0);
-  int processCommandLineArgs(int argc, char *argv[]) { return process(argc, argv); }
+  void reg(const std::string& argName, const std::string& description,
+           ArgTypes t, char shortArgName = 0);
+  int processCommandLineArgs(int argc, char* argv[])
+  {
+    return process(argc, argv);
+  }
 
-  bool isSet(const std::string &argName);
-  bool isSet(const std::string &argName, int &argValue);
-  bool isSet(const std::string &argName, float &argValue);
-  bool isSet(const std::string &argName, char &argValue);
-  bool isSet(const std::string &argName, std::string &argValue);
+  bool isSet(const std::string& argName);
+  bool isSet(const std::string& argName, int& argValue);
+  bool isSet(const std::string& argName, float& argValue);
+  bool isSet(const std::string& argName, char& argValue);
+  bool isSet(const std::string& argName, std::string& argValue);
 
   void printUsage() const;
 
 protected:
-  int process(int argc, char *argv[]);
+  int process(int argc, char* argv[]);
 
 private:
   po::options_description m_optDesc;
   po::variables_map m_varMap;
 };
-}// namespace sivelab
+} // namespace sivelab

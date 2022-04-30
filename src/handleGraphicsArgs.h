@@ -2,7 +2,8 @@
  *  handleGraphicsArgs.h
  *
  *  Created by Pete Willemsen on 10/6/09.
- *  Copyright 2009 Department of Computer Science, University of Minnesota-Duluth. All rights reserved.
+ *  Copyright 2009 Department of Computer Science, University of
+ * Minnesota-Duluth. All rights reserved.
  *
  * This file is part of libSIVELab (libsivelab).
  *
@@ -29,41 +30,40 @@
 #include "ArgumentParsing.h"
 #include "Vector3D.h"
 
-namespace sivelab
+namespace sivelab {
+
+// Derived from the Argument parsing class so that each can add to
+// this argument list.
+class GraphicsArgs : public ArgumentParsing
 {
+public:
+  GraphicsArgs();
+  ~GraphicsArgs() {}
 
-  // Derived from the Argument parsing class so that each can add to
-  // this argument list.
-  class GraphicsArgs : public ArgumentParsing
-  {
-  public:
-    GraphicsArgs();
-    ~GraphicsArgs() {}
+  void process(int argc, char* argv[]);
 
-    void process(int argc, char *argv[]);
+  bool verbose;
+  int windowWidth, windowHeight;
+  int width;
+  int height;
+  float aspectRatio;
+  bool useShadow;
+  Vector3D bgColor;
 
-    bool verbose;
-    int windowWidth, windowHeight;
-    int width;
-    int height;
-    float aspectRatio;
-    bool useShadow;
-    Vector3D bgColor;
+  bool useDepthOfField;
+  float depthOfFieldDistance;
 
-    bool useDepthOfField;
-    float depthOfFieldDistance;
+  int numCpus;
 
-    int numCpus;
+  int rpp;
 
-    int rpp;
+  int recursionDepth;
 
-    int recursionDepth;
+  std::string splitMethod;
 
-    std::string splitMethod;
-
-    std::string inputFileName;
-    std::string outputFileName;
-  };
+  std::string inputFileName;
+  std::string outputFileName;
+};
 
 } // namespace sivelab
 

@@ -6,10 +6,9 @@
 
 #include <boost/property_tree/ptree.hpp>
 
-namespace sivelab 
-{
+namespace sivelab {
 
-  using boost::property_tree::ptree;
+using boost::property_tree::ptree;
 
 #if 0
   // Forward reference.
@@ -44,32 +43,34 @@ namespace sivelab
   };
 #endif
 
-  class SceneElementCreator
+class SceneElementCreator
+{
+public:
+  enum SceneObjectType
   {
-  public:
-    enum SceneObjectType
-      {
-	SCENEPROPS,
-	CAMERA,
-	LIGHT,
-	SHADER,
-	SHAPE,
-	TEXTURE,
-	TRANSFORM,
-	INSTANCE,
-	UNKNOWN_TYPE
-      };
-
-    SceneElementCreator() 
-      : m_otype(SceneElementCreator::UNKNOWN_TYPE) {}
-    virtual ~SceneElementCreator() {}
-    
-    virtual void instance( ptree::value_type const &v ) = 0;
-
-    SceneObjectType m_otype;
-
-  private:
+    SCENEPROPS,
+    CAMERA,
+    LIGHT,
+    SHADER,
+    SHAPE,
+    TEXTURE,
+    TRANSFORM,
+    INSTANCE,
+    UNKNOWN_TYPE
   };
+
+  SceneElementCreator()
+    : m_otype(SceneElementCreator::UNKNOWN_TYPE)
+  {
+  }
+  virtual ~SceneElementCreator() {}
+
+  virtual void instance(ptree::value_type const& v) = 0;
+
+  SceneObjectType m_otype;
+
+private:
+};
 }
 
 #endif //  __SCENE_DATA_CONTAINER_H__ 1
