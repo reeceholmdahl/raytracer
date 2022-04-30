@@ -174,6 +174,39 @@ BOOST_AUTO_TEST_CASE(Numerical_Methods_and_Operations_Valid)
   BOOST_CHECK_CLOSE_FRACTION(-1.76393203, d[2], 0.00001);
 }
 
+BOOST_AUTO_TEST_CASE(Cross_Product_Valid_Ext)
+{
+  Vec3d i(1, 0, 0), j(0, 1, 0), k(0, 0, 1), ni(-i), nj(-j), nk(-k);
+
+  auto ixi = i.cross(i);
+  bool ixiGood(ixi[0] == 0 && ixi[1] == 0 && ixi[2] == 0);
+  BOOST_TEST(ixiGood);
+
+  auto ixj = i.cross(j);
+  bool ixjGood(ixj[0] == 0 && ixj[1] == 0 && ixj[2] == 1);
+  BOOST_TEST(ixjGood);
+
+  auto ixk = i.cross(k);
+  bool ixkGood(ixk[0] == 0 && ixk[1] == -1 && ixk[2] == 0);
+  BOOST_TEST(ixkGood);
+
+  auto jxi = j.cross(i);
+  bool jxiGood(jxi[0] == 0 && jxi[1] == 0 && jxi[2] == -1);
+  BOOST_TEST(jxiGood);
+
+  auto jxk = j.cross(k);
+  bool jxkGood(jxk[0] == 1 && jxk[1] == 0 && jxk[2] == 0);
+  BOOST_TEST(jxkGood);
+
+  auto kxi = k.cross(i);
+  bool kxiGood(kxi[0] == 0 && kxi[1] == 1 && kxi[2] == 0);
+  BOOST_TEST(kxiGood);
+
+  auto kxj = k.cross(j);
+  bool kxjGood(kxj[0] == -1 && kxj[1] == 0 && kxj[2] == 0);
+  BOOST_TEST(kxjGood);
+}
+
 BOOST_AUTO_TEST_CASE(IO_Stream_Valid)
 {
   Vec3f f(5.0, -2.5, 3.333);

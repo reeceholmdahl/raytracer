@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 
+#include "Constants.hpp"
 #include "Vector3.hpp"
 #include "CoordSys.hpp"
 #include "Ray.hpp"
@@ -11,11 +12,12 @@
 class Camera
 {
 public:
-  const static double DEFAULT_IMAGE_WIDTH;
-  const static double DEFAULT_ASPECT_RATIO;
-
   Camera();
-  Camera(const Vec3d &position, const Vec3d &viewDir, const double imagePlaneWidth = DEFAULT_IMAGE_WIDTH, const double aspectRatio = DEFAULT_ASPECT_RATIO);
+  Camera(
+      const Vec3d &position = renderer::constants::DEFAULT_CAMERA_POS,
+      const Vec3d &viewDir = renderer::constants::DEFAULT_VIEW_DIR,
+      const double imagePlaneWidth = renderer::constants::DEFAULT_IMAGE_WIDTH,
+      const double aspectRatio = renderer::constants::DEFAULT_ASPECT_RATIO);
 
   virtual ~Camera() {}
 

@@ -2,7 +2,6 @@
 
 #include "boost/filesystem.hpp"
 
-#include "renderer.hpp"
 #include "Camera.hpp"
 #include "PerspectiveCamera.hpp"
 #include "OrthographicCamera.hpp"
@@ -12,6 +11,7 @@
 #include "Box.hpp"
 #include "DiffuseShader.hpp"
 #include "NormalShader.hpp"
+#include "HitStruct.hpp"
 
 #include "handleGraphicsArgs.h"
 
@@ -32,16 +32,14 @@ int main(int argc, char *argv[])
     Framebuffer fbOrtho(nx, ny);
 
     Box box;
-    // box.setShader(new DiffuseShader(Vec3f(), Vec3f(1, 0, 1)));
+    // box.setShader(new DiffuseShader());
     box.setShader(new NormalShader());
 
-    Camera *persp = new PerspectiveCamera(Vec3d(1, 0, 0), Vec3d(-1, -1, -2), 0.15);
+    Camera *persp = new PerspectiveCamera(Vec3d(0.5, 0, 0), Vec3d(0, 0, -1), 0.15);
     Camera *ortho = new OrthographicCamera();
 
     persp->setImagePixels(nx, ny);
     ortho->setImagePixels(nx, ny);
-
-    std::vector<Light *> lights;
 
     for (size_t i(0); i < nx; ++i)
     {
@@ -50,8 +48,8 @@ int main(int argc, char *argv[])
             auto orthoRay(ortho->generateRay(i, j));
             auto perspRay(persp->generateRay(i, j));
 
-            auto hitOrtho = HitStruct();
-            auto hitPersp = HitStruct();
+            HitStruct hitOrtho;
+            HitStruct hitPersp;
 
             Vec3f colorPersp(0.1, 0.1, 0.1);
             Vec3f colorOrtho(0.1, 0.1, 0.1);

@@ -1,24 +1,23 @@
-#include "renderer.hpp"
+#include "Framebuffer.hpp"
 
-#include <iostream>
-
-using namespace renderer;
-
-void renderer::framebufferToGLPixelArray(const Framebuffer &fb, float *pixels)
+namespace renderer
 {
-    // float *pixels = new float[3 * fb.m_width * fb.m_height];
-
-    for (size_t i(0); i < fb.m_width; ++i)
+    void framebufferToGLPixelArray(const Framebuffer &fb, float *pixels)
     {
-        // inner loop is inverted as per openGL texture standards
-        for (size_t j(0); j < fb.m_height; ++j)
+        // float *pixels = new float[3 * fb.m_width * fb.m_height];
+
+        for (size_t i(0); i < fb.m_width; ++i)
         {
-            const size_t index_fb(fb.index(i, fb.m_height - j - 1));
-            const size_t index_gl(fb.index(i, j));
-            auto px(fb.m_pixelArray[index_fb]);
-            pixels[3 * index_gl] = px[0];
-            pixels[3 * index_gl + 1] = px[1];
-            pixels[3 * index_gl + 2] = px[2];
+            // inner loop is inverted as per openGL texture standards
+            for (size_t j(0); j < fb.m_height; ++j)
+            {
+                const size_t index_fb(fb.index(i, fb.m_height - j - 1));
+                const size_t index_gl(fb.index(i, j));
+                auto px(fb.m_pixelArray[index_fb]);
+                pixels[3 * index_gl] = px[0];
+                pixels[3 * index_gl + 1] = px[1];
+                pixels[3 * index_gl + 2] = px[2];
+            }
         }
     }
 }

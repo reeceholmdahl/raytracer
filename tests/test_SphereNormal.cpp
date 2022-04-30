@@ -2,7 +2,6 @@
 
 #include "boost/filesystem.hpp"
 
-#include "renderer.hpp"
 #include "Camera.hpp"
 #include "PerspectiveCamera.hpp"
 #include "Vector3.hpp"

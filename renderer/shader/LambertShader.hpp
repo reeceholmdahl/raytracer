@@ -7,8 +7,7 @@
 class LambertShader : public Shader
 {
 public:
-    LambertShader() = default;
-    LambertShader(const Vec3f &ambient, const Vec3f &diffuse);
+    LambertShader(const Vec3f &diffuse = renderer::constants::DEFAULT_DIFFUSE);
     virtual ~LambertShader() {}
 
     virtual Vec3f apply(const HitStruct &h) const;

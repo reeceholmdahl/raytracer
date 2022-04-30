@@ -3,7 +3,6 @@
 
 #include <boost/filesystem.hpp>
 
-#include "renderer.hpp"
 #include "Camera.hpp"
 #include "PerspectiveCamera.hpp"
 #include "Vector3.hpp"
@@ -49,15 +48,14 @@ int main(int argc, char *argv[])
   cam = new PerspectiveCamera(Vec3d(), Vec3d(0, 0, -1));
   cam->setImagePixels(nx, ny);
 
-  Shader *shader = new LambertShader(Vec3f(0.15, 0.15, 0.15), Vec3f(0, 0, 1));
+  Shader *shader = new LambertShader(Vec3f(0, 0, 1));
   for (size_t i = 0; i < nx; ++i)
   {
     for (size_t j = 0; j < ny; ++j)
     {
       auto r(cam->generateRay(i, j));
 
-      Shader *shader = new LambertShader(Vec3f(0.15, 0.15, 0.15), Vec3f(0, 0, 1));
-      HitStruct hit(1, INFINITY, lights);
+      HitStruct hit(1, INFINITY, &lights);
       for (Shape *shape : shapes)
       {
         shape->setShader(shader);

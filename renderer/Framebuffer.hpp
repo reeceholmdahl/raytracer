@@ -4,8 +4,8 @@
 #include <vector>
 #include <string>
 
+#include "Constants.hpp"
 #include "Vector3.hpp"
-#include "renderer.hpp"
 
 namespace renderer
 {
@@ -13,10 +13,7 @@ namespace renderer
   class Framebuffer
   {
   public:
-    static const size_t DEFAULT_WIDTH = 100;
-    static const size_t DEFAULT_HEIGHT = 100;
-
-    Framebuffer(const size_t width = DEFAULT_WIDTH, const size_t height = DEFAULT_HEIGHT);
+    Framebuffer(const size_t width = constants::DEFAULT_WIDTH, const size_t height = constants::DEFAULT_HEIGHT);
     Framebuffer(const Framebuffer &f);
 
     size_t width() const;

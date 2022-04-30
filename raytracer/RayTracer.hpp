@@ -6,7 +6,7 @@
 
 #include <boost/filesystem.hpp>
 
-#include "SceneContainer.hpp"
+#include "Scene.hpp"
 #include "Framebuffer.hpp"
 
 namespace fs = boost::filesystem;
@@ -19,11 +19,9 @@ namespace renderer
 
     void initOpenGL(const size_t windowWidth, const size_t windowHeight, const std::string &title);
 
-    SceneContainer buildScene(const fs::path &sceneFile);
+    void renderScene(Scene &scene, Framebuffer &fb, const int camera = 0);
 
-    Framebuffer renderScene(const size_t width, const size_t height, const SceneContainer &scene, const int camera = 0);
-
-    void exportAsPNG(const fs::path &outputPath, const std::vector<Framebuffer> &fbs);
+    void exportAsPNG(const fs::path &outputPath, const Framebuffer &fb);
 
     void generateTexture(const Framebuffer &fb);
 

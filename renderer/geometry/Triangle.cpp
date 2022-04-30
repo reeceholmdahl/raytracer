@@ -1,8 +1,10 @@
 #include <vector>
+#include <algorithm>
 
 #include "Triangle.hpp"
 #include "Vector3.hpp"
 #include "Ray.hpp"
+#include "BBox.hpp"
 
 Triangle::Triangle()
     : m_a(Vec3d(-0.25, -0.25, -2)), m_b(Vec3d(0.25, -0.25, -2)), m_c(Vec3d(0, 0.25, -2))
@@ -15,14 +17,19 @@ Triangle::Triangle(const Vec3d &a, const Vec3d &b, const Vec3d &c)
   auto AB(m_b - m_a);
   auto BC(m_c - m_b);
   m_normal = -BC.cross(AB).unitize();
+
+  auto minx = std::min({a[0], b[0], c[0]});
+  auto maxx = std::max({a[0], b[0], c[0]});
+  auto miny = std::min({a[1], b[1], c[1]});
+  auto maxy = std::max({a[1], b[1], c[1]});
+  auto minz = std::min({a[2], b[2], c[2]});
+  auto maxz = std::max({a[2], b[2], c[2]});
+
+  m_bbox = BBox(Vec3d(minx, miny, minz), Vec3d(maxx, maxy, maxz));
 }
 
 bool Triangle::closestHit(const Ray &r, HitStruct &hit) const
 {
-  hit.ray = r;
-  hit.shaderPtr = getShader();
-  hit.shape = this;
-
   // e = r.origin, d = r.direction
   // triangle with vertices a, b, c
   // e + td = a + B(b-a) + Y(b-c) for some intersectT > 0, B > 0, Y > 0, and B+Y < 1
@@ -112,13 +119,26 @@ bool Triangle::closestHit(const Ray &r, HitStruct &hit) const
   if (beta < 0 || beta > 1 - gamma)
     return false;
 
+  hit.ray = r;
+  hit.shaderPtr = getShader();
+  hit.shape = this;
   hit.t = intersectT;
   hit.normal = normal(r.point(hit.t));
 
   return true;
 }
 
-Vec3d Triangle::normal(const Vec3d &position) const
+const BBox &Triangle::bbox() const
+{
+  return m_bbox;
+}
+
+const Vec3d &Triangle::centroid() const
+{
+  return m_bbox.centroid();
+}
+
+const Vec3d &Triangle::normal(const Vec3d &position) const
 {
   return m_normal;
 }

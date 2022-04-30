@@ -8,7 +8,6 @@ class NormalShader : public Shader
 {
 public:
     NormalShader() = default;
-    NormalShader(const Vec3f &ambient);
     virtual ~NormalShader() {}
 
     virtual Vec3f apply(const HitStruct &h) const;

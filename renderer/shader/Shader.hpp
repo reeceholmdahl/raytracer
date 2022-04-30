@@ -1,6 +1,7 @@
 #ifndef RENDERER_SHADER_SHADER_H_
 #define RENDERER_SHADER_SHADER_H_
 
+#include "Constants.hpp"
 #include "Vector3.hpp"
 
 class HitStruct;
@@ -8,9 +9,7 @@ class HitStruct;
 class Shader
 {
 public:
-  const static Vec3f DEFAULT_AMBIENT;
-
-  Shader(const Vec3f &ambient = DEFAULT_AMBIENT);
+  Shader(const Vec3f &ambient = renderer::constants::DEFAULT_AMBIENT);
   virtual ~Shader() {}
 
   const Vec3f &ambient() const;

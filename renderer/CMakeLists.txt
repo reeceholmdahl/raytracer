@@ -2,27 +2,31 @@ include_directories(${CMAKE_SOURCE_DIR}/src)
 
 set(RENDERER_SUBDIRS
     math
-    geometry
     light
     shader
+    geometry
     camera
         CACHE INTERNAL "")
 
 add_library(renderer)
 
-foreach(subdir ${RENDERER_SUBDIRS})
-    add_subdirectory(${subdir})
-    include_directories(${subdir})
-endforeach(subdir)
+target_include_directories(renderer PRIVATE ${CMAKE_SOURCE_DIR}/renderer)
 
 target_sources(renderer
     PRIVATE
-        renderer.cpp renderer.hpp
         Framebuffer.cpp Framebuffer.hpp
-        Scene.cpp
-    PUBLIC
-        Scene.hpp)
+        BVH.cpp BVH.hpp
+        renderer.cpp
+        Scene.cpp Scene.hpp
+        jsonSceneParser.cpp)
 
-target_link_libraries(renderer sive-util)
+foreach(subdir ${RENDERER_SUBDIRS})
+    include_directories(${subdir})
+    add_subdirectory(${subdir})
+endforeach(subdir)
+
 target_link_libraries(renderer ${PNG_LIBRARY})
 target_link_libraries(renderer ${ZLIB_LIBRARY})
+target_link_libraries(renderer sive-util)
+
+#target_compile_options(renderer PRIVATE -Werror -Wall -Wextra)

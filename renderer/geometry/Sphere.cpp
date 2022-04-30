@@ -1,4 +1,5 @@
 #include "Sphere.hpp"
+#include "BBox.hpp"
 
 Sphere::Sphere()
     : Sphere(Vec3d(0, 0, -2), 0.25)
@@ -6,7 +7,7 @@ Sphere::Sphere()
 }
 
 Sphere::Sphere(const Vec3d &position, const double radius)
-    : m_position(position), m_radius(radius)
+    : m_position(position), m_radius(radius), m_bbox(BBox(m_position - Vec3d(-m_radius, -m_radius, -m_radius), m_position + Vec3d(m_radius, m_radius, m_radius)))
 {
 }
 
@@ -47,6 +48,16 @@ bool Sphere::closestHit(const Ray &r, HitStruct &hit) const
   hit.normal = normal(r.point(hit.t));
 
   return true;
+}
+
+const BBox &Sphere::bbox() const
+{
+  return m_bbox;
+}
+
+const Vec3d &Sphere::centroid() const
+{
+  return m_bbox.centroid();
 }
 
 Vec3d Sphere::normal(const Vec3d &position) const

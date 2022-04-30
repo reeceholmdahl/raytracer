@@ -6,10 +6,8 @@
 class CoordSys
 {
 public:
-  CoordSys();                                                      // default gaze and position
-  CoordSys(const Vec3d &position);                                 // default gaze, specified position
-  CoordSys(const Vec3d &u, const Vec3d &w);                        // default position, specified gaze
-  CoordSys(const Vec3d &position, const Vec3d &u, const Vec3d &w); // specified position and gaze
+  CoordSys();                                            // default gaze and position
+  CoordSys(const Vec3d &position, const Vec3d &viewDir); // default gaze, specified positionosition and gaze
 
   Vec3d toLocal(const Vec3d &global) const;
   Vec3d toGlobal(const Vec3d &local) const;

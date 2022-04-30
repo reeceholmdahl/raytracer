@@ -4,7 +4,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include "renderer_app.hpp"
+#include "RayTracer.hpp"
 
 using namespace renderer;
 

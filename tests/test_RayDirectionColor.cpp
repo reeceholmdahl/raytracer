@@ -3,7 +3,6 @@
 
 #include <boost/filesystem.hpp>
 
-#include "renderer.hpp"
 #include "Vector3.hpp"
 #include "CoordSys.hpp"
 #include "PerspectiveCamera.hpp"

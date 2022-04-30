@@ -8,8 +8,10 @@
 class BlinnPhongShader : public LambertShader
 {
 public:
-    BlinnPhongShader() = default;
-    BlinnPhongShader(const Vec3f &ambient, const Vec3f &diffuse, const Vec3f &specular, const double pexp);
+    BlinnPhongShader(
+        const Vec3f &diffuse = renderer::constants::DEFAULT_DIFFUSE,
+        const Vec3f &specular = renderer::constants::DEFAULT_SPECULAR,
+        const double pexp = renderer::constants::DEFAULT_PHONG_EXP);
     virtual ~BlinnPhongShader() {}
 
     virtual Vec3f apply(const HitStruct &h) const;

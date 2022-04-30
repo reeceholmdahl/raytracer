@@ -6,7 +6,7 @@ Box::Box() : Box(Vec3d(-0.25, -0.25, -2.25), Vec3d(0.25, 0.25, -1.75))
 {
 }
 
-Box::Box(const Vec3d &min, const Vec3d &max) : m_min(min), m_max(max)
+Box::Box(const Vec3d &min, const Vec3d &max) : m_min(min), m_max(max), m_bbox(min, max)
 {
     // Initialize triangles for box
     tris = {
@@ -27,35 +27,84 @@ Box::Box(const Vec3d &min, const Vec3d &max) : m_min(min), m_max(max)
 
 bool Box::closestHit(const Ray &r, HitStruct &hit) const
 {
-    double t(INFINITY);
-    Triangle hitTri;
-    int hitCount(0);
-    for (Triangle tri : tris)
-    {
-        if (hitCount == 2)
-            break;
+    // double t(INFINITY);
+    // Triangle hitTri;
+    // int hitCount(0);
+    // for (Triangle tri : tris)
+    // {
+    //     if (hitCount == 2)
+    //         break;
 
-        auto testHit = HitStruct(hit.tmin, hit.tmax);
-        if (tri.closestHit(r, testHit))
-        {
-            ++hitCount;
-            if (testHit.t < t)
-            {
-                t = testHit.t;
-                hitTri = tri;
-            }
-        }
-    }
+    //     auto testHit = HitStruct(hit.tmin, hit.tmax);
+    //     if (tri.closestHit(r, testHit))
+    //     {
+    //         ++hitCount;
+    //         if (testHit.t < t)
+    //         {
+    //             t = testHit.t;
+    //             hitTri = tri;
+    //         }
+    //     }
+    // }
 
-    if (t != INFINITY)
+    // if (t != INFINITY)
+    // {
+    //     hit.ray = r;
+    //     hit.shaderPtr = getShader();
+    //     hit.shape = this;
+    //     hit.t = t;
+
+    //     return true;
+    // }
+
+    // return false;
+
+    double t;
+    if (m_bbox.hit(r, hit.tmin, hit.tmax, t))
     {
         hit.ray = r;
         hit.shaderPtr = getShader();
         hit.shape = this;
         hit.t = t;
-        hit.normal = hitTri.normal(r.point(t));
+
+        // TODO fix normal
+        if (r.point(t)[0] == m_min[0])
+        {
+            hit.normal = Vec3d(-1, 0, 0);
+        }
+        else if (r.point(t)[0] == m_max[0])
+        {
+            hit.normal = Vec3d(1, 0, 0);
+        }
+        else if (r.point(t)[1] == m_min[1])
+        {
+            hit.normal = Vec3d(0, -1, 0);
+        }
+        else if (r.point(t)[1] == m_max[1])
+        {
+            hit.normal = Vec3d(0, 1, 0);
+        }
+        else if (r.point(t)[2] == m_min[2])
+        {
+            hit.normal = Vec3d(0, 0, -1);
+        }
+        else if (r.point(t)[2] == m_max[2])
+        {
+            hit.normal = Vec3d(0, 0, 1);
+        }
+
         return true;
     }
 
     return false;
+}
+
+const BBox &Box::bbox() const
+{
+    return m_bbox;
+}
+
+const Vec3d &Box::centroid() const
+{
+    return m_bbox.centroid();
 }

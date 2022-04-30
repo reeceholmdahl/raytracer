@@ -2,7 +2,6 @@
 
 #include "boost/filesystem.hpp"
 
-#include "renderer.hpp"
 #include "Camera.hpp"
 #include "PerspectiveCamera.hpp"
 #include "OrthographicCamera.hpp"
@@ -31,7 +30,7 @@ int main(int argc, char *argv[])
     Framebuffer fbOrtho(nx, ny);
 
     Sphere sph;
-    sph.setShader(new DiffuseShader(Vec3f(), Vec3f(1, 0, 1)));
+    sph.setShader(new DiffuseShader());
 
     Camera *persp = new PerspectiveCamera();
     Camera *ortho = new OrthographicCamera();

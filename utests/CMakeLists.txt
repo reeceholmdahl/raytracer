@@ -20,7 +20,8 @@ endforeach(renderer_subdir)
 # 
 set(UTESTS 
   utest_Vector3D
-  utest_Vector3)
+  utest_Vector3
+  utest_BBox)
 
 # 
 # For each of the executables named in ${UTESTS}, compile them into a

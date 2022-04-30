@@ -12,6 +12,7 @@
 #include "HitStruct.hpp"
 #include "Framebuffer.hpp"
 #include "PerspectiveCamera.hpp"
+#include "BVH.hpp"
 
 namespace fs = boost::filesystem;
 
@@ -23,19 +24,22 @@ int main(int argc, char *argv[])
     args.process(argc, argv);
 
     // Used cmdline arguments
-    // const size_t nx(args.width), ny(args.height);
-    const size_t nx(500), ny(500);
-    const fs::path outdir(fs::path(args.outputFileName).parent_path());
-    const fs::path indir(fs::path(args.inputFileName).parent_path());
-    const std::string fileName = "PhongExp.json";
-    const fs::path toScene((indir / "scenes_A") / fileName);
+    const size_t nx(args.width), ny(args.height);
+    // const size_t nx(500), ny(500);
+    const fs::path outfile(args.outputFileName);
+    // const fs::path indir(fs::path(args.inputFileName).parent_path());
+    // const std::string fileName = "boxSphereTest.json";
+    const fs::path infile(args.inputFileName);
 
     // Assert that the file exists
-    // assert(fs::exists(toScene));
+    // assert(fs::exists(infile));
 
     Scene scene(nx, ny);
 
-    scene.parseJSONData(toScene.string());
+    scene.parseJSONData(infile.string());
+
+    auto bvh = BVH(scene.shapes());
+    std::cout << "Made the BVH" << std::endl;
 
     std::vector<Framebuffer *> fbs(scene.cameras().size());
     for (int i(0); i < scene.cameras().size(); ++i)
@@ -51,23 +55,26 @@ int main(int argc, char *argv[])
     {
         for (size_t i(0); i < nx; ++i)
         {
+            std::cerr << i << std::endl;
             for (size_t j(0); j < ny; ++j)
             {
                 auto cam = scene.cameras()[c];
                 auto fb = fbs[c];
                 auto ray = cam->generateRay(i, j);
                 HitStruct hit(1, INFINITY, &scene.lights());
-                for (Shape *shape : scene.shapes())
-                {
-                    auto testHit = hit;
-                    if (shape->closestHit(ray, testHit))
-                    {
-                        hit = testHit;
-                    }
-                }
+                // for (Shape *shape : scene.shapes())
+                // {
+                //     auto testHit = hit;
+                //     if (shape->closestHit(ray, testHit))
+                //     {
+                //         hit = testHit;
+                //     }
+                // }
+
+                auto didHit = bvh.head->closestHit(ray, hit);
 
                 Vec3f color(scene.background());
-                if (hit.t != INFINITY && hit.shaderPtr)
+                if (didHit && hit.shaderPtr)
                 {
                     color = hit.shaderPtr->apply(hit);
                 }
@@ -80,7 +87,7 @@ int main(int argc, char *argv[])
     for (int i(0); i < fbs.size(); ++i)
     {
         auto fb = fbs[i];
-        fb->exportAsPNG((outdir / (fileName + std::to_string(i + 1) + ".test.png")).string());
+        fb->exportAsPNG(outfile.string());
     }
 
     return 0;

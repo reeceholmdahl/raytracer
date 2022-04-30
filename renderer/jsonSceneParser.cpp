@@ -21,6 +21,7 @@
 #include "Shape.hpp"
 #include "Sphere.hpp"
 #include "Triangle.hpp"
+#include "Box.hpp"
 #include "Light.hpp"
 #include "PointLight.hpp"
 
@@ -144,19 +145,15 @@ Shape *Scene::extractAndCreateShapeFromJSONData(json &shapeData)
 
         sPtr = new Triangle(a, b, c);
     }
-
-#define BOXES_READY 0
-#if BOXES_READY
     else if (type == "box")
     {
-        sivelab::Vector3D minPt, maxPt;
+        Vec3d minPt, maxPt;
 
         minPt = shapeData["minPt"];
         maxPt = shapeData["maxPt"];
 
         sPtr = new Box(minPt, maxPt);
     }
-#endif
 
 #define MESHES_READY 0
 #if MESHES_READY
@@ -223,8 +220,13 @@ void Scene::parseJSONData(const std::string &filename)
     if (!j["scene"]["_bgColor"].empty())
     {
         m_background = j["scene"]["_bgColor"];
-        std::cout << "BG Color: " << m_background << std::endl;
     }
+    else
+    {
+        m_background = renderer::constants::DEFAULT_BACKGROUND;
+    }
+
+    std::cout << "BG Color: " << m_background << std::endl;
 
     // ///////////////////////////////////////
     //
@@ -259,15 +261,15 @@ void Scene::parseJSONData(const std::string &filename)
             float focalLength = camInfo["focalLength"];
             float imagePlaneWidth = camInfo["imagePlaneWidth"];
 
-            // std::cout << "|focalLength: " << focalLength << std::endl
-            //           << "|imagePlaneWidth: " << imagePlaneWidth << std::endl
-            //           << "|pixelsX: " << m_pixelsX << std::endl
-            //           << "|pixelsY: " << m_pixelsY << std::endl
-            //           << "|aspectRatio: " << m_aspectRatio << std::endl;
+            std::cout << "|focalLength: " << focalLength << std::endl
+                      << "|imagePlaneWidth: " << imagePlaneWidth << std::endl
+                      << "|pixelsX: " << m_pixelsX << std::endl
+                      << "|pixelsY: " << m_pixelsY << std::endl
+                      << "|aspectRatio: " << m_aspectRatio << std::endl;
 
             std::string camType = camInfo["_type"];
 
-            // std::cout << "Camera type: " << camType << std::endl;
+            std::cout << "Camera type: " << camType << std::endl;
 
             Camera *cam;
             if (camType == "perspective")
@@ -309,10 +311,10 @@ void Scene::parseJSONData(const std::string &filename)
             diffuse = shaderInfo["diffuse"];
 
             if (shaderType == "Lambertian")
-                shaderPtr = new LambertShader(m_background, diffuse);
+                shaderPtr = new LambertShader(diffuse);
 
             else if (shaderType == "Diffuse")
-                shaderPtr = new DiffuseShader(m_background, diffuse);
+                shaderPtr = new DiffuseShader(diffuse);
         }
 
 #define ADVSHADERS_READY 0
@@ -339,13 +341,12 @@ void Scene::parseJSONData(const std::string &filename)
 
             if (shaderType == "BlinnPhong")
             {
-                shaderPtr = new BlinnPhongShader(m_background, diffuse, specular, phongExp);
+                shaderPtr = new BlinnPhongShader(diffuse, specular, phongExp);
             }
             else
             {
                 shaderPtr = nullptr;
             }
-            // shaderPtr = new sivelab::Phong(diffuse, specular, phongExp);
         }
 
 #if ADVSHADERS_READY
@@ -438,7 +439,6 @@ void Scene::parseJSONData(const std::string &filename)
     std::cout << "Number of shapes: " << j["scene"]["shape"].size() << std::endl;
     for (auto i = 0; i < j["scene"]["shape"].size(); i++)
     {
-
         json shapeInfo = j["scene"]["shape"][i];
 
         Shape *sPtr = extractAndCreateShapeFromJSONData(shapeInfo);
@@ -446,6 +446,7 @@ void Scene::parseJSONData(const std::string &filename)
         if (!shapeInfo["shader"]["_ref"].empty())
         {
             std::string shaderName(shapeInfo["shader"]["_ref"]);
+
             // std::cout << sPtr << std::endl;
             // std::cout << "Shape type: " << typeid(*sPtr).name() << std::endl;
 

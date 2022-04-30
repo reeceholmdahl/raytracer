@@ -1,14 +1,14 @@
 #include "BlinnPhongShader.hpp"
 
-BlinnPhongShader::BlinnPhongShader(const Vec3f &ambient, const Vec3f &color, const Vec3f &specular, const double pexp)
-    : LambertShader(ambient, color), m_specular(specular), m_pexp(pexp)
+BlinnPhongShader::BlinnPhongShader(const Vec3f &color, const Vec3f &specular, const double pexp)
+    : LambertShader(color), m_specular(specular), m_pexp(pexp)
 {
 }
 
 Vec3f BlinnPhongShader::apply(const HitStruct &hit) const
 {
     Vec3f color;
-    for (Light *light : hit.lights)
+    for (Light *light : *hit.lights)
     {
         auto hitToLight((light->position() - hit.hitPoint()).unitize());
 

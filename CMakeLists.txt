@@ -155,12 +155,14 @@ if(${Boost_FOUND})
   message(STATUS "Boost Libs: ${Boost_LIBRARIES}")
 endif()
 
-# Add the src directory to build the libsive-util.a library.
-add_subdirectory(src)
+#set(CMAKE_CXX_FLAGS "")
 
 # If you want, we can also compile the tests directory that are essentially examples for how to use some of the classes
 # and code.
 add_subdirectory(examples)
+
+# Add the src directory to build the libsive-util.a library.
+add_subdirectory(src)
 
 #
 # Renderer codes
@@ -168,8 +170,9 @@ add_subdirectory(examples)
 # You will link your renderer library directory here
 add_subdirectory(renderer)
 
-# Add renderer app directory
-add_subdirectory(renderer-app)
+
+# Add raytracer directory
+add_subdirectory(raytracer)
 
 #
 # OpenGL Example
@@ -182,7 +185,7 @@ add_subdirectory(renderer-app)
 #add_subdirectory(Vulkan)
 
 #
-# Unit Tests - by enabling testing with cmake, we can create a target that lets unit tests be run. After re-building
+# Unit Tests   by enabling testing with cmake, we can create a target that lets unit tests be run. After re-building
 # yourproject with ENABLE_TESTING called, a make target, called test will be enabled. You can then type
 #
 # make test

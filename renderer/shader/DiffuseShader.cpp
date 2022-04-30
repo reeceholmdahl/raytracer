@@ -1,7 +1,7 @@
 #include "DiffuseShader.hpp"
 
-DiffuseShader::DiffuseShader(const Vec3f &ambient, const Vec3f &color)
-    : Shader(ambient), m_color(color)
+DiffuseShader::DiffuseShader(const Vec3f &color)
+    : m_color(color)
 {
 }
 

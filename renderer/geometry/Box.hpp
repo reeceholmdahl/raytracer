@@ -6,6 +6,7 @@
 #include "Shape.hpp"
 #include "Triangle.hpp"
 #include "Vector3.hpp"
+#include "BBox.hpp"
 
 class Box : public Shape
 {
@@ -15,10 +16,13 @@ public:
     virtual ~Box() {}
 
     virtual bool closestHit(const Ray &r, HitStruct &hit) const;
+    virtual const BBox &bbox() const;
+    virtual const Vec3d &centroid() const;
 
 private:
     Vec3d m_min, m_max;
     std::vector<Triangle> tris;
+    BBox m_bbox;
 };
 
 #endif

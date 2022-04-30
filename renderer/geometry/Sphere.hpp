@@ -13,12 +13,15 @@ public:
   virtual ~Sphere() {}
 
   virtual bool closestHit(const Ray &r, HitStruct &hit) const;
+  virtual const BBox &bbox() const;
+  virtual const Vec3d &centroid() const;
 
   Vec3d normal(const Vec3d &position) const;
 
 private:
   Vec3d m_position;
   double m_radius;
+  BBox m_bbox;
 };
 
 #endif

@@ -7,15 +7,16 @@ endforeach(renderer_subdir)
 
 SET(TESTS
     test_Framebuffer
-    test_Miscellaneous
     test_RayDirectionColor
     test_LambertianShading
     test_SphereNormal
     test_DefaultTriangle
     test_DefaultSphere
     test_DefaultBox
+    test_HitBBox
     test_BlinnPhongShading
-    test_JSONParsing)
+    test_JSONParsing
+    test_BVH)
 
 foreach(exec ${TESTS})
   add_executable(${exec} ${BUNDLEOPTS} ${exec}.cpp)

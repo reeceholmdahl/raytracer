@@ -8,9 +8,8 @@
 #include "Vector3.hpp"
 #include "CoordSys.hpp"
 #include "Framebuffer.hpp"
-#include "Triangle.hpp"
+#include "BBox.hpp"
 #include "HitStruct.hpp"
-#include "DiffuseShader.hpp"
 
 #include "handleGraphicsArgs.h"
 
@@ -30,9 +29,9 @@ int main(int argc, char *argv[])
     Framebuffer fbPersp(nx, ny);
     Framebuffer fbOrtho(nx, ny);
 
-    Triangle tri;
-    tri.setShader(new DiffuseShader());
+    BBox bbox;
 
+    // Camera *persp = new PerspectiveCamera(Vec3d(1, 0, 0), Vec3d(-1, -1, -2), 0.15);
     Camera *persp = new PerspectiveCamera();
     Camera *ortho = new OrthographicCamera();
 
@@ -46,19 +45,17 @@ int main(int argc, char *argv[])
             auto orthoRay(ortho->generateRay(i, j));
             auto perspRay(persp->generateRay(i, j));
 
-            auto hitOrtho = HitStruct();
-            auto hitPersp = HitStruct();
-
             Vec3f colorPersp(0.1, 0.1, 0.1);
             Vec3f colorOrtho(0.1, 0.1, 0.1);
-            if (tri.closestHit(perspRay, hitPersp))
+            double t;
+            if (bbox.hit(perspRay, 1, INFINITY, t))
             {
-                colorPersp = hitPersp.shaderPtr->apply(hitPersp);
+                colorPersp = Vec3f(1, 0, 1);
             }
 
-            if (tri.closestHit(orthoRay, hitOrtho))
+            if (bbox.hit(orthoRay, 1, INFINITY, t))
             {
-                colorOrtho = hitOrtho.shaderPtr->apply(hitOrtho);
+                colorOrtho = Vec3f(1, 0, 1);
             }
 
             fbPersp.setPixelColor(i, j, colorPersp);
@@ -66,8 +63,8 @@ int main(int argc, char *argv[])
         }
     }
 
-    fbPersp.exportAsPNG((outdir / "test_DefaultTrianglePerspective.test.png").string());
-    fbOrtho.exportAsPNG((outdir / "test_DefaultTriangleOrthographic.test.png").string());
+    fbPersp.exportAsPNG((outdir / "test_HitBBoxPerspective.test.png").string());
+    fbOrtho.exportAsPNG((outdir / "test_HitBBoxOrthographic.test.png").string());
 
     return 0;
 }

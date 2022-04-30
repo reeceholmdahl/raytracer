@@ -21,7 +21,6 @@
  */
 
 #include "handleGraphicsArgs.h"
-#include "Camera.hpp"
 
 using namespace sivelab;
 

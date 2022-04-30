@@ -3,7 +3,6 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include "renderer.hpp"
 #include "Camera.hpp"
 #include "PerspectiveCamera.hpp"
 #include "CoordSys.hpp"

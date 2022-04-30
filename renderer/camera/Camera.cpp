@@ -1,8 +1,5 @@
 #include "Camera.hpp"
 
-const double Camera::DEFAULT_IMAGE_WIDTH = 0.5;
-const double Camera::DEFAULT_ASPECT_RATIO = 1.0;
-
 Camera::Camera()
     : Camera(Vec3d(), Vec3d(0, 0, 1))
 {
