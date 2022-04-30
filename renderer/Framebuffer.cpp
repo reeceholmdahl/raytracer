@@ -1,7 +1,7 @@
 #include <string>
 #include <cmath>
 
-#include <algorithm>
+#include <boost/algorithm/clamp.hpp>
 
 #include "Framebuffer.hpp"
 #include "Vector3.hpp"
@@ -55,10 +55,10 @@ Framebuffer::exportAsPNG(const std::string& outputFileName) const
   for (size_t i = 0; i < m_width; ++i) {
     for (size_t j = 0; j < m_height; ++j) {
       Vec3f pixel(m_pixelArray[index(i, j)]);
-      imageData[m_height - j - 1][i] =
-        png::rgb_pixel((png::byte)(std::clamp(pixel[0], 0.0f, 1.0f) * 255),
-                       (png::byte)(std::clamp(pixel[1], 0.0f, 1.0f) * 255),
-                       (png::byte)(std::clamp(pixel[2], 0.0f, 1.0f) * 255));
+      imageData[m_height - j - 1][i] = png::rgb_pixel(
+        (png::byte)(boost::algorithm::clamp(pixel[0], 0.0f, 1.0f) * 255),
+        (png::byte)(boost::algorithm::clamp(pixel[1], 0.0f, 1.0f) * 255),
+        (png::byte)(boost::algorithm::clamp(pixel[2], 0.0f, 1.0f) * 255));
       // imageData[j][i] = png::rgb_pixel(test::clamp(pixel[0], 0, 1) * 255,
       // test::clamp(pixel[1], 0, 1) * 255, test::clamp(pixel[2], 0, 1) * 255);
     }

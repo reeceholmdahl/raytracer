@@ -8,7 +8,11 @@
                 "${workspaceFolder}/glm-0.9.9.9/",
                 "C:/Boost/boost_1_78_0",
                 "${workspaceFolder}/src",
-                "${workspaceFolder}/renderer/**"
+                "${workspaceFolder}/renderer/**",
+                "${workspaceFolder}/renderer/camera",
+                "${workspaceFolder}/renderer/geometry",
+                "${workspaceFolder}/renderer/shader",
+                "${workspaceFolder}/renderer/light"
             ],
             "defines": [
                 "_DEBUG",
