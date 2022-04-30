@@ -146,7 +146,7 @@ if(WIN32)
 endif(WIN32)
 
 find_package(Boost
-  1.72.0 EXACT
+  1.78.0 EXACT
   REQUIRED
   COMPONENTS
     date_time
