@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-#define DEBUG_BBOX 1
+#define DEBUG_BBOX 0
 
 BBox::BBox()
   : BBox(Vec3d(-0.25, -0.25, -2.25), Vec3d(0.25, 0.25, -1.75))
@@ -17,7 +17,7 @@ BBox::BBox(const Vec3d& min, const Vec3d& max)
 }
 
 bool
-BBox::hit(const Ray& r, const double tmin, const double tmax, double& t) const
+BBox::hit(const Ray& r, double tmin, double tmax, double& t) const
 {
   // TODO could there be a way to choose the axis that it checks overlap first
   // based on the scene's extent?
@@ -30,37 +30,34 @@ BBox::hit(const Ray& r, const double tmin, const double tmax, double& t) const
   auto tminx = rtomin[0] / dir[0];
   auto tmaxx = rtomax[0] / dir[0];
 
-  // if (dir[0] < 0)
-  //   std::swap(tminx, tmaxx);
-
   if (1 / dir[0] < 0)
     std::swap(tminx, tmaxx);
 
   // Ray overlaps box on x
-  if (tminx < tmax && tmaxx > tmin) {
+  if (tminx < tmaxx && tminx < tmax && tmaxx > tmin) {
+    tmax = tmaxx;
+    tmin = std::max(tmin, tminx);
+
     auto tminy = rtomin[1] / dir[1];
     auto tmaxy = rtomax[1] / dir[1];
-
-    // if (dir[1] < 0)
-    //   std::swap(tminy, tmaxy);
 
     if (1 / dir[1] < 0)
       std::swap(tminy, tmaxy);
 
     // Ray overlaps box on x AND y
-    if (tminy < tmax && tmaxy > tmin) {
+    if (tminy < tmaxy && tminy < tmax && tmaxy > tmin) {
+      tmax = std::min(tmax, tmaxy);
+      tmin = std::max(tmin, tminy);
+
       auto tminz = rtomin[2] / dir[2];
       auto tmaxz = rtomax[2] / dir[2];
-
-      // if (dir[2] < 0)
-      //   std::swap(tminz, tmaxz);
 
       if (1 / dir[2] < 0)
         std::swap(tminz, tmaxz);
 
       // If Ray overlaps box on x and y AND z then box is hit, otherwise is not.
-      if (tminz < tmax && tmaxz > tmin) {
-        t = std::max({ tminx, tminy, tminz, tmin });
+      if (tminz < tmaxz && tminz < tmax && tmaxz > tmin) {
+        t = std::max(tminz, tmin);
         return true;
       } else {
         return false;
