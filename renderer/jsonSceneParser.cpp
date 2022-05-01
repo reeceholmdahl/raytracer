@@ -251,6 +251,8 @@ Scene::parseJsonFile(const std::string& filename)
         viewDir = camInfo["viewDir"];
       }
 
+      std::cerr << "view dir " << viewDir << std::endl;
+
       double focalLength = camInfo["focalLength"];
       double imagePlaneWidth = camInfo["imagePlaneWidth"];
 

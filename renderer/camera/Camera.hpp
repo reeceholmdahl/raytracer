@@ -12,26 +12,29 @@
 class Camera
 {
 public:
-  Camera();
-  Camera(
-    const Vec3d& position = renderer::constants::DEFAULT_CAMERA_POS,
-    const Vec3d& viewDir = renderer::constants::DEFAULT_VIEW_DIR,
-    const double imagePlaneWidth = renderer::constants::DEFAULT_IMAGE_WIDTH,
-    const double aspectRatio = renderer::constants::DEFAULT_ASPECT_RATIO);
+  Camera() = delete;
+  Camera(const Vec3d& position, const Vec3d& viewDir,
+         const double imagePlaneWidth, const double aspectRatio);
 
   virtual ~Camera() {}
 
-  CoordSys basis() const;
-  double imagePlaneWidth() const;
-  double imagePlaneHeight() const;
-
-  void setImagePixels(const size_t x, const size_t y);
-
   virtual Ray generateRay(const size_t i, const size_t j) const = 0;
 
+  inline const CoordSys& basis() const { return m_basis; }
+
+  inline double imagePlaneWidth() const { return m_imagePlaneWidth; }
+
+  inline double imagePlaneHeight() const { return m_imagePlaneHeight; }
+
+  inline void setImagePixels(const size_t x, const size_t y)
+  {
+    m_pixelsX = x;
+    m_pixelsY = y;
+  }
+
 protected:
-  size_t m_pixelsX = 0, m_pixelsY = 0;
-  double m_imagePlaneWidth, m_imagePlaneHeight;
+  size_t m_pixelsX = -1, m_pixelsY = -1;
+  double m_imagePlaneWidth = -1, m_imagePlaneHeight = -1;
   CoordSys m_basis;
 };
 

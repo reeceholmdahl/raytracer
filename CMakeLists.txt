@@ -167,11 +167,11 @@ endif()
 # This is where the stuff goes
 # ----------------------------------------------------------
 
-set(RENDERER_TESTING OFF)
+set(RENDERER_TESTING ON)
 set(CTEST_OUTPUT_DIR "${CMAKE_SOURCE_DIR}/out")
 set(CTEST_INPUT_DIR "${CMAKE_SOURCE_DIR}/SceneData")
-set(CTEST_WINDOW_WIDTH 500)
-set(CTEST_WINDOW_HEIGHT 500)
+set(CTEST_WINDOW_WIDTH 250)
+set(CTEST_WINDOW_HEIGHT 250)
 
 # If you want, we can also compile the tests directory that are essentially examples for how to use some of the classes
 # and code.

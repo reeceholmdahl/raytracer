@@ -19,7 +19,7 @@ endforeach(renderer_subdir)
 # compile into an executable.
 # 
 set(UTESTS 
-  utest_Vector3D
+#  utest_Vector3D
   utest_Vector3
   utest_BBox)
 

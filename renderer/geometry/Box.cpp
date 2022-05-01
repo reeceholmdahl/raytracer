@@ -41,8 +41,9 @@ Box::closestHit(const Ray& r, HitStruct& hit) const
     } else if (point[2] == m_max[2]) {
       hit.normal = Vec3d(0, 0, 1);
     } else {
-      std::cerr << "Could not give box a normal on hit. This should not occur."
-                << std::endl;
+      // std::cerr << "Could not give box a normal on hit. This should not
+      // occur."
+      //           << std::endl;
       assert(false);
     }
 

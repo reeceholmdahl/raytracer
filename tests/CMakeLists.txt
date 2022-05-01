@@ -6,15 +6,15 @@ foreach(renderer_subdir ${RENDERER_SUBDIRS})
 endforeach(renderer_subdir)
 
 SET(TESTS
-    test_Framebuffer
+    #test_Framebuffer
     test_RayDirectionColor
-    test_LambertianShading
-    test_SphereNormal
+    #test_LambertianShading
+    #test_SphereNormal
     test_DefaultTriangle
     test_DefaultSphere
     test_DefaultBox
     test_HitBBox
-    test_BlinnPhongShading
+    #test_BlinnPhongShading
     test_JSONParsing
     test_BVH)
 
@@ -33,13 +33,13 @@ foreach(exec ${TESTS})
   set_property(TEST ${exec} PROPERTY LABELS a)
 endforeach(exec)
 
-INCLUDE_DIRECTORIES(${OPENGL_INCLUDE_DIR})
-link_libraries(${OPENGL_LIBRARY})
-
 add_executable(test_Window test_Window.cpp)
+
+target_include_directories(test_Window PRIVATE ${OPENGL_INCLUDE_DIR})
 
 target_link_libraries(test_Window sive-util)
 target_link_libraries(test_Window renderer)
+target_link_libraries(test_Window ${OPENGL_LIBRARY})
 target_link_libraries(test_Window ${Boost_PROGRAM_OPTIONS_LIBRARIES})
 target_link_libraries(test_Window ${Boost_LIBRARIES})
 target_link_libraries(test_Window ${PNG_LIBRARY})

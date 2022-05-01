@@ -17,7 +17,7 @@ public:
   virtual Ray generateRay(const size_t i, const size_t j) const;
 
 private:
-  double m_focalLength;
+  double m_focalLength, left, right, top, bottom;
 };
 
 #endif
