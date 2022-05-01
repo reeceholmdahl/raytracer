@@ -33,8 +33,15 @@ public:
   }
 
 protected:
-  size_t m_pixelsX = -1, m_pixelsY = -1;
-  double m_imagePlaneWidth = -1, m_imagePlaneHeight = -1;
+  inline void genUV(double& u, double& v, const size_t i, const size_t j) const
+  {
+    u = left + (right - left) * (i + 0.5) / static_cast<double>(m_pixelsX);
+    v = bottom + (top - bottom) * (j + 0.5) / static_cast<double>(m_pixelsY);
+  }
+
+  size_t m_pixelsX = 0, m_pixelsY = 0;
+  double m_imagePlaneWidth = -1, m_imagePlaneHeight = -1, left, right, top,
+         bottom;
   CoordSys m_basis;
 };
 

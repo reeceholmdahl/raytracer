@@ -9,18 +9,14 @@ PerspectiveCamera::PerspectiveCamera(const Vec3d& position,
   : Camera(position, viewDir, imagePlaneWidth, aspectRatio)
   , m_focalLength(focalLength)
 {
-  left = -m_imagePlaneWidth / 2.;
-  right = m_imagePlaneWidth / 2.;
-  bottom = -m_imagePlaneHeight / 2.;
-  top = m_imagePlaneHeight / 2.;
 }
 
 Ray
 PerspectiveCamera::generateRay(const size_t i, const size_t j) const
 {
 
-  auto u = left + (right - left) * (i + 0.5) / static_cast<double>(m_pixelsX);
-  auto v = bottom + (top - bottom) * (j + 0.5) / static_cast<double>(m_pixelsY);
+  double u, v;
+  genUV(u, v, i, j);
 
   Vec3d origin(m_basis.position()),
     direction(m_basis.u() * u + m_basis.v() * v + m_basis.w() * -m_focalLength);

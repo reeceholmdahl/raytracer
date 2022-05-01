@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-#define DEBUG_BBOX 0
+#define DEBUG_BBOX 1
 
 BBox::BBox()
   : BBox(Vec3d(-0.25, -0.25, -2.25), Vec3d(0.25, 0.25, -1.75))
@@ -30,8 +30,8 @@ BBox::hit(const Ray& r, const double tmin, const double tmax, double& t) const
   auto tminx = rtomin[0] / dir[0];
   auto tmaxx = rtomax[0] / dir[0];
 
-  if (dir[0] < 0)
-    std::swap(tminx, tmaxx);
+  // if (dir[0] < 0)
+  //   std::swap(tminx, tmaxx);
 
   if (1 / dir[0] < 0)
     std::swap(tminx, tmaxx);
@@ -41,8 +41,8 @@ BBox::hit(const Ray& r, const double tmin, const double tmax, double& t) const
     auto tminy = rtomin[1] / dir[1];
     auto tmaxy = rtomax[1] / dir[1];
 
-    if (dir[1] < 0)
-      std::swap(tminy, tmaxy);
+    // if (dir[1] < 0)
+    //   std::swap(tminy, tmaxy);
 
     if (1 / dir[1] < 0)
       std::swap(tminy, tmaxy);
@@ -52,8 +52,8 @@ BBox::hit(const Ray& r, const double tmin, const double tmax, double& t) const
       auto tminz = rtomin[2] / dir[2];
       auto tmaxz = rtomax[2] / dir[2];
 
-      if (dir[2] < 0)
-        std::swap(tminz, tmaxz);
+      // if (dir[2] < 0)
+      //   std::swap(tminz, tmaxz);
 
       if (1 / dir[2] < 0)
         std::swap(tminz, tmaxz);

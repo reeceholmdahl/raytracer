@@ -16,19 +16,13 @@ OrthographicCamera::OrthographicCamera(const Vec3d& position,
 Ray
 OrthographicCamera::generateRay(const size_t i, const size_t j) const
 {
-  // Can be calculated on position change, image size change, or framebuffer
-  // change
-  auto l = -m_imagePlaneWidth / 2;
-  auto r = m_imagePlaneWidth / 2;
-  auto b = -m_imagePlaneHeight / 2;
-  auto t = m_imagePlaneHeight / 2;
 
-  auto u = l + (r - l) * (i + 0.5) / m_pixelsX;
-  auto v = b + (t - b) * (j + 0.5) / m_pixelsY;
+  double u, v;
+  genUV(u, v, i, j);
 
-  Vec3d origin(u, v, 0);
+  Vec3d origin(Vec3d(u, v, 0) + m_basis.position()), direction(0, 0, -1);
 
-  Ray ray(basis().toGlobal(origin), basis().toGlobal(Vec3d(0, 0, -1)));
+  Ray ray(origin, direction);
 
   return ray;
 }
