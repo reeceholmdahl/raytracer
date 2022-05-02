@@ -56,8 +56,8 @@ private:
   bool useBVH;
   BVH* bvh;
   std::map<std::string, Shader*> shaders;
-  glm::mat4 Scene::parseTransformData(json& transformData);
-  Shape* Scene::extractAndCreateShapeFromJSONData(json& shapeData);
+  glm::mat4 parseTransformData(json& transformData);
+  Shape* extractAndCreateShapeFromJSONData(json& shapeData);
 };
 
 #endif

@@ -20,7 +20,7 @@ Testing/
 out/
 
 # SceneData
-SceneData/
+# SceneData/
 
 # docs folder
 glm-0.9.9.9/doc/

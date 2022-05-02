@@ -17,7 +17,7 @@ public:
   Shape *left, *right;
 
   BVHNode() = delete;
-  BVHNode::BVHNode(std::vector<Shape*>& shapes)
+  BVHNode(std::vector<Shape*>& shapes)
     : BVHNode(shapes, shapes.begin(), shapes.end())
   {
   }
@@ -55,7 +55,7 @@ public:
   {
   }
 
-  BVH::BVH(std::vector<Shape*>& shapes)
+  BVH(std::vector<Shape*>& shapes)
     : head(new BVHNode(shapes))
   {
 #if DEBUG_BVH_CREATE
