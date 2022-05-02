@@ -8,7 +8,6 @@
 #include "CoordSys.hpp"
 #include "Framebuffer.hpp"
 #include "BBox.hpp"
-#include "HitStruct.hpp"
 
 #include "handleGraphicsArgs.h"
 

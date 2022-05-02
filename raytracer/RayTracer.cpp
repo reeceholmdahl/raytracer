@@ -104,7 +104,7 @@ renderScene(Scene& scene, Framebuffer& fb, const int camera)
   for (size_t i(0); i < fb.width(); ++i) {
     for (size_t j(0); j < fb.height(); ++j) {
       auto ray = cam->generateRay(i, j);
-      HitStruct hit(1, INFINITY, &scene.lights);
+      HitStruct hit(1, INFINITY, &scene);
 
       Vec3f color(scene.bgColor);
       if (scene.closestHit(ray, hit) && hit.shaderPtr) {

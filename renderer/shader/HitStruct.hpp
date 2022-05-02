@@ -8,44 +8,45 @@
 
 class Shader;
 class Shape;
-class Light;
+class Scene;
 
 class HitStruct
 {
 public:
-  double t = INFINITY;
+  double t;
   double tmin;
   double tmax;
 
-  // could be a reference
   Ray ray;
   Vec3d normal;
   Shader* shaderPtr;
   const Shape* shape;
-
-  // TODO this could be made more efficient
-  std::vector<Light*>* lights;
+  const Scene* scene;
 
   inline HitStruct(const double tmin = 1, const double tmax = INFINITY,
-                   std::vector<Light*>* lights = nullptr)
-    : tmin(tmin)
+                   const Scene* scene = nullptr)
+    : t(INFINITY)
+    , tmin(tmin)
     , tmax(tmax)
-    , lights(lights)
+    , scene(scene)
   {
   }
 
   inline HitStruct(const HitStruct& hit)
-    : HitStruct(hit.tmin, hit.tmax, hit.lights)
+    : t(hit.t)
+    , tmin(hit.tmin)
+    , tmax(hit.tmax)
+    , ray(hit.ray)
+    , normal(hit.normal)
+    , shaderPtr(hit.shaderPtr)
+    , shape(hit.shape)
+    , scene(hit.scene)
   {
   }
 
   ~HitStruct() {}
 
-  Vec3d hitPoint() const { return ray.point(t); }
+  inline Vec3d hitPoint() const { return ray.point(t); }
 };
-
-#include "Shader.hpp"
-#include "Shape.hpp"
-#include "Light.hpp"
 
 #endif

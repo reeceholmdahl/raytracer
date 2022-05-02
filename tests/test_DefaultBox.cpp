@@ -10,7 +10,6 @@
 #include "Box.hpp"
 #include "DiffuseShader.hpp"
 #include "NormalShader.hpp"
-#include "HitStruct.hpp"
 
 #include "handleGraphicsArgs.h"
 

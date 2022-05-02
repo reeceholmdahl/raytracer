@@ -1,12 +1,7 @@
 #ifndef RENDERER_GEOMETRY_BOX_H_
 #define RENDERER_GEOMETRY_BOX_H_
 
-#include <vector>
-
 #include "Shape.hpp"
-#include "Triangle.hpp"
-#include "Vector3.hpp"
-#include "BBox.hpp"
 
 class Box : public Shape
 {

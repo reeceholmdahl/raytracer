@@ -4,7 +4,6 @@
 #include <iterator>
 
 #include "BVH.hpp"
-#include "HitStruct.hpp"
 #include "BBox.hpp"
 
 // TODO fix
@@ -134,7 +133,7 @@ BVHNode::closestHit(const Ray& r, HitStruct& hit) const
   if (!m_bbox.hit(r, hit.tmin, hit.tmax, t))
     return false;
 
-  HitStruct lhit(hit.tmin, hit.tmax, hit.lights), rhit(lhit);
+  HitStruct lhit(hit.tmin, hit.tmax, hit.scene), rhit(lhit);
 #if DEBUG_BVH_HIT
   std::cerr << "lhit: tmin: " << lhit.tmin << " tmax: " << lhit.tmax
             << " num lights: " << lhit.lights->size() << std::endl

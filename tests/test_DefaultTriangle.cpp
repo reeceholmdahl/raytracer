@@ -8,7 +8,6 @@
 #include "CoordSys.hpp"
 #include "Framebuffer.hpp"
 #include "Triangle.hpp"
-#include "HitStruct.hpp"
 #include "DiffuseShader.hpp"
 
 #include "handleGraphicsArgs.h"

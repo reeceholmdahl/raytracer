@@ -1,5 +1,4 @@
 #include "Sphere.hpp"
-#include "BBox.hpp"
 
 // TODO move these to constants
 Sphere::Sphere()

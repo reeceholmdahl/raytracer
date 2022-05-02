@@ -66,7 +66,7 @@ GraphicsArgs::GraphicsArgs()
       'x');
   reg("winheight", "height of window (if using preview)", ArgumentParsing::INT,
       'y');
-  reg("usebvh", "accelerate by using a bounding volume hierarchy",
+  reg("nobvh", "disable acceleration by using a bounding volume hierarchy",
       ArgumentParsing::NONE, 'b');
 }
 
@@ -143,7 +143,7 @@ GraphicsArgs::process(int argc, char* argv[])
   if (verbose)
     std::cout << "Setting outputFileName to " << outputFileName << std::endl;
 
-  useBVH = isSet("usebvh");
+  useBVH = !isSet("usebvh");
   if (verbose)
     std::cout << "Setting useBVH to " << useBVH << std::endl;
 }

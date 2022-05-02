@@ -2,8 +2,6 @@
 #define RENDERER_SHADER_BLINN_PHONG_SHADER_H_
 
 #include "LambertShader.hpp"
-#include "Vector3.hpp"
-#include "HitStruct.hpp"
 
 class BlinnPhongShader : public LambertShader
 {

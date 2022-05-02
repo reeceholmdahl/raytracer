@@ -1,8 +1,6 @@
 #include <cassert>
 
 #include "Box.hpp"
-#include "Triangle.hpp"
-#include "Vector3.hpp"
 
 // TODO move these to constants
 Box::Box()

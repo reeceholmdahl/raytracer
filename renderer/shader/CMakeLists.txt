@@ -1,10 +1,8 @@
 target_sources(renderer
     PRIVATE
-        Shader.hpp
-        HitStruct.hpp
-        DiffuseShader.cpp DiffuseShader.hpp
-        NormalShader.cpp NormalShader.hpp
-        LambertShader.cpp LambertShader.hpp
-        BlinnPhongShader.cpp BlinnPhongShader.hpp)
+        DiffuseShader.cpp
+        NormalShader.cpp
+        LambertShader.cpp
+        BlinnPhongShader.cpp)
 
 target_include_directories(renderer PRIVATE ${CMAKE_SOURCE_DIR}/renderer/shader)

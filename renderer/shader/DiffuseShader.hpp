@@ -1,8 +1,7 @@
 #ifndef RENDERER_SHADER_DIFFUSE_SHADER_H_
 #define RENDERER_SHADER_DIFFUSE_SHADER_H_
 
-#include "Vector3.hpp"
-#include "HitStruct.hpp"
+#include "Shader.hpp"
 
 class DiffuseShader : public Shader
 {

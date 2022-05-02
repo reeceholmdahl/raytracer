@@ -8,7 +8,6 @@
 #include "Scene.hpp"
 #include "Shape.hpp"
 #include "Camera.hpp"
-#include "HitStruct.hpp"
 #include "Framebuffer.hpp"
 #include "PerspectiveCamera.hpp"
 #include "BVH.hpp"

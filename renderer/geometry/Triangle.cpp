@@ -2,9 +2,6 @@
 #include <algorithm>
 
 #include "Triangle.hpp"
-#include "Vector3.hpp"
-#include "Ray.hpp"
-#include "BBox.hpp"
 
 // TODO move these to constants
 Triangle::Triangle()

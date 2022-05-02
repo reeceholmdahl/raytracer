@@ -2,8 +2,6 @@
 #define RENDERER_GEOMETRY_SPHERE_H_
 
 #include "Shape.hpp"
-#include "HitStruct.hpp"
-#include "Vector3.hpp"
 
 class Sphere : public Shape
 {

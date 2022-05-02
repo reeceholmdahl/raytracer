@@ -1,6 +1,6 @@
-#include "BBox.hpp"
-
 #include <algorithm>
+
+#include "BBox.hpp"
 
 BBox::BBox()
   : BBox(Vec3d(-0.25, -0.25, -2.25), Vec3d(0.25, 0.25, -1.75))

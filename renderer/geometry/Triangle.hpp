@@ -1,7 +1,6 @@
 #ifndef RENDERER_GEOMETRY_TRIANGLE_H_
 #define RENDERER_GEOMETRY_TRIANGLE_H_
 
-#include "Vector3.hpp"
 #include "Shape.hpp"
 
 class Triangle : public Shape
