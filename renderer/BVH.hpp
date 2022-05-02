@@ -8,6 +8,9 @@
 #include "BBox.hpp"
 #include "Constants.h"
 
+#define DEBUG_BVH_CREATE 1
+#define DEBUG_BVH_HIT 0
+
 class BVHNode : public Shape
 {
 public:
@@ -51,11 +54,12 @@ public:
   {
   }
 
-  inline BVH::BVH(std::vector<Shape*>& shapes, bool debugPrint = false)
+  inline BVH::BVH(std::vector<Shape*>& shapes)
     : head(new BVHNode(shapes))
   {
-    if (debugPrint)
-      print();
+#if DEBUG_BVH_CREATE
+    print();
+#endif
   }
 
   inline ~BVH() { delete head; }

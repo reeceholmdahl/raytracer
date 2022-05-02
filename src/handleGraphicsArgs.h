@@ -42,7 +42,7 @@ public:
 
   void process(int argc, char* argv[]);
 
-  bool verbose, useShadow, useBVH;
+  bool verbose, useShadows, useBVH;
   int windowWidth, windowHeight;
   int width, height;
   float aspectRatio;

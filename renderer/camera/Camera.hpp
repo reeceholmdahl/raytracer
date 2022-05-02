@@ -13,27 +13,36 @@ class Camera
 {
 public:
   Camera() = delete;
-  Camera(const Vec3d& position, const Vec3d& viewDir,
-         const double imagePlaneWidth, const double aspectRatio);
+  Camera::Camera(const Vec3d& position, const Vec3d& viewDir,
+                 const double imagePlaneWidth, const double aspectRatio)
+    : m_imagePlaneWidth(imagePlaneWidth)
+    , m_imagePlaneHeight(imagePlaneWidth / aspectRatio)
+    , m_basis(CoordSys(position, viewDir))
+  {
+    left = -m_imagePlaneWidth / 2.;
+    right = m_imagePlaneWidth / 2.;
+    bottom = -m_imagePlaneHeight / 2.;
+    top = m_imagePlaneHeight / 2.;
+  }
 
   virtual ~Camera() {}
 
   virtual Ray generateRay(const size_t i, const size_t j) const = 0;
 
-  inline const CoordSys& basis() const { return m_basis; }
+  const CoordSys& basis() const { return m_basis; }
 
-  inline double imagePlaneWidth() const { return m_imagePlaneWidth; }
+  double imagePlaneWidth() const { return m_imagePlaneWidth; }
 
-  inline double imagePlaneHeight() const { return m_imagePlaneHeight; }
+  double imagePlaneHeight() const { return m_imagePlaneHeight; }
 
-  inline void setImagePixels(const size_t x, const size_t y)
+  void setImagePixels(const size_t x, const size_t y)
   {
     m_pixelsX = x;
     m_pixelsY = y;
   }
 
 protected:
-  inline void genUV(double& u, double& v, const size_t i, const size_t j) const
+  void genUV(double& u, double& v, const size_t i, const size_t j) const
   {
     u = left + (right - left) * (i + 0.5) / static_cast<double>(m_pixelsX);
     v = bottom + (top - bottom) * (j + 0.5) / static_cast<double>(m_pixelsY);

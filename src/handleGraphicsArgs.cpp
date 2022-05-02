@@ -32,7 +32,7 @@ GraphicsArgs::GraphicsArgs()
   , windowWidth(640)
   , windowHeight(windowWidth)
   , aspectRatio(1.0)
-  , useShadow(true)
+  , useShadows(true)
   , bgColor(0.0, 0.0, 0.0)
   , useDepthOfField(false)
   , depthOfFieldDistance(0)
@@ -61,13 +61,14 @@ GraphicsArgs::GraphicsArgs()
   reg("recursionDepth", "recursion depth (default is 4)", ArgumentParsing::INT,
       'k');
   reg("split", "split method for bvh construction (default is objectMedian)",
-      ArgumentParsing::STRING, 's');
+      ArgumentParsing::STRING, 'j');
   reg("winwidth", "width of window (if using preview)", ArgumentParsing::INT,
       'x');
   reg("winheight", "height of window (if using preview)", ArgumentParsing::INT,
       'y');
   reg("nobvh", "disable acceleration by using a bounding volume hierarchy",
       ArgumentParsing::NONE, 'b');
+  reg("noshadows", "disable shadows", ArgumentParsing::NONE, 's');
 }
 
 void
@@ -143,7 +144,11 @@ GraphicsArgs::process(int argc, char* argv[])
   if (verbose)
     std::cout << "Setting outputFileName to " << outputFileName << std::endl;
 
-  useBVH = !isSet("usebvh");
+  useBVH = !isSet("nobvh");
   if (verbose)
     std::cout << "Setting useBVH to " << useBVH << std::endl;
+
+  useShadows = !isSet("noshadows");
+  if (verbose)
+    std::cout << "Setting useShadows to " << useBVH << std::endl;
 }

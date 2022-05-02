@@ -19,6 +19,7 @@
 #include "LambertShader.hpp"
 #include "NormalShader.hpp"
 #include "BlinnPhongShader.hpp"
+#include "MirrorShader.hpp"
 #include "Shape.hpp"
 #include "Sphere.hpp"
 #include "Triangle.hpp"
@@ -298,7 +299,6 @@ Scene::parseJsonFile(const std::string& filename)
       else if (shaderType == "Diffuse")
         shaderPtr = new DiffuseShader(diffuse);
     }
-
 #define ADVSHADERS_READY 0
 #if ADVSHADERS_READY
     else if (shaderType == "Dielectric") {
@@ -310,7 +310,6 @@ Scene::parseJsonFile(const std::string& filename)
       shaderPtr = new sivelab::Dielectric(refrIdx, attenCoef);
     }
 #endif
-
     else if (shaderType == "BlinnPhong" || shaderType == "Phong") {
 
       double phongExp;
@@ -324,12 +323,11 @@ Scene::parseJsonFile(const std::string& filename)
       } else {
         // TODO implement Phong shader
       }
+    } else if (shaderType == "Mirror") {
+      shaderPtr = new MirrorShader();
     }
-
 #if ADVSHADERS_READY
-    else if (shaderType == "Mirror") {
-      shaderPtr = new sivelab::Mirror();
-    } else if (shaderType == "Glaze") {
+    else if (shaderType == "Glaze") {
       sivelab::Vector3D kd;
       kd = shaderInfo["diffuse"];
 

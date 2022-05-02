@@ -1,17 +1,20 @@
 #include "Scene.hpp"
 
-Scene::Scene(const size_t nx, const size_t ny, const bool useBVH)
+Scene::Scene(const size_t nx, const size_t ny, const bool useBVH,
+             const bool useShadows, const int recursionDepth)
   : pixelsX(nx)
   , pixelsY(ny)
-  , useBVH(useBVH)
-  , bvh(nullptr)
   , aspectRatio(static_cast<double>(nx) / ny)
+  , recursionDepth(recursionDepth)
+  , useBVH(useBVH)
+  , useShadows(useShadows)
+  , bvh(nullptr)
 {
 }
 
 Scene::Scene(const size_t nx, const size_t ny, const fs::path& filename,
-             const bool useBVH)
-  : Scene(nx, ny, useBVH)
+             const bool useBVH, const bool useShadows, const int recursionDepth)
+  : Scene(nx, ny, useBVH, useShadows, recursionDepth)
 {
   parseJsonFile(filename);
   if (useBVH)

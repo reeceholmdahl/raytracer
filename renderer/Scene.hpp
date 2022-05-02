@@ -23,9 +23,10 @@ namespace fs = std::filesystem;
 class Scene
 {
 public:
-  Scene(const size_t nx, const size_t ny, const bool useBVH = false);
+  Scene(const size_t nx, const size_t ny, const bool useBVH,
+        const bool useShadows, const int recursionDepth);
   Scene(const size_t nx, const size_t ny, const fs::path& filename,
-        const bool useBVH = false);
+        const bool useBVH, const bool useShadows, const int recursionDepth);
   Scene(const Scene& scene) = delete;
   virtual ~Scene();
 
@@ -44,6 +45,8 @@ public:
 
   const size_t pixelsX, pixelsY;
   const double aspectRatio;
+  const bool useShadows;
+  const int recursionDepth;
   Vec3f bgColor;
   std::vector<Camera*> cameras;
   std::vector<Light*> lights;

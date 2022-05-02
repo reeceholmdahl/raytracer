@@ -18,7 +18,7 @@ BlinnPhongShader::apply(const HitStruct& hit) const
     Ray toLight(hit.hitPoint(), light->position() - hit.hitPoint());
 
     HitStruct shadowHit(renderer::constants::VERY_SMALL, 1.0, hit.scene);
-    if (!hit.scene->anyHit(toLight, shadowHit)) {
+    if (!hit.scene->useShadows || !hit.scene->anyHit(toLight, shadowHit)) {
       auto lightDir = toLight.direction().unitize();
 
       color += m_diffuse * light->intensity() *

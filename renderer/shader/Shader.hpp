@@ -16,7 +16,7 @@ public:
 
   const Vec3f& ambient() const { return m_ambient; }
 
-  virtual Vec3f apply(const HitStruct& h) const = 0;
+  virtual Vec3f apply(const HitStruct& hit) const = 0;
 
 protected:
   Vec3f m_ambient;

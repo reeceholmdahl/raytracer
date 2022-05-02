@@ -2,6 +2,8 @@
 
 #include "BBox.hpp"
 
+#define DEBUG_BBOX 0
+
 BBox::BBox()
   : BBox(Vec3d(-0.25, -0.25, -2.25), Vec3d(0.25, 0.25, -1.75))
 {
@@ -33,7 +35,7 @@ BBox::hit(const Ray& r, double tmin, double tmax, double& t) const
 
   // Ray overlaps box on x
   if (tminx < tmaxx && tminx < tmax && tmaxx > tmin) {
-    tmax = tmaxx;
+    tmax = std::min(tmax, tmaxx);
     tmin = std::max(tmin, tminx);
 
     auto tminy = rtomin[1] / dir[1];
@@ -56,6 +58,11 @@ BBox::hit(const Ray& r, double tmin, double tmax, double& t) const
       // If Ray overlaps box on x and y AND z then box is hit, otherwise is not.
       if (tminz < tmaxz && tminz < tmax && tmaxz > tmin) {
         t = std::max(tminz, tmin);
+
+#if DEBUG_BBOX
+        std::cerr << "BBox: tmin: " << tmin << " tmax: " << tmax << " t: " << t
+                  << std::endl;
+#endif
         return true;
       } else {
         return false;

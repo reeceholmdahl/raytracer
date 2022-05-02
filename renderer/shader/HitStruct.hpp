@@ -17,22 +17,27 @@ public:
   double tmin;
   double tmax;
 
+  int depth;
+
   Ray ray;
   Vec3d normal;
   Shader* shaderPtr;
   const Shape* shape;
   const Scene* scene;
 
-  inline HitStruct(const double tmin = 1, const double tmax = INFINITY,
-                   const Scene* scene = nullptr)
-    : t(INFINITY)
-    , tmin(tmin)
+  HitStruct(const double tmin = 1, const double tmax = INFINITY,
+            const Scene* scene = nullptr, const int depth = 0)
+    : tmin(tmin)
     , tmax(tmax)
+    , t(tmax)
     , scene(scene)
+    , depth(depth)
+    , shaderPtr(nullptr)
+    , shape(nullptr)
   {
   }
 
-  inline HitStruct(const HitStruct& hit)
+  HitStruct(const HitStruct& hit)
     : t(hit.t)
     , tmin(hit.tmin)
     , tmax(hit.tmax)
@@ -46,7 +51,7 @@ public:
 
   ~HitStruct() {}
 
-  inline Vec3d hitPoint() const { return ray.point(t); }
+  Vec3d hitPoint() const { return ray.point(t); }
 };
 
 #endif

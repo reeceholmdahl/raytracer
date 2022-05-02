@@ -15,6 +15,7 @@ BVHNode::BVHNode(std::vector<Shape*>& shapes,
   , left(nullptr)
   , right(nullptr)
 {
+  setName("bvh bbox");
   auto n = std::distance(first, last);
 #if DEBUG_BVH_CREATE
   std::cerr << "\n\n---BVH Node Creation---" << std::endl;
@@ -176,7 +177,7 @@ BVHNode::anyHit(const Ray& r, HitStruct& hit) const
 #endif
 
   if (left) {
-    bool leftHit;
+    bool leftHit(false);
     if (left->type() == "bvh node") {
       auto node = dynamic_cast<BVHNode*>(left);
       leftHit = node->anyHit(r, lhit);
@@ -184,12 +185,14 @@ BVHNode::anyHit(const Ray& r, HitStruct& hit) const
       leftHit = left->closestHit(r, lhit);
     }
 
-    if (leftHit)
+    if (leftHit) {
+      hit = lhit;
       return true;
+    }
   }
 
   if (right) {
-    bool rightHit;
+    bool rightHit(false);
     if (right->type() == "bvh node") {
       auto node = dynamic_cast<BVHNode*>(right);
       rightHit = node->anyHit(r, rhit);
@@ -197,8 +200,10 @@ BVHNode::anyHit(const Ray& r, HitStruct& hit) const
       rightHit = right->closestHit(r, rhit);
     }
 
-    if (rightHit)
+    if (rightHit) {
+      hit = rhit;
       return true;
+    }
   }
 
   return false;
