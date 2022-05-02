@@ -135,7 +135,7 @@
 			{
 				"label": "CMake: Build",
 				"type": "shell",
-				"command": "cmake --build ${workspaceFolder}/build",
+				"command": "cmake --build ${workspaceFolder}/build --config Release; cp ${workspaceFolder}/build/raytracer/Release/* ${workspaceFolder}/build/raytracer; rm -r ${workspaceFolder}/build/raytracer/Release",
 				"problemMatcher": [],
 				"group": {
 					"kind": "build",
@@ -153,7 +153,7 @@
 			{
 				"label": "Setup CMake Windows",
 				"type": "shell",
-				"command": "rm -r ${workspaceFolder}/build; cd ${workspaceFolder}/build; cmake -DCMAKE_PREFIX_PATH=\"${config:cs4212_libs_windows}\" -DCMAKE_INSTALL_PREFIX=\"${config:cs4212_libs_windows}\" ..; cd ${workspaceFolder}",
+				"command": "rm -r ${workspaceFolder}/build; mkdir ${workspaceFolder}/build; cd ${workspaceFolder}/build; cmake -DCMAKE_PREFIX_PATH=\"${config:cs4212_libs_windows}\" -DCMAKE_INSTALL_PREFIX=\"${config:cs4212_libs_windows}\" ..; cd ${workspaceFolder}",
 				"problemMatcher": [],
 				"presentation": {
 					"echo": true,
