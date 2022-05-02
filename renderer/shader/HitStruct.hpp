@@ -46,6 +46,7 @@ public:
     , shaderPtr(hit.shaderPtr)
     , shape(hit.shape)
     , scene(hit.scene)
+    , depth(hit.depth)
   {
   }
 

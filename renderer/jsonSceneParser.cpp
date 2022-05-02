@@ -375,6 +375,7 @@ Scene::parseJsonFile(const std::string& filename)
     assert(shaderPtr);
 
     std::string shaderName(shaderInfo["_name"]);
+    shaderPtr->name() = shaderName;
     addShader(shaderName, shaderPtr);
   }
 

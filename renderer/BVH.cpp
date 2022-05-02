@@ -178,15 +178,12 @@ BVHNode::closestHit(const Ray& r, HitStruct& hit) const
   if (!m_bbox.hit(r, hit.tmin, hit.tmax, t))
     return false;
 
-  HitStruct lhit(t, hit.tmax, hit.scene), rhit(lhit);
+  HitStruct lhit(t, hit.tmax, hit.scene, 0), rhit(lhit);
 #if DEBUG_BVH_HIT
-  std::cerr << "lhit: tmin: " << lhit.tmin << " tmax: " << lhit.tmax
-            << " num lights: " << lhit.lights->size() << std::endl
-            << "lhit: tmin: " << rhit.tmin << " tmax: " << rhit.tmax
-            << " num lights: " << rhit.lights->size() << std::endl;
+  std::cerr << "Closest hit: depth: " << hit.depth << std::endl;
 #endif
+
   bool leftHit = left && left->closestHit(r, lhit);
-  // std::cerr << "right ptr: " << right << std::endl;
   bool rightHit = right && right->closestHit(r, rhit);
 
   if (leftHit && rightHit) {
@@ -214,10 +211,8 @@ BVHNode::anyHit(const Ray& r, HitStruct& hit) const
 
   HitStruct lhit(t, hit.tmax, hit.scene), rhit(lhit);
 #if DEBUG_BVH_HIT
-  std::cerr << "lhit: tmin: " << lhit.tmin << " tmax: " << lhit.tmax
-            << " num lights: " << lhit.lights->size() << std::endl
-            << "lhit: tmin: " << rhit.tmin << " tmax: " << rhit.tmax
-            << " num lights: " << rhit.lights->size() << std::endl;
+  std::cerr << "Any hit: depth: " << hit.depth << std::endl;
+
 #endif
 
   if (left) {

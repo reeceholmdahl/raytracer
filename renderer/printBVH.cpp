@@ -25,8 +25,10 @@ BVH::print(const std::string& prefix, Shape* node, bool isLeft,
       std::cout << (isLeft ? "|--" : "*--");
 
       // print the value of the node
-      std::cout << node->type() << " bbox: " << node->bbox().minPt() << " to "
-                << node->bbox().maxPt() << std::endl;
+      std::cout << node->type() << " name: " << node->name()
+                << " shader: " << node->shaderPtr->name() << std::endl;
+      // << " bbox: " << node->bbox().minPt() << " to " << node->bbox().maxPt()
+      // << std::endl;
     }
   } else {
     std::cout << prefix;

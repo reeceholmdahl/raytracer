@@ -8,7 +8,7 @@
 #include "BBox.hpp"
 #include "Constants.h"
 
-#define DEBUG_BVH_CREATE 1
+#define DEBUG_BVH_CREATE 0
 #define DEBUG_BVH_HIT 0
 
 class BVHNode : public Shape
