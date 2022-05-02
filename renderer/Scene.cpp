@@ -102,10 +102,8 @@ Scene::closestHit(const Ray& r, HitStruct& hit) const
 }
 
 bool
-Scene::anyHit(const Ray& r) const
+Scene::anyHit(const Ray& r, HitStruct& hit) const
 {
-  HitStruct hit(renderer::constants::VERY_SMALL, 1.0, this);
-
   if (useBVH) {
     if (!bvh || !bvh->head) {
       std::cerr << "Scene::anyHit | Using BVH but it is improperly initialized"

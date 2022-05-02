@@ -15,15 +15,20 @@ BlinnPhongShader::apply(const HitStruct& hit) const
 {
   Vec3f color;
   for (Light* light : hit.scene->lights) {
-    auto hitToLight((light->position() - hit.hitPoint()).unitize());
+    Ray toLight(hit.hitPoint(), light->position() - hit.hitPoint());
 
-    color += m_diffuse * light->intensity() *
-             std::max(0.0, hit.normal.dot(hitToLight));
+    HitStruct shadowHit(renderer::constants::VERY_SMALL, 1.0, hit.scene);
+    if (!hit.scene->anyHit(toLight, shadowHit)) {
+      auto lightDir = toLight.direction().unitize();
 
-    auto halfVector(((-hit.ray.direction()).unitize() + hitToLight).unitize());
+      color += m_diffuse * light->intensity() *
+               std::max(0.0, hit.normal.dot(lightDir));
 
-    color += m_specular * light->intensity() *
-             std::pow(std::max(0.0, hit.normal.dot(halfVector)), m_pexp);
+      auto halfVector(((-hit.ray.direction()).unitize() + lightDir).unitize());
+
+      color += m_specular * light->intensity() *
+               std::pow(std::max(0.0, hit.normal.dot(halfVector)), m_pexp);
+    }
   }
 
   color += m_diffuse * m_ambient;
