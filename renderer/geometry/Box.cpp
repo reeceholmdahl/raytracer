@@ -26,9 +26,9 @@ Box::closestHit(const Ray& r, HitStruct& hit) const
 
     auto dcenter = r.point(t) - centroid();
 
-    auto dx = std::abs(dcenter[0]);
-    auto dy = std::abs(dcenter[1]);
-    auto dz = std::abs(dcenter[2]);
+    auto dx = std::abs(dcenter[0]) / m_bbox.extentX();
+    auto dy = std::abs(dcenter[1]) / m_bbox.extentY();
+    auto dz = std::abs(dcenter[2]) / m_bbox.extentZ();
 
     if (dx > dy && dx > dz) {
       hit.normal = Vec3d(dcenter[0] > 0 ? 1 : -1, 0, 0);
@@ -37,6 +37,8 @@ Box::closestHit(const Ray& r, HitStruct& hit) const
     } else {
       hit.normal = Vec3d(0, 0, dcenter[2] > 0 ? 1 : -1);
     }
+
+    // hit.normal = Vec3d(0, 1, 0);
 
     return true;
   }

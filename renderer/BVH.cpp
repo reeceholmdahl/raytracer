@@ -133,7 +133,7 @@ BVHNode::closestHit(const Ray& r, HitStruct& hit) const
   if (!m_bbox.hit(r, hit.tmin, hit.tmax, t))
     return false;
 
-  HitStruct lhit(hit.tmin, hit.tmax, hit.scene), rhit(lhit);
+  HitStruct lhit(t, hit.tmax, hit.scene), rhit(lhit);
 #if DEBUG_BVH_HIT
   std::cerr << "lhit: tmin: " << lhit.tmin << " tmax: " << lhit.tmax
             << " num lights: " << lhit.lights->size() << std::endl
@@ -157,4 +157,49 @@ BVHNode::closestHit(const Ray& r, HitStruct& hit) const
   }
 
   return leftHit || rightHit;
+}
+
+// TODO does this need to actually parameter return &hit?
+bool
+BVHNode::anyHit(const Ray& r, HitStruct& hit) const
+{
+  double t;
+  if (!m_bbox.hit(r, hit.tmin, hit.tmax, t))
+    return false;
+
+  HitStruct lhit(t, hit.tmax, hit.scene), rhit(lhit);
+#if DEBUG_BVH_HIT
+  std::cerr << "lhit: tmin: " << lhit.tmin << " tmax: " << lhit.tmax
+            << " num lights: " << lhit.lights->size() << std::endl
+            << "lhit: tmin: " << rhit.tmin << " tmax: " << rhit.tmax
+            << " num lights: " << rhit.lights->size() << std::endl;
+#endif
+
+  if (left) {
+    bool leftHit;
+    if (left->type() == "bvh node") {
+      auto node = dynamic_cast<BVHNode*>(left);
+      leftHit = node->anyHit(r, lhit);
+    } else {
+      leftHit = left->closestHit(r, lhit);
+    }
+
+    if (leftHit)
+      return true;
+  }
+
+  if (right) {
+    bool rightHit;
+    if (right->type() == "bvh node") {
+      auto node = dynamic_cast<BVHNode*>(right);
+      rightHit = node->anyHit(r, rhit);
+    } else {
+      rightHit = right->closestHit(r, rhit);
+    }
+
+    if (rightHit)
+      return true;
+  }
+
+  return false;
 }

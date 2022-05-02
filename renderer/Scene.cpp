@@ -79,10 +79,12 @@ Scene::getShader(const std::string& name) const
 bool
 Scene::closestHit(const Ray& r, HitStruct& hit) const
 {
+  auto k_tmax = hit.tmax;
   if (useBVH) {
     if (!bvh || !bvh->head) {
-      std::cerr << "Scene: Using BVH but it is improperly initialized"
-                << std::endl;
+      std::cerr
+        << "Scene::closestHit | Using BVH but it is improperly initialized"
+        << std::endl;
       return false;
     }
 
@@ -95,7 +97,30 @@ Scene::closestHit(const Ray& r, HitStruct& hit) const
       }
     }
 
-    // TODO could be problematic if I'm not always looking for tmax INFINITY
-    return hit.t != INFINITY;
+    return hit.t != k_tmax;
+  }
+}
+
+bool
+Scene::anyHit(const Ray& r) const
+{
+  HitStruct hit(renderer::constants::VERY_SMALL, 1.0, this);
+
+  if (useBVH) {
+    if (!bvh || !bvh->head) {
+      std::cerr << "Scene::anyHit | Using BVH but it is improperly initialized"
+                << std::endl;
+      return false;
+    }
+
+    return bvh->head->anyHit(r, hit);
+  } else {
+    for (Shape* shape : shapes) {
+      if (shape->closestHit(r, hit)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }

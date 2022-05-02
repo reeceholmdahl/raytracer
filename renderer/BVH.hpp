@@ -30,6 +30,7 @@ public:
   }
 
   virtual bool closestHit(const Ray& r, HitStruct& hit) const;
+  bool anyHit(const Ray& r, HitStruct& hit) const;
 
   inline virtual const BBox& bbox() const { return m_bbox; }
   inline virtual const Vec3d& centroid() const { return m_bbox.centroid(); }

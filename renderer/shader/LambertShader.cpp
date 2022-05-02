@@ -12,10 +12,12 @@ LambertShader::apply(const HitStruct& hit) const
 {
   Vec3f color;
   for (Light* light : hit.scene->lights) {
-    auto hitToLight((light->position() - hit.hitPoint()).unitize());
+    Ray toLight(hit.hitPoint(), light->position() - hit.hitPoint());
 
-    color += m_diffuse * light->intensity() *
-             std::max(0.0, hit.normal.dot(hitToLight));
+    if (!hit.scene->anyHit(toLight)) {
+      color += m_diffuse * light->intensity() *
+               std::max(0.0, hit.normal.dot(toLight.direction().unitize()));
+    }
   }
 
   color += m_diffuse * m_ambient;

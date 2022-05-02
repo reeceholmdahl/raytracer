@@ -19,6 +19,10 @@ public:
   inline const Vec3d& minPt() const { return m_min; }
   inline const Vec3d& maxPt() const { return m_max; }
 
+  inline double extentX() const { return m_max[0] - m_min[0]; }
+  inline double extentY() const { return m_max[1] - m_min[1]; }
+  inline double extentZ() const { return m_max[2] - m_min[2]; }
+
 private:
   Vec3d m_min, m_max, m_centroid;
 };

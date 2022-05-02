@@ -40,6 +40,7 @@ public:
   Shader* getShader(const std::string& name) const;
 
   bool closestHit(const Ray& r, HitStruct& hit) const;
+  bool anyHit(const Ray& r) const;
 
   const size_t pixelsX, pixelsY;
   const double aspectRatio;

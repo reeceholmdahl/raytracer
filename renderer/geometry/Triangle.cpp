@@ -16,9 +16,9 @@ Triangle::Triangle(const Vec3d& a, const Vec3d& b, const Vec3d& c)
   , m_b(b)
   , m_c(c)
 {
-  auto AB(m_b - m_a);
-  auto BC(m_c - m_b);
-  m_normal = -BC.cross(AB).unitize();
+  auto U(m_b - m_a);
+  auto V(m_c - m_a);
+  m_normal = U.cross(V).unitize();
 
   auto minx = std::min({ a[0], b[0], c[0] });
   auto maxx = std::max({ a[0], b[0], c[0] });

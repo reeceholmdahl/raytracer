@@ -222,7 +222,7 @@
 			{
 				"label": "Run Raytracer",
 				"type": "shell",
-				"command": "cd ${workspaceFolder}\\build\\raytracer\\Release; ./raytracer -w ${input:size} -h ${input:size} -i ${workspaceFolder}/SceneData/${input:scenePath} -o ${workspaceFolder}/${input:outputPath} ${input:extraArgs}; cd ${workspaceFolder}",
+				"command": "cd ${workspaceFolder}\\build\\raytracer\\Release; ./raytracer -w ${input:size} -h ${input:size} -i ${file} -o ${workspaceFolder}/${input:outputPath} ${input:extraArgs}; cd ${workspaceFolder}",
 				"problemMatcher": [],
 				"presentation": {
 					"echo": true,
