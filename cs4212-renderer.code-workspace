@@ -127,7 +127,7 @@
 		"C_Cpp.clang_format_path": "C:/Languages/LLVM/bin/clang-format.exe",
 		"C_Cpp.clang_format_fallbackStyle": "Mozilla",
 		"C_Cpp.clang_format_style": "Mozilla",
-		"cs4212_libs_dir": "C:/CS4212Libs"
+		"cs4212_libs_windows": "C:/CS4212Libs"
 	},
 	"tasks": {
 		"version": "2.0.0",
@@ -151,9 +151,23 @@
 				}
 			},
 			{
-				"label": "Setup CMake",
+				"label": "Setup CMake Windows",
 				"type": "shell",
-				"command": "rm -r ${workspaceFolder}/build; cd ${workspaceFolder}/build; cmake -DCMAKE_PREFIX_PATH=\"${config:cs4212_libs_dir}\" -DCMAKE_INSTALL_PREFIX=\"${config:cs4212_libs_dir}\" ..; cd ${workspaceFolder}",
+				"command": "rm -r ${workspaceFolder}/build; cd ${workspaceFolder}/build; cmake -DCMAKE_PREFIX_PATH=\"${config:cs4212_libs_windows}\" -DCMAKE_INSTALL_PREFIX=\"${config:cs4212_libs_windows}\" ..; cd ${workspaceFolder}",
+				"problemMatcher": [],
+				"presentation": {
+					"echo": true,
+					"reveal": "always",
+					"focus": false,
+					"panel": "shared",
+					"showReuseMessage": false,
+					"clear": true
+				}
+			},
+			{
+				"label": "Setup CMake Unix",
+				"type": "shell",
+				"command": "rm -r ${workspaceFolder}/build; cd ${workspaceFolder}/build; cmake -DPNG_PNG_INCLUDE_DIR=/usr/local/include -DCMAKE_CXX_FLAGS=-std=c++17 ..; cd ${workspaceFolder}",
 				"problemMatcher": [],
 				"presentation": {
 					"echo": true,
