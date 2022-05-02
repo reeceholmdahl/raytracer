@@ -298,6 +298,8 @@ Scene::parseJsonFile(const std::string& filename)
 
       else if (shaderType == "Diffuse")
         shaderPtr = new DiffuseShader(diffuse);
+    } else if (shaderType == "Normal") {
+        shaderPtr = new NormalShader();
     }
 #define ADVSHADERS_READY 0
 #if ADVSHADERS_READY
@@ -410,6 +412,7 @@ Scene::parseJsonFile(const std::string& filename)
   std::cout << "Number of shapes: " << j["scene"]["shape"].size() << std::endl;
   for (auto i = 0; i < j["scene"]["shape"].size(); i++) {
     json shapeInfo = j["scene"]["shape"][i];
+
 
     Shape* shapePtr = extractAndCreateShapeFromJSONData(shapeInfo);
 

@@ -113,10 +113,11 @@ renderScene(Scene& scene, Framebuffer& fb, const int camera)
       HitStruct hit(1, INFINITY, &scene);
 
       Vec3f color(scene.bgColor);
-      if (scene.closestHit(ray, hit) && hit.shaderPtr) {
-        color = hit.shaderPtr->apply(hit);
-      } else if (!hit.shaderPtr) {
-        color = Vec3f(1, 0, 0);
+      if (scene.closestHit(ray, hit)) {
+        if (hit.shaderPtr)
+          color = hit.shaderPtr->apply(hit);
+        else
+          color = Vec3f(1, 0, 0);
       }
       fb.setPixelColor(i, j, color);
 
