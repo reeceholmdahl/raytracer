@@ -83,19 +83,3 @@ BBox::combine(const BBox& b1, const BBox& b2)
 
   return BBox(min, max);
 }
-
-const Vec3d&
-BBox::centroid() const
-{
-  return m_centroid;
-}
-const Vec3d&
-BBox::minPt() const
-{
-  return m_min;
-}
-const Vec3d&
-BBox::maxPt() const
-{
-  return m_max;
-}

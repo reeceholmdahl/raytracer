@@ -30,7 +30,7 @@ main(int argc, char* argv[])
 
   init(outputPath);
 
-  Scene scene(width, height, scenePath, true);
+  Scene scene(width, height, scenePath, false);
 
   renderScene(scene, fb);
 

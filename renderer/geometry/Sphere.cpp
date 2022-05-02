@@ -55,18 +55,6 @@ Sphere::closestHit(const Ray& r, HitStruct& hit) const
   return true;
 }
 
-const BBox&
-Sphere::bbox() const
-{
-  return m_bbox;
-}
-
-const Vec3d&
-Sphere::centroid() const
-{
-  return m_bbox.centroid();
-}
-
 Vec3d
 Sphere::normal(const Vec3d& position) const
 {

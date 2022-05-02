@@ -45,15 +45,3 @@ Box::closestHit(const Ray& r, HitStruct& hit) const
 
   return false;
 }
-
-const BBox&
-Box::bbox() const
-{
-  return m_bbox;
-}
-
-const Vec3d&
-Box::centroid() const
-{
-  return m_bbox.centroid();
-}

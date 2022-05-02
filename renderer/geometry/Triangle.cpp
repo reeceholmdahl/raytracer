@@ -129,18 +129,6 @@ Triangle::closestHit(const Ray& r, HitStruct& hit) const
   return true;
 }
 
-const BBox&
-Triangle::bbox() const
-{
-  return m_bbox;
-}
-
-const Vec3d&
-Triangle::centroid() const
-{
-  return m_bbox.centroid();
-}
-
 const Vec3d&
 Triangle::normal() const
 {

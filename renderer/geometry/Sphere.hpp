@@ -13,8 +13,11 @@ public:
   virtual ~Sphere() {}
 
   virtual bool closestHit(const Ray& r, HitStruct& hit) const;
-  virtual const BBox& bbox() const;
-  virtual const Vec3d& centroid() const;
+
+  inline virtual const BBox& bbox() const { return m_bbox; }
+  inline virtual const Vec3d& centroid() const { return m_position; }
+  inline virtual const std::string& type() const { return m_type; }
+  inline virtual const std::string& name() const { return m_name; }
 
   Vec3d normal(const Vec3d& position) const;
 

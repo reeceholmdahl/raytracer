@@ -92,9 +92,11 @@ BVHNode::BVHNode(std::vector<Shape*>& shapes,
               << "\nBefore partition" << std::endl;
 #endif
 
-    auto split = std::partition(first, last, [xyorz, center](Shape* shape) {
+    auto heuristic = [xyorz, center](Shape* shape) {
       return shape->centroid()[xyorz] < center;
-    });
+    };
+
+    auto split = std::partition(first, last, heuristic);
 
     if (split == first || split == last) {
       split = first + 1;
@@ -152,16 +154,4 @@ BVHNode::closestHit(const Ray& r, HitStruct& hit) const
   }
 
   return leftHit || rightHit;
-}
-
-const BBox&
-BVHNode::bbox() const
-{
-  return m_bbox;
-}
-
-const Vec3d&
-BVHNode::centroid() const
-{
-  return m_bbox.centroid();
 }
