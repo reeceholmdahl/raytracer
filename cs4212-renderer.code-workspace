@@ -139,38 +139,132 @@
 				"group": {
 					"kind": "build",
 					"isDefault": true
+				},
+				"presentation": {
+					"echo": true,
+					"reveal": "silent",
+					"focus": false,
+					"panel": "shared",
+					"showReuseMessage": false,
+					"clear": true
 				}
 			},
 			{
 				"label": "Setup CMake",
 				"type": "shell",
 				"command": "cd ${workspaceFolder}\\build; rm -r *; cmake -DCMAKE_PREFIX_PATH=\"C:/CS4212Libs\" -DCMAKE_INSTALL_PREFIX=\"C:/CS4212Libs\" ..; cd ${workspaceFolder}", // -DBOOST_DIR=\"C:/local/boost_1_78_0\"
-				"problemMatcher": []
+				"problemMatcher": [],
+				"presentation": {
+					"echo": true,
+					"reveal": "always",
+					"focus": false,
+					"panel": "shared",
+					"showReuseMessage": false,
+					"clear": true
+				}
 			},
 			{
 				"label": "CMake: Clean",
 				"type": "shell",
 				"command": "cmake --build ${workspaceFolder}\\build --target clean",
-				"problemMatcher": []
+				"problemMatcher": [],
+				"presentation": {
+					"echo": true,
+					"reveal": "silent",
+					"focus": false,
+					"panel": "shared",
+					"showReuseMessage": false,
+					"clear": false
+				}
 			},
 			{
 				"label": "CTest: All",
 				"type": "shell",
 				"command": "cd ${workspaceFolder}\\build; ctest; cd ${workspaceFolder}",
-				"problemMatcher": []
+				"problemMatcher": [],
+				"presentation": {
+					"echo": true,
+					"reveal": "always",
+					"focus": false,
+					"panel": "shared",
+					"showReuseMessage": false,
+					"clear": true
+				}
 			},
 			{
 				"label": "CTest: Misc Tests",
 				"type": "shell",
 				"command": "cd ${workspaceFolder}\\build; ctest -L a -V; cd ${workspaceFolder}",
-				"problemMatcher": []
+				"problemMatcher": [],
+				"presentation": {
+					"echo": true,
+					"reveal": "always",
+					"focus": false,
+					"panel": "shared",
+					"showReuseMessage": false,
+					"clear": true
+				}
 			},
 			{
 				"label": "CTest: Unit Tests",
 				"type": "shell",
 				"command": "cd ${workspaceFolder}\\build; ctest -L b --output-on-failure; cd ${workspaceFolder}",
-				"problemMatcher": []
+				"problemMatcher": [],
+				"presentation": {
+					"echo": true,
+					"reveal": "silent",
+					"focus": false,
+					"panel": "shared",
+					"showReuseMessage": false,
+					"clear": true
+				}
 			},
+			{
+				"label": "Run Raytracer",
+				"type": "shell",
+				"command": "cd ${workspaceFolder}\\build\\raytracer\\Release; ./raytracer -w ${input:size} -h ${input:size} -i ${workspaceFolder}/SceneData/${input:scenePath} -o ${workspaceFolder}/${input:outputPath}; cd ${workspaceFolder}",
+				"problemMatcher": [],
+				"presentation": {
+					"echo": true,
+					"reveal": "always",
+					"focus": false,
+					"panel": "shared",
+					"showReuseMessage": false,
+					"clear": true
+				}
+			}
+		],
+		"inputs": [
+			{
+				"id": "width",
+				"description": "Render width",
+				"default": "250",
+				"type": "promptString",
+			},
+			{
+				"id": "height",
+				"description": "Render height",
+				"default": "250",
+				"type": "promptString",
+			},
+			{
+				"id": "size",
+				"description": "Render size",
+				"default": "250",
+				"type": "promptString",
+			},
+			{
+				"id": "outputPath",
+				"description": "Path to output the rendered image",
+				"default": "out/raytracer.test.png",
+				"type": "promptString",
+			},
+			{
+				"id": "scenePath",
+				"description": "Path to image scene",
+				"default": "scenes_A/PhongExp.json",
+				"type": "promptString",
+			}
 		]
 	}
 }
