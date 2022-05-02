@@ -3,6 +3,7 @@
 
 #include "Vector3.hpp"
 #include "Ray.hpp"
+#include "Constants.h"
 
 class BBox
 {

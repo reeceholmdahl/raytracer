@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 
-#include "Constants.hpp"
+#include "Constants.h"
 #include "Vector3.hpp"
 
 namespace renderer {

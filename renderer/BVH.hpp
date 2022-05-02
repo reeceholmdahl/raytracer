@@ -6,6 +6,7 @@
 
 #include "Shape.hpp"
 #include "BBox.hpp"
+#include "Constants.h"
 
 class BVHNode : public Shape
 {

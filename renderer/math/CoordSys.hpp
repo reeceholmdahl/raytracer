@@ -2,6 +2,7 @@
 #define RENDERER_MATH_COORDSYS_H_
 
 #include "Vector3.hpp"
+#include "Constants.h"
 
 class CoordSys
 {

@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "Constants.hpp"
+#include "Constants.h"
 #include "Vector3.hpp"
 #include "CoordSys.hpp"
 #include "Ray.hpp"

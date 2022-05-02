@@ -1,7 +1,7 @@
 #ifndef RENDERER_SHADER_SHADER_H_
 #define RENDERER_SHADER_SHADER_H_
 
-#include "Constants.hpp"
+#include "Constants.h"
 #include "Vector3.hpp"
 #include "HitStruct.hpp"
 
