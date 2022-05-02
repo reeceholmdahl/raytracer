@@ -22,15 +22,16 @@ main(int argc, char* argv[])
 
   size_t width, height, windowWidth, windowHeight;
   fs::path scenePath, outputPath;
+  bool useBVH;
 
   loadArguments(argc, argv, width, height, windowWidth, windowHeight, scenePath,
-                outputPath);
+                outputPath, useBVH);
 
   Framebuffer fb(width, height);
 
   init(outputPath);
 
-  Scene scene(width, height, scenePath, true);
+  Scene scene(width, height, scenePath, useBVH);
 
   renderScene(scene, fb);
 
@@ -47,7 +48,7 @@ namespace renderer {
 void
 loadArguments(int argc, char* argv[], size_t& width, size_t& height,
               size_t& windowWidth, size_t& windowHeight, fs::path& scenePath,
-              fs::path& outputPath)
+              fs::path& outputPath, bool& useBVH)
 {
   sivelab::GraphicsArgs args;
   args.process(argc, argv);
@@ -58,12 +59,14 @@ loadArguments(int argc, char* argv[], size_t& width, size_t& height,
   outputPath = fs::path(args.outputFileName);
   windowWidth = args.windowWidth;
   windowHeight = args.windowHeight;
+  useBVH = args.useBVH;
 
   std::cout << "Image w/h: " << width << " by " << height << " pixels"
             << std::endl
             << "Window w/h: " << windowWidth << " by " << windowHeight
             << " pixels" << std::endl
-            << "Scene path: " << scenePath << std::endl;
+            << "Scene path: " << scenePath << std::endl
+            << "Using BVH: " << useBVH << std::endl;
   // << "Output path: " << outputPath << std::endl;
 }
 

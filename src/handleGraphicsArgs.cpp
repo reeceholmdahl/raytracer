@@ -28,7 +28,9 @@ using namespace sivelab;
 GraphicsArgs::GraphicsArgs()
   : verbose(false)
   , width(100)
-  , height(100)
+  , height(width)
+  , windowWidth(640)
+  , windowHeight(windowWidth)
   , aspectRatio(1.0)
   , useShadow(true)
   , bgColor(0.0, 0.0, 0.0)
@@ -40,6 +42,7 @@ GraphicsArgs::GraphicsArgs()
   , splitMethod("objectMedian")
   , inputFileName("")
   , outputFileName("")
+  , useBVH(false)
 {
   reg("help", "help/usage information", ArgumentParsing::NONE, '?');
   reg("verbose", "turn on verbose output", ArgumentParsing::NONE, 'v');
@@ -63,6 +66,8 @@ GraphicsArgs::GraphicsArgs()
       'x');
   reg("winheight", "height of window (if using preview)", ArgumentParsing::INT,
       'y');
+  reg("usebvh", "accelerate by using a bounding volume hierarchy",
+      ArgumentParsing::NONE, 'b');
 }
 
 void
@@ -83,7 +88,8 @@ GraphicsArgs::process(int argc, char* argv[])
   if (verbose)
     std::cout << "Setting width to " << width << std::endl;
 
-  isSet("height", height);
+  if (!isSet("height", height))
+    height = width;
   if (verbose)
     std::cout << "Setting height to " << height << std::endl;
 
@@ -91,14 +97,18 @@ GraphicsArgs::process(int argc, char* argv[])
   if (verbose)
     std::cout << "Setting Window Width to " << windowWidth << std::endl;
 
-  isSet("winheight", windowHeight);
+  if (!isSet("winheight", windowHeight))
+    windowHeight = windowWidth;
   if (verbose)
-    std::cout << "Setting Windo Height to " << windowHeight << std::endl;
+    std::cout << "Setting Window Height to " << windowHeight << std::endl;
 
   // recalculate aspect ratio in lieu of aspectRatio being set
   aspectRatio = width / (float)height; // as in W to H as in 16:9
 
-  isSet("aspect", aspectRatio);
+  if (isSet("aspect", aspectRatio)) {
+    height = width * 1.0 / aspectRatio;
+    windowHeight = windowWidth * 1.0 / aspectRatio;
+  }
   if (verbose)
     std::cout << "Setting aspect ratio to " << aspectRatio << std::endl;
 
@@ -132,4 +142,8 @@ GraphicsArgs::process(int argc, char* argv[])
   isSet("outputfile", outputFileName);
   if (verbose)
     std::cout << "Setting outputFileName to " << outputFileName << std::endl;
+
+  useBVH = isSet("usebvh");
+  if (verbose)
+    std::cout << "Setting useBVH to " << useBVH << std::endl;
 }

@@ -13,7 +13,7 @@ namespace fs = std::filesystem;
 namespace renderer {
 void loadArguments(int argc, char* argv[], size_t& width, size_t& height,
                    size_t& windowWidth, size_t& windowHeight,
-                   fs::path& sceneFile, fs::path& outputPath);
+                   fs::path& sceneFile, fs::path& outputPath, bool& useBVH);
 
 void init(const fs::path& outputPath);
 

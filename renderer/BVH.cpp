@@ -29,10 +29,17 @@ BVHNode::BVHNode(std::vector<Shape*>& shapes,
 
     if (n == 1) {
     left = *first;
+#if DEBUG_BVH
+    std::cerr << "This node has one child, a " << left->type() << std::endl;
+#endif
     m_bbox = left->bbox();
   } else if (n == 2) {
     left = *first;
     right = *(first + 1);
+#if DEBUG_BVH
+    std::cerr << "This node has two children, a " << left->type() << " and a "
+              << right->type() << std::endl;
+#endif
     m_bbox = BBox::combine(left->bbox(), right->bbox());
   } else {
     // std::cout << "building bbox children" << std::endl;
@@ -41,8 +48,8 @@ BVHNode::BVHNode(std::vector<Shape*>& shapes,
     double minx(INFINITY), maxx(-INFINITY), miny(INFINITY), maxy(-INFINITY),
       minz(INFINITY), maxz(-INFINITY);
 
-    for (auto shape : shapes) {
-      auto centroid = shape->centroid();
+    for (std::vector<Shape*>::iterator itr(first); itr < last; ++itr) {
+      auto centroid = (*itr)->centroid();
 
       if (centroid[0] < minx)
         minx = centroid[0];
@@ -98,7 +105,7 @@ BVHNode::BVHNode(std::vector<Shape*>& shapes,
 
     auto split = std::partition(first, last, heuristic);
 
-    if (split == first || split == last) {
+    if (split == first || split == first + (n - 1)) {
       split = first + 1;
 #if DEBUG_BVH
       std::cerr << "Partition forced a manual split" << std::endl;
@@ -110,14 +117,14 @@ BVHNode::BVHNode(std::vector<Shape*>& shapes,
     auto d2 = std::distance(split, last);
     std::cerr << "After partition\n" << std::endl
               << "(Relatively) first at 0, split at " << d1 << ", last at "
-              << d1 + d2 << std::endl
+              << d1 + d2 - 1 << std::endl
               << "(Memory addr) first: " << *first << std::endl
               << "split: " << *split << std::endl
               << "last: " << *last << std::endl;
 #endif
 
     left = new BVHNode(shapes, first, split);
-    right = new BVHNode(shapes, split + 1, last);
+    right = new BVHNode(shapes, split, last);
     m_bbox = BBox::combine(left->bbox(), right->bbox());
   }
 }

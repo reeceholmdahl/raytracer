@@ -42,12 +42,10 @@ public:
 
   void process(int argc, char* argv[]);
 
-  bool verbose;
+  bool verbose, useShadow, useBVH;
   int windowWidth, windowHeight;
-  int width;
-  int height;
+  int width, height;
   float aspectRatio;
-  bool useShadow;
   Vector3D bgColor;
 
   bool useDepthOfField;
@@ -59,10 +57,7 @@ public:
 
   int recursionDepth;
 
-  std::string splitMethod;
-
-  std::string inputFileName;
-  std::string outputFileName;
+  std::string splitMethod, inputFileName, outputFileName;
 };
 
 } // namespace sivelab
