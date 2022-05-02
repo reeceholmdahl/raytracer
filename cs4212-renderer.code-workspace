@@ -135,7 +135,7 @@
 			{
 				"label": "CMake: Build",
 				"type": "shell",
-				"command": "cmake --build ${workspaceFolder}/build --config Release",
+				"command": "cmake --build ${workspaceFolder}/build",
 				"problemMatcher": [],
 				"group": {
 					"kind": "build",
@@ -237,7 +237,7 @@
 			{
 				"label": "Run Raytracer",
 				"type": "shell",
-				"command": "cd ${workspaceFolder}/build/raytracer/Release; ./raytracer -w ${input:size} -h ${input:size} -i ${file} -o ${workspaceFolder}/${input:outputPath} ${input:extraArgs}; cd ${workspaceFolder}",
+				"command": "cd ${workspaceFolder}/build/raytracer; ./raytracer -w ${input:size} -h ${input:size} -i ${file} -o ${workspaceFolder}/${input:outputPath} ${input:extraArgs}; cd ${workspaceFolder}",
 				"problemMatcher": [],
 				"presentation": {
 					"echo": true,
