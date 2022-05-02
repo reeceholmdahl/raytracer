@@ -133,9 +133,27 @@
 		"version": "2.0.0",
 		"tasks": [
 			{
-				"label": "CMake: Build",
+				"label": "CMake: Build Windows",
 				"type": "shell",
 				"command": "cmake --build ${workspaceFolder}/build --config Release; cp ${workspaceFolder}/build/raytracer/Release/* ${workspaceFolder}/build/raytracer; rm -r ${workspaceFolder}/build/raytracer/Release",
+				"problemMatcher": [],
+				"group": {
+					"kind": "build",
+					"isDefault": true
+				},
+				"presentation": {
+					"echo": true,
+					"reveal": "silent",
+					"focus": false,
+					"panel": "shared",
+					"showReuseMessage": false,
+					"clear": true
+				}
+			},
+			{
+				"label": "CMake: Build Unix",
+				"type": "shell",
+				"command": "cmake --build ${workspaceFolder}/build",
 				"problemMatcher": [],
 				"group": {
 					"kind": "build",
