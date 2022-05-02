@@ -49,10 +49,11 @@ public:
   {
   }
 
-  inline BVH::BVH(std::vector<Shape*>& shapes)
+  inline BVH::BVH(std::vector<Shape*>& shapes, bool debugPrint = false)
     : head(new BVHNode(shapes))
   {
-    print();
+    if (debugPrint)
+      print();
   }
 
   inline ~BVH() { delete head; }

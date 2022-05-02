@@ -11,7 +11,8 @@ BVH::print(const std::string& prefix, Shape* node, bool isLeft,
       std::cout << (isLeft ? "|--" : "*--");
 
       // print the value of the node
-      std::cout << node->type() << std::endl;
+      std::cout << node->type() << " bbox: " << node->bbox().minPt() << " to "
+                << node->bbox().maxPt() << std::endl;
 
       auto bvhNode = dynamic_cast<BVHNode*>(node);
 
@@ -24,7 +25,8 @@ BVH::print(const std::string& prefix, Shape* node, bool isLeft,
       std::cout << (isLeft ? "|--" : "*--");
 
       // print the value of the node
-      std::cout << node->type() << std::endl;
+      std::cout << node->type() << " bbox: " << node->bbox().minPt() << " to "
+                << node->bbox().maxPt() << std::endl;
     }
   } else {
     std::cout << prefix;

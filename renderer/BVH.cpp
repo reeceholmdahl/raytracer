@@ -7,7 +7,8 @@
 #include "HitStruct.hpp"
 #include "BBox.hpp"
 
-#define DEBUG_BVH 1
+#define DEBUG_BVH_CREATE 0
+#define DEBUG_BVH_HIT 0
 
 // TODO fix
 // TODO research partitioning by surface area
@@ -19,7 +20,7 @@ BVHNode::BVHNode(std::vector<Shape*>& shapes,
   , right(nullptr)
 {
   auto n = std::distance(first, last);
-#if DEBUG_BVH
+#if DEBUG_BVH_CREATE
   std::cerr << "\n\n---BVH Node Creation---" << std::endl;
 
   if (n == 0) {
@@ -29,14 +30,14 @@ BVHNode::BVHNode(std::vector<Shape*>& shapes,
 
     if (n == 1) {
     left = *first;
-#if DEBUG_BVH
+#if DEBUG_BVH_CREATE
     std::cerr << "This node has one child, a " << left->type() << std::endl;
 #endif
     m_bbox = left->bbox();
   } else if (n == 2) {
     left = *first;
     right = *(first + 1);
-#if DEBUG_BVH
+#if DEBUG_BVH_CREATE
     std::cerr << "This node has two children, a " << left->type() << " and a "
               << right->type() << std::endl;
 #endif
@@ -89,7 +90,7 @@ BVHNode::BVHNode(std::vector<Shape*>& shapes,
       }
     }
 
-#if DEBUG_BVH
+#if DEBUG_BVH_CREATE
     std::cerr << "Shapes assigned to this node: " << n << std::endl
               << "Partitioning along "
               << (xyorz == 0 ? 'X' : xyorz == 1 ? 'Y' : 'Z') << " axis"
@@ -107,12 +108,12 @@ BVHNode::BVHNode(std::vector<Shape*>& shapes,
 
     if (split == first || split == first + (n - 1)) {
       split = first + 1;
-#if DEBUG_BVH
+#if DEBUG_BVH_CREATE
       std::cerr << "Partition forced a manual split" << std::endl;
 #endif
     }
 
-#if DEBUG_BVH
+#if DEBUG_BVH_CREATE
     auto d1 = std::distance(first, split);
     auto d2 = std::distance(split, last);
     std::cerr << "After partition\n" << std::endl
@@ -132,21 +133,20 @@ BVHNode::BVHNode(std::vector<Shape*>& shapes,
 bool
 BVHNode::closestHit(const Ray& r, HitStruct& hit) const
 {
-
-  // of Bboxes actually helps
-
-  // std::cerr << "bbox min: " << m_bbox.minPt() << " max: " << m_bbox.maxPt()
-  // << std::endl;
-
   double t;
   if (!m_bbox.hit(r, hit.tmin, hit.tmax, t))
     return false;
 
   HitStruct lhit(hit.tmin, hit.tmax, hit.lights), rhit(lhit);
-  // std::cerr << "left ptr: " << left << std::endl;
-  bool leftHit = left != nullptr && left->closestHit(r, lhit);
+#if DEBUG_BVH_HIT
+  std::cerr << "lhit: tmin: " << lhit.tmin << " tmax: " << lhit.tmax
+            << " num lights: " << lhit.lights->size() << std::endl
+            << "lhit: tmin: " << rhit.tmin << " tmax: " << rhit.tmax
+            << " num lights: " << rhit.lights->size() << std::endl;
+#endif
+  bool leftHit = left && left->closestHit(r, lhit);
   // std::cerr << "right ptr: " << right << std::endl;
-  bool rightHit = right != nullptr && right->closestHit(r, rhit);
+  bool rightHit = right && right->closestHit(r, rhit);
 
   if (leftHit && rightHit) {
     if (lhit.t < rhit.t) {
