@@ -1,16 +1,23 @@
 #include "Scene.hpp"
 
-Scene::Scene(const size_t nx, const size_t ny)
+Scene::Scene(const size_t nx, const size_t ny, const bool useBVH)
   : pixelsX(nx)
   , pixelsY(ny)
+  , useBVH(useBVH)
+  , bvh(nullptr)
   , aspectRatio(static_cast<double>(nx) / ny)
 {
 }
 
-Scene::Scene(const size_t nx, const size_t ny, const fs::path& filename)
-  : Scene(nx, ny)
+Scene::Scene(const size_t nx, const size_t ny, const fs::path& filename,
+             const bool useBVH)
+  : Scene(nx, ny, useBVH)
 {
   parseJsonFile(filename);
+  if (useBVH)
+    bvh = new BVH(shapes);
+  else
+    bvh = new BVH();
 }
 
 Scene::~Scene()
@@ -67,4 +74,28 @@ Shader*
 Scene::getShader(const std::string& name) const
 {
   return shaders.at(name);
+}
+
+bool
+Scene::closestHit(const Ray& r, HitStruct& hit) const
+{
+  if (useBVH) {
+    if (!bvh || !bvh->head) {
+      std::cerr << "Scene: Using BVH but it is improperly initialized"
+                << std::endl;
+      return false;
+    }
+
+    return bvh->head->closestHit(r, hit);
+  } else {
+    for (Shape* shape : shapes) {
+      auto testHit = hit;
+      if (shape->closestHit(r, testHit)) {
+        hit = testHit;
+      }
+    }
+
+    // TODO could be problematic if I'm not always looking for tmax INFINITY
+    return hit.t != INFINITY;
+  }
 }

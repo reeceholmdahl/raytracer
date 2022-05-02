@@ -14,6 +14,7 @@
 #include "Shape.hpp"
 #include "Light.hpp"
 #include "Shader.hpp"
+#include "BVH.hpp"
 
 using json = nlohmann::json;
 
@@ -22,8 +23,9 @@ namespace fs = std::filesystem;
 class Scene
 {
 public:
-  Scene(const size_t nx, const size_t ny);
-  Scene(const size_t nx, const size_t ny, const fs::path& filename);
+  Scene(const size_t nx, const size_t ny, const bool useBVH = false);
+  Scene(const size_t nx, const size_t ny, const fs::path& filename,
+        const bool useBVH = false);
   Scene(const Scene& scene) = delete;
   virtual ~Scene();
 
@@ -37,6 +39,8 @@ public:
 
   Shader* getShader(const std::string& name) const;
 
+  bool closestHit(const Ray& r, HitStruct& hit) const;
+
   const size_t pixelsX, pixelsY;
   const double aspectRatio;
   Vec3f bgColor;
@@ -45,6 +49,8 @@ public:
   std::vector<Shape*> shapes;
 
 private:
+  bool useBVH;
+  BVH* bvh;
   std::map<std::string, Shader*> shaders;
   glm::mat4 Scene::parseTransformData(json& transformData);
   Shape* Scene::extractAndCreateShapeFromJSONData(json& shapeData);

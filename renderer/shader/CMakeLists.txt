@@ -1,6 +1,6 @@
 target_sources(renderer
     PRIVATE
-        Shader.cpp
+        Shader.hpp
         HitStruct.hpp
         DiffuseShader.cpp DiffuseShader.hpp
         NormalShader.cpp NormalShader.hpp

@@ -3,16 +3,18 @@
 
 #include "Constants.hpp"
 #include "Vector3.hpp"
-
-class HitStruct;
+#include "HitStruct.hpp"
 
 class Shader
 {
 public:
-  Shader(const Vec3f& ambient = renderer::constants::DEFAULT_AMBIENT);
+  inline Shader(const Vec3f& ambient = renderer::constants::DEFAULT_AMBIENT)
+    : m_ambient(ambient)
+  {
+  }
   virtual ~Shader() {}
 
-  const Vec3f& ambient() const;
+  const Vec3f& ambient() const { return m_ambient; }
 
   virtual Vec3f apply(const HitStruct& h) const = 0;
 

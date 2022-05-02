@@ -2,7 +2,7 @@
 
 #include "CoordSys.hpp"
 
-#define DEBUG_COORDSYS 1
+#define DEBUG_COORDSYS 0
 
 CoordSys::CoordSys(const Vec3d& position, const Vec3d& viewDir)
   : m_position(position)
@@ -41,7 +41,6 @@ CoordSys::CoordSys(const Vec3d& position, const Vec3d& viewDir)
   std::cerr << "W: " << m_w << std::endl;
   std::cerr << "View dir: " << viewDir << std::endl;
   std::cout << "Temp up: " << tempUp << std::endl;
-#endif
 
   assert(m_w.dot(m_u) == 0.0);
   assert(m_w.dot(m_v) == 0.0);
@@ -49,6 +48,7 @@ CoordSys::CoordSys(const Vec3d& position, const Vec3d& viewDir)
   assert(m_u.magnitude() == 1.0);
   assert(m_v.magnitude() == 1.0);
   assert(m_w.magnitude() == 1.0);
+#endif
 }
 
 Vec3d

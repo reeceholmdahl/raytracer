@@ -7,34 +7,32 @@
 #include "HitStruct.hpp"
 #include "BBox.hpp"
 
-BVHNode::BVHNode(std::vector<Shape*>& shapes)
-  : BVHNode(shapes, shapes.begin(), shapes.end())
-{
-}
+#define DEBUG_BVH 1
 
+// TODO fix
+// TODO research partitioning by surface area
 BVHNode::BVHNode(std::vector<Shape*>& shapes,
                  std::vector<Shape*>::iterator first,
                  std::vector<Shape*>::iterator last)
-  : left(nullptr)
+  : Shape("bvh node")
+  , left(nullptr)
   , right(nullptr)
 {
-  // std::cerr << "first: " << *first << std::endl;
-  // std::cerr << "last: " << *last << std::endl;
-
   auto n = std::distance(first, last);
-  // std::cerr << "n is: " << n << std::endl;
+#if DEBUG_BVH
+  std::cerr << "\n\n---BVH Node Creation---" << std::endl;
+
   if (n == 0) {
-    // shouldn't ever be here
-    assert(false);
-  } else if (n == 1) {
+    std::cerr << "N == 0, this is an invalid case" << std::endl;
+  } else
+#endif
+
+    if (n == 1) {
     left = *first;
-    // std::cerr << "left: " << left << std::endl;
     m_bbox = left->bbox();
   } else if (n == 2) {
     left = *first;
     right = *(first + 1);
-    // std::cerr << "left: " << left << std::endl;
-    // std::cerr << "right: " << right << std::endl;
     m_bbox = BBox::combine(left->bbox(), right->bbox());
   } else {
     // std::cout << "building bbox children" << std::endl;
@@ -44,11 +42,7 @@ BVHNode::BVHNode(std::vector<Shape*>& shapes,
       minz(INFINITY), maxz(-INFINITY);
 
     for (auto shape : shapes) {
-      // std::cerr << "Before centroid" << std::endl;
       auto centroid = shape->centroid();
-      // std::cerr << "After centroid" << std::endl;
-
-      // std::cerr << centroid << std::endl;
 
       if (centroid[0] < minx)
         minx = centroid[0];
@@ -67,45 +61,58 @@ BVHNode::BVHNode(std::vector<Shape*>& shapes,
         maxz = centroid[2];
     }
 
-    double extentx = std::abs(maxx - minx);
-    double extenty = std::abs(maxy - miny);
-    double extentz = std::abs(maxz - minz);
+    double extent[3] = { std::abs(maxx - minx), std::abs(maxy - miny),
+                         std::abs(maxz - minz) };
 
     int xyorz;
     double center;
-    if (extentx > extenty && extentx > extentz) {
+    if (extent[0] > extent[1] && extent[0] > extent[2]) {
       // split along the x axis
       xyorz = 0;
-      center = (maxx + minx) / 2;
+      center = minx + (maxx - minx) / 2;
     } else {
-      if (extenty > extentz) {
+      if (extent[1] > extent[2]) {
         // split along y axis
         xyorz = 1;
-        center = (maxy + miny) / 2;
+        center = miny + (maxy - miny) / 2;
       } else {
         // split along z axis
         xyorz = 2;
-        center = (maxz + minz) / 2;
+        center = minz + (maxz - minz) / 2;
       }
     }
 
-    // TODO partition by SA?
-    // std::cerr << "Before partition\n";
+#if DEBUG_BVH
+    std::cerr << "Shapes assigned to this node: " << n << std::endl
+              << "Partitioning along "
+              << (xyorz == 0 ? 'X' : xyorz == 1 ? 'Y' : 'Z') << " axis"
+              << std::endl
+              << "Axis extent: " << extent[xyorz] << std::endl
+              << "Center of axis: " << center << std::endl
+              << "\nBefore partition" << std::endl;
+#endif
 
     auto split = std::partition(first, last, [xyorz, center](Shape* shape) {
       return shape->centroid()[xyorz] < center;
     });
 
-    // std::cerr << "After partition" << std::endl;
-
     if (split == first || split == last) {
       split = first + 1;
-      // std::cerr << "Manual split" << std::endl;
+#if DEBUG_BVH
+      std::cerr << "Partition forced a manual split" << std::endl;
+#endif
     }
 
-    // std::cerr << "first: " << *first << std::endl;
-    // std::cerr << "last: " << *last << std::endl;
-    // std::cerr << "split: " << *split << std::endl;
+#if DEBUG_BVH
+    auto d1 = std::distance(first, split);
+    auto d2 = std::distance(split, last);
+    std::cerr << "After partition\n" << std::endl
+              << "(Relatively) first at 0, split at " << d1 << ", last at "
+              << d1 + d2 << std::endl
+              << "(Memory addr) first: " << *first << std::endl
+              << "split: " << *split << std::endl
+              << "last: " << *last << std::endl;
+#endif
 
     left = new BVHNode(shapes, first, split);
     right = new BVHNode(shapes, split + 1, last);
@@ -116,6 +123,9 @@ BVHNode::BVHNode(std::vector<Shape*>& shapes,
 bool
 BVHNode::closestHit(const Ray& r, HitStruct& hit) const
 {
+
+  // of Bboxes actually helps
+
   // std::cerr << "bbox min: " << m_bbox.minPt() << " max: " << m_bbox.maxPt()
   // << std::endl;
 
@@ -123,8 +133,7 @@ BVHNode::closestHit(const Ray& r, HitStruct& hit) const
   if (!m_bbox.hit(r, hit.tmin, hit.tmax, t))
     return false;
 
-  HitStruct lhit(hit.tmin, hit.tmax, hit.lights),
-    rhit(hit.tmin, hit.tmax, hit.lights);
+  HitStruct lhit(hit.tmin, hit.tmax, hit.lights), rhit(lhit);
   // std::cerr << "left ptr: " << left << std::endl;
   bool leftHit = left != nullptr && left->closestHit(r, lhit);
   // std::cerr << "right ptr: " << right << std::endl;
@@ -155,9 +164,4 @@ const Vec3d&
 BVHNode::centroid() const
 {
   return m_bbox.centroid();
-}
-
-BVH::BVH(std::vector<Shape*>& shapes)
-  : head(new BVHNode(shapes))
-{
 }

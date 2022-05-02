@@ -194,7 +194,7 @@ Scene::extractAndCreateShapeFromJSONData(json& shapeData)
 
   assert(shapePtr);
 
-  shapePtr->name = name;
+  shapePtr->setName(name);
 
   return shapePtr;
 }
@@ -251,7 +251,7 @@ Scene::parseJsonFile(const std::string& filename)
         viewDir = camInfo["viewDir"];
       }
 
-      std::cerr << "view dir " << viewDir << std::endl;
+      std::cerr << "View direction " << viewDir << std::endl;
 
       double focalLength = camInfo["focalLength"];
       double imagePlaneWidth = camInfo["imagePlaneWidth"];

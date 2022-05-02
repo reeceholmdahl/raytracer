@@ -167,7 +167,7 @@ endif()
 # This is where the stuff goes
 # ----------------------------------------------------------
 
-set(RENDERER_TESTING ON)
+set(RENDERER_TESTING OFF)
 set(CTEST_OUTPUT_DIR "${CMAKE_SOURCE_DIR}/out")
 set(CTEST_INPUT_DIR "${CMAKE_SOURCE_DIR}/SceneData")
 set(CTEST_WINDOW_WIDTH 250)

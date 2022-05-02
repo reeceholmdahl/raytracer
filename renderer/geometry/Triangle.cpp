@@ -8,14 +8,14 @@
 
 // TODO move these to constants
 Triangle::Triangle()
-  : m_a(Vec3d(-0.25, -0.25, -2))
-  , m_b(Vec3d(0.25, -0.25, -2))
-  , m_c(Vec3d(0, 0.25, -2))
+  : Triangle(Vec3d(-0.25, -0.25, -2), Vec3d(0.25, -0.25, -2),
+             Vec3d(0, 0.25, -2))
 {
 }
 
 Triangle::Triangle(const Vec3d& a, const Vec3d& b, const Vec3d& c)
-  : m_a(a)
+  : Shape("tri")
+  , m_a(a)
   , m_b(b)
   , m_c(c)
 {

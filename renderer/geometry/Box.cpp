@@ -11,7 +11,8 @@ Box::Box()
 }
 
 Box::Box(const Vec3d& min, const Vec3d& max)
-  : m_bbox(min, max)
+  : Shape("box")
+  , m_bbox(min, max)
 {
 }
 
@@ -25,26 +26,18 @@ Box::closestHit(const Ray& r, HitStruct& hit) const
     hit.shape = this;
     hit.t = t;
 
-    auto point = r.point(t);
+    auto dcenter = r.point(t) - centroid();
 
-    // TODO fix normal
-    if (point[0] == m_min[0]) {
-      hit.normal = Vec3d(-1, 0, 0);
-    } else if (point[0] == m_max[0]) {
-      hit.normal = Vec3d(1, 0, 0);
-    } else if (point[1] == m_min[1]) {
-      hit.normal = Vec3d(0, -1, 0);
-    } else if (point[1] == m_max[1]) {
-      hit.normal = Vec3d(0, 1, 0);
-    } else if (point[2] == m_min[2]) {
-      hit.normal = Vec3d(0, 0, -1);
-    } else if (point[2] == m_max[2]) {
-      hit.normal = Vec3d(0, 0, 1);
+    auto dx = std::abs(dcenter[0]);
+    auto dy = std::abs(dcenter[1]);
+    auto dz = std::abs(dcenter[2]);
+
+    if (dx > dy && dx > dz) {
+      hit.normal = Vec3d(dcenter[0] > 0 ? 1 : -1, 0, 0);
+    } else if (dy > dz) {
+      hit.normal = Vec3d(0, dcenter[1] > 0 ? 1 : -1, 0);
     } else {
-      // std::cerr << "Could not give box a normal on hit. This should not
-      // occur."
-      //           << std::endl;
-      assert(false);
+      hit.normal = Vec3d(0, 0, dcenter[2] > 0 ? 1 : -1);
     }
 
     return true;

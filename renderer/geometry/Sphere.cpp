@@ -8,7 +8,8 @@ Sphere::Sphere()
 }
 
 Sphere::Sphere(const Vec3d& position, const double radius)
-  : m_position(position)
+  : Shape("sphere")
+  , m_position(position)
   , m_radius(radius)
   , m_bbox(BBox(m_position - Vec3d(-m_radius, -m_radius, -m_radius),
                 m_position + Vec3d(m_radius, m_radius, m_radius)))

@@ -5,9 +5,10 @@
 
 #include "Vector3.hpp"
 #include "Ray.hpp"
-#include "Shader.hpp"
-#include "Shape.hpp"
-#include "Light.hpp"
+
+class Shader;
+class Shape;
+class Light;
 
 class HitStruct
 {
@@ -25,11 +26,16 @@ public:
   // TODO this could be made more efficient
   std::vector<Light*>* lights;
 
-  HitStruct(const double tmin = 1, const double tmax = INFINITY,
-            std::vector<Light*>* lights = nullptr)
+  inline HitStruct(const double tmin = 1, const double tmax = INFINITY,
+                   std::vector<Light*>* lights = nullptr)
     : tmin(tmin)
     , tmax(tmax)
     , lights(lights)
+  {
+  }
+
+  inline HitStruct(const HitStruct& hit)
+    : HitStruct(hit.tmin, hit.tmax, hit.lights)
   {
   }
 
@@ -37,5 +43,9 @@ public:
 
   Vec3d hitPoint() const { return ray.point(t); }
 };
+
+#include "Shader.hpp"
+#include "Shape.hpp"
+#include "Light.hpp"
 
 #endif

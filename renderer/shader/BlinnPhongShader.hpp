@@ -14,7 +14,7 @@ public:
     const double pexp = renderer::constants::DEFAULT_PHONG_EXP);
   virtual ~BlinnPhongShader() {}
 
-  virtual Vec3f apply(const HitStruct& h) const;
+  virtual Vec3f apply(const HitStruct& hit) const;
 
 protected:
   Vec3f m_specular;

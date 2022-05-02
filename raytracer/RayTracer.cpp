@@ -2,34 +2,42 @@
 #include <cassert>
 #include <filesystem>
 #include <vector>
+#include <string>
+
+#include <boost/timer/progress_display.hpp>
+#include <boost/timer/timer.hpp>
 
 #include "RayTracer.hpp"
 #include "Scene.hpp"
 
 #include "handleGraphicsArgs.h"
 
-using namespace renderer;
 namespace fs = std::filesystem;
+using namespace renderer;
 
 int
 main(int argc, char* argv[])
 {
+  boost::timer::cpu_timer timer;
+
   size_t width, height, windowWidth, windowHeight;
   fs::path scenePath, outputPath;
 
   loadArguments(argc, argv, width, height, windowWidth, windowHeight, scenePath,
                 outputPath);
 
-  Scene scene(width, height);
   Framebuffer fb(width, height);
 
   init(outputPath);
 
-  scene.parseJsonFile(scenePath.string());
+  Scene scene(width, height, scenePath, true);
 
   renderScene(scene, fb);
 
   exportAsPNG(outputPath, fb);
+
+  std::cerr << "Image took " << timer.format(2, "%ws s") << "  to render"
+            << std::endl;
 
   return 0;
 }
@@ -55,8 +63,8 @@ loadArguments(int argc, char* argv[], size_t& width, size_t& height,
             << std::endl
             << "Window w/h: " << windowWidth << " by " << windowHeight
             << " pixels" << std::endl
-            << "Scene path: " << scenePath << std::endl
-            << "Output path: " << outputPath << std::endl;
+            << "Scene path: " << scenePath << std::endl;
+  // << "Output path: " << outputPath << std::endl;
 }
 
 // init - app and gui : void
@@ -68,9 +76,10 @@ init(const fs::path& outputPath)
   if (!fs::exists(outdir)) {
     std::cout << "Creating ouput directory: " << outdir.string() << std::endl;
     fs::create_directories(outdir);
-  } else {
-    std::cout << "Output directory exists" << std::endl;
   }
+  // else {
+  //   std::cout << "Output directory exists" << std::endl;
+  // }
 }
 
 // initOpenGL - gui : void
@@ -86,23 +95,21 @@ renderScene(Scene& scene, Framebuffer& fb, const int camera)
 
   Camera* cam = scene.cameras[camera];
 
+  boost::timer::progress_display show_progress(fb.width() * fb.height(),
+                                               std::cerr);
+
   for (size_t i(0); i < fb.width(); ++i) {
     for (size_t j(0); j < fb.height(); ++j) {
       auto ray = cam->generateRay(i, j);
       HitStruct hit(1, INFINITY, &scene.lights);
-      for (Shape* shape : scene.shapes) {
-        auto testHit = hit;
-        if (shape->closestHit(ray, testHit)) {
-          hit = testHit;
-        }
-      }
 
       Vec3f color(scene.bgColor);
-      if (hit.t != INFINITY && hit.shaderPtr) {
+      if (scene.closestHit(ray, hit) && hit.shaderPtr) {
         color = hit.shaderPtr->apply(hit);
       }
-
       fb.setPixelColor(i, j, color);
+
+      ++show_progress;
     }
   }
 }
@@ -129,6 +136,6 @@ exportAsPNG(const fs::path& outputPath, const Framebuffer& fb)
   //     auto ext(outputPath.extension().string());
 
   fb.exportAsPNG(outputPath.string());
-  std::cout << "File created at: " << outputPath << std::endl;
+  std::cout << "Rendered image path: " << outputPath << std::endl;
 }
 }

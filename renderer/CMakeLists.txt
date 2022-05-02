@@ -16,6 +16,7 @@ target_sources(renderer
     PRIVATE
         Framebuffer.cpp Framebuffer.hpp
         BVH.cpp BVH.hpp
+        printBVH.cpp
         renderer.cpp
         Scene.cpp Scene.hpp
         jsonSceneParser.cpp)

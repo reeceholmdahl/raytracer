@@ -9,8 +9,8 @@ public:
   Light() = default;
   virtual ~Light() {}
 
-  virtual Vec3f intensity() const = 0;
-  virtual Vec3d position() const = 0;
+  virtual const Vec3f& intensity() const = 0;
+  virtual const Vec3d& position() const = 0;
 };
 
 #endif
