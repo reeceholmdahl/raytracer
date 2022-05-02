@@ -124,9 +124,10 @@
 		},
 		"editor.cursorBlinking": "phase",
 		"editor.cursorSmoothCaretAnimation": true,
-		"C_Cpp.clang_format_path": "C:\\Languages\\LLVM\\bin\\clang-format.exe",
+		"C_Cpp.clang_format_path": "C:/Languages/LLVM/bin/clang-format.exe",
 		"C_Cpp.clang_format_fallbackStyle": "Mozilla",
-		"C_Cpp.clang_format_style": "Mozilla"
+		"C_Cpp.clang_format_style": "Mozilla",
+		"cs4212_libs_dir": "C:/CS4212Libs"
 	},
 	"tasks": {
 		"version": "2.0.0",
@@ -134,7 +135,7 @@
 			{
 				"label": "CMake: Build",
 				"type": "shell",
-				"command": "cmake --build ${workspaceFolder}\\build --config Release",
+				"command": "cmake --build ${workspaceFolder}/build --config Release",
 				"problemMatcher": [],
 				"group": {
 					"kind": "build",
@@ -152,7 +153,7 @@
 			{
 				"label": "Setup CMake",
 				"type": "shell",
-				"command": "cd ${workspaceFolder}\\build; rm -r *; cmake -DCMAKE_PREFIX_PATH=\"C:/CS4212Libs\" -DCMAKE_INSTALL_PREFIX=\"C:/CS4212Libs\" ..; cd ${workspaceFolder}", // -DBOOST_DIR=\"C:/local/boost_1_78_0\"
+				"command": "rm -r ${workspaceFolder}/build; cd ${workspaceFolder}/build; cmake -DCMAKE_PREFIX_PATH=\"${config:cs4212_libs_dir}\" -DCMAKE_INSTALL_PREFIX=\"${config:cs4212_libs_dir}\" ..; cd ${workspaceFolder}",
 				"problemMatcher": [],
 				"presentation": {
 					"echo": true,
@@ -166,7 +167,7 @@
 			{
 				"label": "CMake: Clean",
 				"type": "shell",
-				"command": "cmake --build ${workspaceFolder}\\build --target clean",
+				"command": "cmake --build ${workspaceFolder}/build --target clean",
 				"problemMatcher": [],
 				"presentation": {
 					"echo": true,
@@ -180,7 +181,7 @@
 			{
 				"label": "CTest: All",
 				"type": "shell",
-				"command": "cd ${workspaceFolder}\\build; ctest; cd ${workspaceFolder}",
+				"command": "cd ${workspaceFolder}/build; ctest; cd ${workspaceFolder}",
 				"problemMatcher": [],
 				"presentation": {
 					"echo": true,
@@ -194,7 +195,7 @@
 			{
 				"label": "CTest: Misc Tests",
 				"type": "shell",
-				"command": "cd ${workspaceFolder}\\build; ctest -L a -V; cd ${workspaceFolder}",
+				"command": "cd ${workspaceFolder}/build; ctest -L a -V; cd ${workspaceFolder}",
 				"problemMatcher": [],
 				"presentation": {
 					"echo": true,
@@ -208,7 +209,7 @@
 			{
 				"label": "CTest: Unit Tests",
 				"type": "shell",
-				"command": "cd ${workspaceFolder}\\build; ctest -L b --output-on-failure; cd ${workspaceFolder}",
+				"command": "cd ${workspaceFolder}/build; ctest -L b --output-on-failure; cd ${workspaceFolder}",
 				"problemMatcher": [],
 				"presentation": {
 					"echo": true,
@@ -222,7 +223,7 @@
 			{
 				"label": "Run Raytracer",
 				"type": "shell",
-				"command": "cd ${workspaceFolder}\\build\\raytracer\\Release; ./raytracer -w ${input:size} -h ${input:size} -i ${file} -o ${workspaceFolder}/${input:outputPath} ${input:extraArgs}; cd ${workspaceFolder}",
+				"command": "cd ${workspaceFolder}/build/raytracer/Release; ./raytracer -w ${input:size} -h ${input:size} -i ${file} -o ${workspaceFolder}/${input:outputPath} ${input:extraArgs}; cd ${workspaceFolder}",
 				"problemMatcher": [],
 				"presentation": {
 					"echo": true,
