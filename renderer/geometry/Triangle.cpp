@@ -27,7 +27,8 @@ Triangle::Triangle(const Vec3d& a, const Vec3d& b, const Vec3d& c)
   auto minz = std::min({ a[2], b[2], c[2] });
   auto maxz = std::max({ a[2], b[2], c[2] });
 
-  m_bbox = BBox(Vec3d(minx, miny, minz), Vec3d(maxx, maxy, maxz));
+  m_bbox = BBox(Vec3d(minx - 0.1, miny - 0.1, minz - 0.1),
+                Vec3d(maxx + 0.1, maxy + 0.1, maxz + 0.1));
 }
 
 bool

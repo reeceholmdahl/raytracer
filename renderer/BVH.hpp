@@ -17,14 +17,15 @@ public:
   Shape *left, *right;
 
   BVHNode() = delete;
-  inline BVHNode::BVHNode(std::vector<Shape*>& shapes)
+  BVHNode::BVHNode(std::vector<Shape*>& shapes)
     : BVHNode(shapes, shapes.begin(), shapes.end())
   {
   }
-  BVHNode(std::vector<Shape*>& shapes, std::vector<Shape*>::iterator first,
-          std::vector<Shape*>::iterator last);
+  BVHNode(std::vector<Shape*>& shapes,
+          const std::vector<Shape*>::iterator& begin,
+          const std::vector<Shape*>::iterator& end);
 
-  inline ~BVHNode()
+  ~BVHNode()
   {
     if (left)
       delete left;
@@ -35,10 +36,10 @@ public:
   virtual bool closestHit(const Ray& r, HitStruct& hit) const;
   bool anyHit(const Ray& r, HitStruct& hit) const;
 
-  inline virtual const BBox& bbox() const { return m_bbox; }
-  inline virtual const Vec3d& centroid() const { return m_bbox.centroid(); }
-  inline virtual const std::string& type() const { return m_type; }
-  inline virtual const std::string& name() const { return m_name; }
+  virtual const BBox& bbox() const { return m_bbox; }
+  virtual const Vec3d& centroid() const { return m_bbox.centroid(); }
+  virtual const std::string& type() const { return m_type; }
+  virtual const std::string& name() const { return m_name; }
 
 private:
   BBox m_bbox;
@@ -54,7 +55,7 @@ public:
   {
   }
 
-  inline BVH::BVH(std::vector<Shape*>& shapes)
+  BVH::BVH(std::vector<Shape*>& shapes)
     : head(new BVHNode(shapes))
   {
 #if DEBUG_BVH_CREATE
@@ -62,9 +63,9 @@ public:
 #endif
   }
 
-  inline ~BVH() { delete head; }
+  ~BVH() { delete head; }
 
-  inline void print(const std::ostream& os = std::cout) const
+  void print(const std::ostream& os = std::cout) const
   {
     print("", head, false, os);
   }

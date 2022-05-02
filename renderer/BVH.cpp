@@ -6,17 +6,21 @@
 #include "BVH.hpp"
 #include "BBox.hpp"
 
+constexpr auto h1 = [](int xyorz, double center, Shape* shape) {
+  return shape->centroid()[xyorz] < center;
+};
+
 // TODO fix
 // TODO research partitioning by surface area
 BVHNode::BVHNode(std::vector<Shape*>& shapes,
-                 std::vector<Shape*>::iterator first,
-                 std::vector<Shape*>::iterator last)
+                 const std::vector<Shape*>::iterator& begin,
+                 const std::vector<Shape*>::iterator& end)
   : Shape("bvh node")
   , left(nullptr)
   , right(nullptr)
 {
   setName("bvh bbox");
-  auto n = std::distance(first, last);
+  auto n = std::distance(begin, end);
 #if DEBUG_BVH_CREATE
   std::cerr << "\n\n---BVH Node Creation---" << std::endl;
 
@@ -26,14 +30,14 @@ BVHNode::BVHNode(std::vector<Shape*>& shapes,
 #endif
 
     if (n == 1) {
-    left = *first;
+    left = *begin;
 #if DEBUG_BVH_CREATE
     std::cerr << "This node has one child, a " << left->type() << std::endl;
 #endif
     m_bbox = left->bbox();
   } else if (n == 2) {
-    left = *first;
-    right = *(first + 1);
+    left = *begin;
+    right = *(begin + 1);
 #if DEBUG_BVH_CREATE
     std::cerr << "This node has two children, a " << left->type() << " and a "
               << right->type() << std::endl;
@@ -46,8 +50,12 @@ BVHNode::BVHNode(std::vector<Shape*>& shapes,
     double minx(INFINITY), maxx(-INFINITY), miny(INFINITY), maxy(-INFINITY),
       minz(INFINITY), maxz(-INFINITY);
 
-    for (std::vector<Shape*>::iterator itr(first); itr < last; ++itr) {
-      auto centroid = (*itr)->centroid();
+    Vec3d weightedExtent;
+    Vec3d average;
+
+    for (std::vector<Shape*>::iterator itr(begin); itr < end; ++itr) {
+      auto shape(*itr);
+      auto centroid(shape->centroid());
 
       if (centroid[0] < minx)
         minx = centroid[0];
@@ -64,65 +72,101 @@ BVHNode::BVHNode(std::vector<Shape*>& shapes,
         maxy = centroid[1];
       if (centroid[2] > maxz)
         maxz = centroid[2];
+
+      weightedExtent += Vec3d(std::abs(centroid[0]), std::abs(centroid[1]),
+                              std::abs(centroid[2]));
+      average += centroid;
     }
 
     double extent[3] = { std::abs(maxx - minx), std::abs(maxy - miny),
                          std::abs(maxz - minz) };
 
+    average /= n;
+    weightedExtent /= n;
+
     int xyorz;
     double center;
-    if (extent[0] > extent[1] && extent[0] > extent[2]) {
-      // split along the x axis
+    if (weightedExtent[0] > weightedExtent[1] &&
+        weightedExtent[0] > weightedExtent[2]) {
       xyorz = 0;
-      center = minx + (maxx - minx) / 2;
+    } else if (weightedExtent[1] > weightedExtent[2]) {
+      xyorz = 1;
     } else {
-      if (extent[1] > extent[2]) {
-        // split along y axis
-        xyorz = 1;
-        center = miny + (maxy - miny) / 2;
-      } else {
-        // split along z axis
-        xyorz = 2;
-        center = minz + (maxz - minz) / 2;
-      }
+      xyorz = 2;
     }
+    center = average[xyorz];
+// if (extent[0] > extent[1] && extent[0] > extent[2]) {
+//   // split along the x axis
+//   xyorz = 0;
+//   center = minx + (maxx - minx) / 2;
+// } else {
+//   if (extent[1] > extent[2]) {
+//     // split along y axis
+//     xyorz = 1;
+//     center = miny + (maxy - miny) / 2;
+//   } else {
+//     // split along z axis
+//     xyorz = 2;
+//     center = minz + (maxz - minz) / 2;
+//   }
+// }
 
 #if DEBUG_BVH_CREATE
     std::cerr << "Shapes assigned to this node: " << n << std::endl
               << "Partitioning along "
               << (xyorz == 0 ? 'X' : xyorz == 1 ? 'Y' : 'Z') << " axis"
               << std::endl
-              << "Axis extent: " << extent[xyorz] << std::endl
+              << "Axis weighted extent: " << weightedExtent[xyorz] << std::endl
               << "Center of axis: " << center << std::endl
               << "\nBefore partition" << std::endl;
 #endif
 
     auto heuristic = [xyorz, center](Shape* shape) {
-      return shape->centroid()[xyorz] < center;
+      return h1(xyorz, center, shape);
     };
 
-    auto split = std::partition(first, last, heuristic);
+    auto split = std::partition(begin, end, heuristic);
 
-    if (split == first || split == first + (n - 1)) {
-      split = first + 1;
+    if (split == begin || split == begin + (n - 1)) {
 #if DEBUG_BVH_CREATE
-      std::cerr << "Partition forced a manual split" << std::endl;
+      std::cerr << "Partition forced a manual split, d1: "
+                << std::distance(begin, split) << ", d2 is "
+                << std::distance(split, end) << std::endl;
+#endif
+      split = begin + 1;
+    }
+
+    auto d1 = std::distance(begin, split);
+    auto d2 = std::distance(split, end);
+
+#if DEBUG_BVH_CREATE
+    std::cerr << "After partition\n" << std::endl
+              << "(Relatively) begin at 0, split at " << d1 << ", end at "
+              << d1 + d2 << std::endl
+              << "(Memory addr) begin: " << *begin << ", split: " << *split
+              << ", end: " << *end << ", d1: " << *(begin + d1) << std::endl;
+#endif
+
+    // evens out tree more?
+    if ((d1 + d2) % 2 == 0 && d1 % 2 == 1) {
+      if (d1 < d2) {
+        ++d1;
+        --d2;
+        ++split;
+      } else {
+        split = begin + (d1 - 1);
+        --d1;
+        ++d2;
+      }
+#if DEBUG_BVH_CREATE
+      std::cerr << "Modifying partition split to make trees even" << std::endl
+                << "Left split N == " << d1 << " Right split N == " << d2
+                << std::endl;
 #endif
     }
 
-#if DEBUG_BVH_CREATE
-    auto d1 = std::distance(first, split);
-    auto d2 = std::distance(split, last);
-    std::cerr << "After partition\n" << std::endl
-              << "(Relatively) first at 0, split at " << d1 << ", last at "
-              << d1 + d2 - 1 << std::endl
-              << "(Memory addr) first: " << *first << std::endl
-              << "split: " << *split << std::endl
-              << "last: " << *last << std::endl;
-#endif
-
-    left = new BVHNode(shapes, first, split);
-    right = new BVHNode(shapes, split, last);
+    left = new BVHNode(shapes, begin, split);
+    right = new BVHNode(shapes, split, end);
     m_bbox = BBox::combine(left->bbox(), right->bbox());
   }
 }

@@ -71,6 +71,7 @@ loadArguments(int argc, char* argv[], size_t& width, size_t& height,
             << " pixels" << std::endl
             << "Scene path: " << scenePath << std::endl
             << "Using BVH: " << useBVH << std::endl
+            << "Using shadows: " << useShadows << std::endl
             << "Recursion depth: " << recursionDepth << std::endl;
   // << "Output path: " << outputPath << std::endl;
 }
