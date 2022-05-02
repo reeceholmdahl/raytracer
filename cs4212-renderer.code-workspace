@@ -167,7 +167,7 @@
 			{
 				"label": "Setup CMake Unix",
 				"type": "shell",
-				"command": "rm -r ${workspaceFolder}/build; cd ${workspaceFolder}/build; cmake -DPNG_PNG_INCLUDE_DIR=/usr/local/include -DCMAKE_CXX_FLAGS=-std=c++17 ..; cd ${workspaceFolder}",
+				"command": "rm -r ${workspaceFolder}/build; mkdir ${workspaceFolder}/build; cd ${workspaceFolder}/build; cmake -DPNG_PNG_INCLUDE_DIR=/usr/local/include -DCMAKE_CXX_FLAGS=-std=c++17 ..; cd ${workspaceFolder}",
 				"problemMatcher": [],
 				"presentation": {
 					"echo": true,
