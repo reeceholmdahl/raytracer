@@ -1,6 +1,11 @@
 #ifndef RENDERER_CONSTANTS_H_
 #define RENDERER_CONSTANTS_H_
 
+#define DEBUG_COORDSYS 0
+#define DEBUG_BVH_CREATE 0
+#define DEBUG_BVH_HIT 0
+#define DEBUG_BBOX 0
+
 #include "Vector3.hpp"
 
 namespace renderer {

@@ -2,8 +2,6 @@
 
 #include "CoordSys.hpp"
 
-#define DEBUG_COORDSYS 0
-
 CoordSys::CoordSys(const Vec3d& position, const Vec3d& viewDir)
   : m_position(position)
 {

@@ -2,8 +2,6 @@
 
 #include <algorithm>
 
-#define DEBUG_BBOX 0
-
 BBox::BBox()
   : BBox(Vec3d(-0.25, -0.25, -2.25), Vec3d(0.25, 0.25, -1.75))
 {

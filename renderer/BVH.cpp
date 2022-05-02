@@ -7,9 +7,6 @@
 #include "HitStruct.hpp"
 #include "BBox.hpp"
 
-#define DEBUG_BVH_CREATE 0
-#define DEBUG_BVH_HIT 0
-
 // TODO fix
 // TODO research partitioning by surface area
 BVHNode::BVHNode(std::vector<Shape*>& shapes,
