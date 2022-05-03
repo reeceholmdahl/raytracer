@@ -25,6 +25,36 @@
             "cppStandard": "c++17",
             "intelliSenseMode": "windows-msvc-x64",
             "configurationProvider": "ms-vscode.cpp-tools"
+        },
+        {
+            "name": "Mac",
+            "includePath": [
+                "${workspaceFolder}/json-develop/single_include",
+                "${workspaceFolder}/glm-0.9.9.9/",
+                "${workspaceFolder}/src",
+                "${workspaceFolder}/renderer/**",
+                "${workspaceFolder}/renderer/camera",
+                "${workspaceFolder}/renderer/geometry",
+                "${workspaceFolder}/renderer/shader",
+                "${workspaceFolder}/renderer/light"
+            ],
+            "defines": [],
+            "macFrameworkPath": [
+                "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks"
+            ],
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "linux-clang-x64",
+            "compilerArgs": [],
+            "mergeConfigurations": true,
+            "browse": {
+                "path": [
+                    "${workspaceFolder}/**"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "configurationProvider": "ms.vscode.cpp-tools"
         }
     ],
     "version": 4

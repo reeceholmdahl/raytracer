@@ -4,7 +4,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include "RayTracer.hpp"
+// #include "RayTracer.hpp"
 
 using namespace renderer;
 
@@ -28,7 +28,8 @@ constexpr float texcoords[] = {
 };
 
 void
-renderer::initOpenGL(const size_t windowWidth, const size_t windowHeight,
+renderer::initOpenGL(const size_t windowWidth,
+                     const size_t windowHeight,
                      const std::string& title)
 {
   // Create window
@@ -91,8 +92,15 @@ renderer::generateTexture(const Framebuffer& fb)
 
   framebufferToGLPixelArray(fb, pixels);
 
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, fb.width(), fb.height(), 0, GL_RGB,
-               GL_FLOAT, pixels);
+  glTexImage2D(GL_TEXTURE_2D,
+               0,
+               GL_RGB32F,
+               fb.width(),
+               fb.height(),
+               0,
+               GL_RGB,
+               GL_FLOAT,
+               pixels);
 
   glBindTexture(GL_TEXTURE_2D, 0);
 }
@@ -135,8 +143,11 @@ renderer::changeCamera(const int camera)
 }
 
 void
-renderer::handleInput(const bool rerenderScene, const bool openNewScene,
-                      const bool exportScene, const bool changeRenderSize,
-                      const bool prevCamera, const bool nextCamera)
+renderer::handleInput(const bool rerenderScene,
+                      const bool openNewScene,
+                      const bool exportScene,
+                      const bool changeRenderSize,
+                      const bool prevCamera,
+                      const bool nextCamera)
 {
 }

@@ -1,8 +1,8 @@
-#include <iostream>
 #include <cassert>
 #include <filesystem>
-#include <vector>
+#include <iostream>
 #include <string>
+#include <vector>
 
 #include <boost/timer/progress_display.hpp>
 #include <boost/timer/timer.hpp>
@@ -23,10 +23,20 @@ main(int argc, char* argv[])
   size_t width, height, windowWidth, windowHeight;
   fs::path scenePath, outputPath;
   bool useBVH, useShadows;
-  int recursionDepth;
+  int recursionDepth, rpp;
 
-  loadArguments(argc, argv, width, height, windowWidth, windowHeight, scenePath,
-                outputPath, useBVH, useShadows, recursionDepth);
+  loadArguments(argc,
+                argv,
+                width,
+                height,
+                windowWidth,
+                windowHeight,
+                scenePath,
+                outputPath,
+                useBVH,
+                useShadows,
+                recursionDepth,
+                rpp);
 
   Framebuffer fb(width, height);
 
@@ -34,7 +44,9 @@ main(int argc, char* argv[])
 
   Scene scene(width, height, scenePath, useBVH, useShadows, recursionDepth);
 
-  renderScene(scene, fb);
+  antialiasing::method aaMethod = antialiasing::jittered;
+
+  renderScene(scene, fb, rpp, rpp > 1 ? aaMethod : antialiasing::normal);
 
   exportAsPNG(outputPath, fb);
 
@@ -47,10 +59,18 @@ main(int argc, char* argv[])
 namespace renderer {
 
 void
-loadArguments(int argc, char* argv[], size_t& width, size_t& height,
-              size_t& windowWidth, size_t& windowHeight, fs::path& scenePath,
-              fs::path& outputPath, bool& useBVH, bool& useShadows,
-              int& recursionDepth)
+loadArguments(int argc,
+              char* argv[],
+              size_t& width,
+              size_t& height,
+              size_t& windowWidth,
+              size_t& windowHeight,
+              fs::path& scenePath,
+              fs::path& outputPath,
+              bool& useBVH,
+              bool& useShadows,
+              int& recursionDepth,
+              int& rpp)
 {
   sivelab::GraphicsArgs args;
   args.process(argc, argv);
@@ -64,6 +84,7 @@ loadArguments(int argc, char* argv[], size_t& width, size_t& height,
   useBVH = args.useBVH;
   useShadows = args.useShadows;
   recursionDepth = args.recursionDepth;
+  rpp = args.rpp;
 
   std::cout << "Image w/h: " << width << " by " << height << " pixels"
             << std::endl
@@ -72,8 +93,8 @@ loadArguments(int argc, char* argv[], size_t& width, size_t& height,
             << "Scene path: " << scenePath << std::endl
             << "Using BVH: " << useBVH << std::endl
             << "Using shadows: " << useShadows << std::endl
-            << "Recursion depth: " << recursionDepth << std::endl;
-  // << "Output path: " << outputPath << std::endl;
+            << "Recursion depth: " << recursionDepth << std::endl
+            << "Rays per pixel: " << rpp * rpp << std::endl;
 }
 
 // init - app and gui : void
@@ -97,7 +118,11 @@ init(const fs::path& outputPath)
 // renderScene - app and gui : Framebuffer
 // render scene using built Scene and selected camera to draw Framebuffer
 void
-renderScene(Scene& scene, Framebuffer& fb, const int camera)
+renderScene(Scene& scene,
+            Framebuffer& fb,
+            const int rpp,
+            antialiasing::method aaMethod,
+            const int camera)
 {
   // Camera index is in range
   assert(camera >= 0 && camera < scene.cameras.size());
@@ -109,17 +134,28 @@ renderScene(Scene& scene, Framebuffer& fb, const int camera)
 
   for (size_t i(0); i < fb.width(); ++i) {
     for (size_t j(0); j < fb.height(); ++j) {
-      auto ray = cam->generateRay(i, j);
-      HitStruct hit(1, INFINITY, &scene);
 
-      Vec3f color(scene.bgColor);
-      if (scene.closestHit(ray, hit)) {
-        if (hit.shaderPtr)
-          color = hit.shaderPtr->apply(hit);
-        else
-          color = Vec3f(1, 0, 0);
+      bool anyHit(false);
+      double di, dj;
+      Vec3f color(0, 0, 0);
+      for (int p(0); p < rpp; ++p) {
+        for (int q(0); q < rpp; ++q) {
+
+          aaMethod(rpp, p, q, di, dj);
+          auto ray(cam->generateRay(i, j, di, dj));
+          HitStruct hit(1.0, INFINITY, &scene);
+
+          if (scene.closestHit(ray, hit)) {
+            anyHit = true;
+            if (hit.shaderPtr)
+              color += hit.shaderPtr->apply(hit);
+            else
+              color +=
+                Vec3f(1000, 1000, 1000); // TODO move error color to constants
+          }
+        }
       }
-      fb.setPixelColor(i, j, color);
+      fb.setPixelColor(i, j, anyHit ? color / (rpp * rpp) : scene.bgColor);
 
       ++show_progress;
     }
@@ -127,8 +163,8 @@ renderScene(Scene& scene, Framebuffer& fb, const int camera)
 }
 
 // exportAsPNG - app and gui (optional) : void
-// use drawn Framebuffer(s) to export as png (if app export all cameras at once,
-// if gui export currently viewing one)
+// use drawn Framebuffer(s) to export as png (if app export all cameras at
+// once, if gui export currently viewing one)
 void
 exportAsPNG(const fs::path& outputPath, const Framebuffer& fb)
 {

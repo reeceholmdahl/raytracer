@@ -24,3 +24,7 @@ out/
 
 # docs folder
 glm-0.9.9.9/doc/
+
+**/.DS_Store
+
+.vscode/settings.json

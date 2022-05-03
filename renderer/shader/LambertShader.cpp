@@ -20,7 +20,6 @@ LambertShader::apply(const HitStruct& hit) const
     if (!hit.scene->useShadows || !hit.scene->anyHit(toLight, shadowHit)) {
       color += m_diffuse * light->intensity() *
                std::max(0.0, hit.normal.dot(toLight.direction().unitize()));
-      // std::cerr << "coloring something?" << std::endl;
     }
   }
 

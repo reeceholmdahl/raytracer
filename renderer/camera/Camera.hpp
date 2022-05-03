@@ -5,16 +5,18 @@
 #include <vector>
 
 #include "Constants.h"
-#include "Vector3.hpp"
 #include "CoordSys.hpp"
 #include "Ray.hpp"
+#include "Vector3.hpp"
 
 class Camera
 {
 public:
   Camera() = delete;
-  Camera(const Vec3d& position, const Vec3d& viewDir,
-                 const double imagePlaneWidth, const double aspectRatio)
+  Camera(const Vec3d& position,
+         const Vec3d& viewDir,
+         const double imagePlaneWidth,
+         const double aspectRatio)
     : m_imagePlaneWidth(imagePlaneWidth)
     , m_imagePlaneHeight(imagePlaneWidth / aspectRatio)
     , m_basis(CoordSys(position, viewDir))
@@ -27,7 +29,10 @@ public:
 
   virtual ~Camera() {}
 
-  virtual Ray generateRay(const size_t i, const size_t j) const = 0;
+  virtual Ray generateRay(const size_t i,
+                          const size_t j,
+                          const double di = 0.5,
+                          const double dj = 0.5) const = 0;
 
   const CoordSys& basis() const { return m_basis; }
 
@@ -42,10 +47,15 @@ public:
   }
 
 protected:
-  void genUV(double& u, double& v, const size_t i, const size_t j) const
+  void genUV(double& u,
+             double& v,
+             const size_t i,
+             const size_t j,
+             const double di,
+             const double dj) const
   {
-    u = left + (right - left) * (i + 0.5) / static_cast<double>(m_pixelsX);
-    v = bottom + (top - bottom) * (j + 0.5) / static_cast<double>(m_pixelsY);
+    u = left + (right - left) * (i + di) / static_cast<double>(m_pixelsX);
+    v = bottom + (top - bottom) * (j + dj) / static_cast<double>(m_pixelsY);
   }
 
   size_t m_pixelsX = 0, m_pixelsY = 0;

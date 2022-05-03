@@ -5,7 +5,7 @@
 
 namespace renderer {
 namespace constants {
-const double VERY_SMALL(0.0001);
+const double VERY_SMALL(0.00001);
 const size_t DEFAULT_WIDTH(100);
 const size_t DEFAULT_HEIGHT(100);
 const double DEFAULT_IMAGE_WIDTH(0.5);
