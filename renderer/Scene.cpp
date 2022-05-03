@@ -1,7 +1,10 @@
 #include "Scene.hpp"
 
-Scene::Scene(const size_t nx, const size_t ny, const bool useBVH,
-             const bool useShadows, const int recursionDepth)
+Scene::Scene(const size_t nx,
+             const size_t ny,
+             const bool useBVH,
+             const bool useShadows,
+             const int recursionDepth)
   : pixelsX(nx)
   , pixelsY(ny)
   , aspectRatio(static_cast<double>(nx) / ny)
@@ -12,8 +15,12 @@ Scene::Scene(const size_t nx, const size_t ny, const bool useBVH,
 {
 }
 
-Scene::Scene(const size_t nx, const size_t ny, const fs::path& filename,
-             const bool useBVH, const bool useShadows, const int recursionDepth)
+Scene::Scene(const size_t nx,
+             const size_t ny,
+             const fs::path& filename,
+             const bool useBVH,
+             const bool useShadows,
+             const int recursionDepth)
   : Scene(nx, ny, useBVH, useShadows, recursionDepth)
 {
   parseJsonFile(filename);
@@ -94,7 +101,7 @@ Scene::closestHit(const Ray& r, HitStruct& hit) const
     return bvh->head->closestHit(r, hit);
   } else {
     for (Shape* shape : shapes) {
-      auto testHit = hit;
+      auto testHit(hit);
       if (shape->closestHit(r, testHit)) {
         hit = testHit;
       }

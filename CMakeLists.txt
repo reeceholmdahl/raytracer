@@ -175,7 +175,7 @@ set(CTEST_WINDOW_HEIGHT 250)
 
 # If you want, we can also compile the tests directory that are essentially examples for how to use some of the classes
 # and code.
-#add_subdirectory(examples)
+add_subdirectory(examples/OpenGL)
 
 # Add the src directory to build the libsive-util.a library.
 add_subdirectory(src)
@@ -186,9 +186,11 @@ add_subdirectory(src)
 # You will link your renderer library directory here
 add_subdirectory(renderer)
 
-
-# Add raytracer directory
+# Add raytracer renderer project
 add_subdirectory(raytracer)
+
+# Add rasterizer renderer project
+add_subdirectory(rasterizer)
 
 #
 # OpenGL Example

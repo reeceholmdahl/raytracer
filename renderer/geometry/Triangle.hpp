@@ -22,6 +22,12 @@ public:
 private:
   Vec3d m_a, m_b, m_c, m_normal;
   BBox m_bbox;
+
+  friend void calcBarycentricCoords(const Triangle& tri,
+                                    const Vec3d& p,
+                                    double& alpha,
+                                    double& beta,
+                                    double& gamma);
 };
 
 #endif
