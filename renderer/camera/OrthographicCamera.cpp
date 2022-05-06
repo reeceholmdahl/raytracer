@@ -1,6 +1,6 @@
 #include "OrthographicCamera.hpp"
 
-inline Ray
+Ray
 OrthographicCamera::generateRay(const size_t i,
                                 const size_t j,
                                 const double di,

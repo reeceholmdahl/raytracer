@@ -192,6 +192,9 @@ add_subdirectory(raytracer)
 # Add rasterizer renderer project
 add_subdirectory(rasterizer)
 
+# Add hardware renderer project
+add_subdirectory(hardware-renderer)
+
 #
 # OpenGL Example
 #

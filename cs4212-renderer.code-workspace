@@ -142,7 +142,7 @@
 		},
 		"editor.cursorBlinking": "phase",
 		"editor.cursorSmoothCaretAnimation": true,
-		"C_Cpp.clang_format_path": "/usr/local/bin/clang-format",
+		"C_Cpp.clang_format_path": "",
 		"C_Cpp.clang_format_fallbackStyle": "Mozilla",
 		"C_Cpp.clang_format_style": "Mozilla",
 		"cs4212_libs_windows": "C:/CS4212Libs"
@@ -157,7 +157,7 @@
 				"problemMatcher": [],
 				"group": {
 					"kind": "build",
-					"isDefault": false
+					"isDefault": true
 				},
 				"presentation": {
 					"echo": true,
@@ -175,7 +175,7 @@
 				"problemMatcher": [],
 				"group": {
 					"kind": "build",
-					"isDefault": true
+					"isDefault": false
 				},
 				"presentation": {
 					"echo": true,
