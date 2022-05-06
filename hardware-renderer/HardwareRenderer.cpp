@@ -83,25 +83,61 @@ main(void)
 
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS);
-  glClearColor(0.25, 0.168, 0.06, 1.0);
+  glClearColor(0.9, 0.7, 0.15, 1.0);
+
+  GLfloat* vertices =
+    new GLfloat[9]{ -0.5f, -0.5f, 0.0f, 0.5f, -0.5f, 0.0f, 0.0f, 0.5f, 0.0f };
+
+  GLuint triangleVBO;
+  glGenBuffers(1, &triangleVBO);
+  glBindBuffer(GL_ARRAY_BUFFER, triangleVBO);
+  glBufferData(GL_ARRAY_BUFFER, 9 * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
+  delete[] vertices;
+  vertices = nullptr;
+  glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+  GLuint triangleVAO;
+  glGenVertexArrays(1, &triangleVAO);
+  glBindVertexArray(triangleVBO);
+  glEnableVertexAttribArray(0);
+
+  glBindBuffer(GL_ARRAY_BUFFER, triangleVBO);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
+
+  glBindVertexArray(0);
+  glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+  sivelab::GLSLObject shader;
+  shader.addShader("C:/Users/rholm/Documents/Spring2022/CS4212/cs4212-renderer/"
+                   "hardware-renderer/shaders/vertexShader_passthrough.glsl",
+                   sivelab::GLSLObject::VERTEX_SHADER);
+  shader.addShader("C:/Users/rholm/Documents/Spring2022/CS4212/cs4212-renderer/"
+                   "hardware-renderer/shaders/fragmentShader_passthrough.glsl",
+                   sivelab::GLSLObject::FRAGMENT_SHADER);
+  shader.createProgram();
 
   int fb_width, fb_height;
   glfwGetFramebufferSize(window, &fb_width, &fb_height);
   glViewport(0, 0, fb_width, fb_height);
 
   double timeDiff = 0.0, startFrameTime = 0.0, endFrameTime = 0.0;
-
-  /* Loop until the user closes the window */
   while (!glfwWindowShouldClose(window)) {
-    /* Render here */
-
-    endFrameTime = glfwGetTime();
-    timeDiff = endFrameTime - startFrameTime;
-    startFrameTime = glfwGetTime();
 
     // Clear the window's buffer (or clear the screen to our
     // background color)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    shader.activate();
+
+    glBindVertexArray(triangleVAO);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
+    glBindVertexArray(0);
+
+    shader.deactivate();
+
+    endFrameTime = glfwGetTime();
+    timeDiff = endFrameTime - startFrameTime;
+    startFrameTime = glfwGetTime();
 
     // Swap the front and back buffers
     glfwSwapInterval(0);
