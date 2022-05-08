@@ -92,45 +92,37 @@ main(void)
   glLoadIdentity();
   glClearColor(0.9, 0.7, 0.15, 1.0);
 
-  std::ifstream inputFile("./bunnyVertexData.json");
+  std::ifstream inputFile("./bunnyVertexDataNormals.json");
   json j;
   inputFile >> j;
 
   std::cout << j.size() << std::endl;
 
-  // Triangle vertex buffer
-  // GLfloat* h_vertexBuffer = new GLfloat[36]{
-  //   -0.5f, -0.5f, 0.f, 0.0f, 1.0f, 1.0f, // v1, color
-  //   0.5f,  -0.5f, 0.f, 1.0f, 0.0f, 1.0f, // v2, color
-  //   0.0f,  0.5f,  0.f, 1.0f, 1.0f, 0.0f, // v3, color
-  //   0.5f,  -1.0f, 0.f, 1.0f, 0.0f, 0.0f, // v1, color
-  //   1.5f,  -1.0f, 0.f, 0.0f, 1.0f, 0.0f, // v2, color
-  //   1.0f,  0.0f,  0.f, 0.0f, 0.0f, 1.0f  // v3, color
-  // };
+  GLfloat* h_vertexBuffer = new GLfloat[18]{
+    -0.5f, -0.5f, 0.f, 0.f, 0.f, -1.f, // v1, normal
+    0.5f,  -0.5f, 0.f, 0.f, 0.f, -1.f, // v2, normal
+    0.0f,  0.5f,  0.f, 0.f, 0.f, -1.f, // v3, normal
+  };
 
-  const size_t k_vertexBufferSize = 1253988;
-  GLfloat* h_vertexBuffer = new GLfloat[k_vertexBufferSize];
-  for (int i(0); i < j.size(); ++i) {
-    h_vertexBuffer[i] = j[i];
-  }
-
-  // Spatial bounds for ortho matrix
-  float left = -7.5;
-  float right = 7.5;
-  float bottom = -4.2;
-  float top = 4.2;
-  float near = -10.0;
-  float far = 10.0;
+  const size_t k_vertexBufferSize = 18;
+  // const size_t k_vertexBufferSize = 1253988;
+  // GLfloat* h_vertexBuffer = new GLfloat[k_vertexBufferSize];
+  // for (int i(0); i < j.size(); ++i) {
+  //   h_vertexBuffer[i] = j[i];
+  // }
 
   const size_t k_glFloatSize = sizeof(GLfloat);
 
-  glm::mat4 identity = glm::mat4(1.f);
-  glm::mat4 modelMatrix = glm::mat4(1.f);
+  glm::mat4 identity(1.f);
+  glm::mat4 modelMatrix(1.f);
   glm::mat4 viewMatrix = glm::lookAt(glm::vec3(0.f, 0.f, 4.f),
                                      glm::vec3(0.f, 0.f, -1.f),
                                      glm::vec3(0.f, 1.f, 0.f));
   // glm::mat4 projMatrix = glm::ortho(left, right, top, bottom, near, far);
   glm::mat4 projMatrix = glm::perspective(45.f, 16 / 9.f, 0.1f, 100.f);
+
+  glm::vec3 modelColor(0.f, 1.f, 0.7f);
+  glm::vec3 lightPos(-4.f, 0.f, 0.f);
 
   GLuint id_triangleVBO;
   glGenBuffers(1, &id_triangleVBO);
@@ -172,10 +164,14 @@ main(void)
   GLuint id_projMatrix = shader.createUniform("projMatrix");
   GLuint id_viewMatrix = shader.createUniform("viewMatrix");
   GLuint id_modelMatrix = shader.createUniform("modelMatrix");
+  GLuint id_modelColor = shader.createUniform("modelColor");
+  GLuint id_lightPos = shader.createUniform("lightPos");
   shader.activate();
   glUniformMatrix4fv(id_projMatrix, 1, GL_FALSE, glm::value_ptr(projMatrix));
   glUniformMatrix4fv(id_viewMatrix, 1, GL_FALSE, glm::value_ptr(viewMatrix));
   glUniformMatrix4fv(id_modelMatrix, 1, GL_FALSE, glm::value_ptr(modelMatrix));
+  glUniform3fv(id_modelColor, 1, glm::value_ptr(modelColor));
+  glUniform3fv(id_lightPos, 1, glm::value_ptr(lightPos));
   shader.deactivate();
 
   float angle = 0.f;
@@ -219,12 +215,12 @@ main(void)
     } else if (glfwGetKey(window, GLFW_KEY_M) == GLFW_PRESS) {
       angle += 0.3f;
       modelMatrix =
-        glm::rotate(identity, glm::radians(angle), glm::vec3(0.f, 1.f, 0.f));
+        glm::rotate(identity, glm::radians(angle), glm::vec3(1.f, 0.f, 0.f));
 
     } else if (glfwGetKey(window, GLFW_KEY_N) == GLFW_PRESS) {
       angle -= 0.3f;
       modelMatrix =
-        glm::rotate(identity, glm::radians(angle), glm::vec3(0.f, 1.f, 0.f));
+        glm::rotate(identity, glm::radians(angle), glm::vec3(1.f, 0.f, 0.f));
     }
   }
 
