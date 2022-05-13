@@ -1,8 +1,8 @@
 # ignore build folder
-build/
+**/build/
 
 # ignore docs
-doc/
+**/doc/
 
 # ignore externalLibs
 externalLibs/
@@ -18,12 +18,6 @@ Testing/
 
 # ignore out folder for images/files created by tests and programs
 out/
-
-# SceneData
-# SceneData/
-
-# docs folder
-glm-0.9.9.9/doc/
 
 **/.DS_Store
 
